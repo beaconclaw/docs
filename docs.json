@@ -1,0 +1,23 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "BeaconClaw",
+  "colors": {
+    "primary": "#1d9e75",
+    "light": "#3ecf9a",
+    "dark": "#1d9e75"
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get started",
+        "pages": ["index"]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/beaconclaw/beaconclaw"
+    }
+  }
+}
