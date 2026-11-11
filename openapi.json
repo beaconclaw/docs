@@ -1738,6 +1738,43 @@
         "summary": "Remove the organization's default announcement destination"
       }
     },
+    "/v1/key": {
+      "get": {
+        "operationId": "KeyController_whoAmI",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The key, its organization, what it may do and the agents it reaches",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KeyDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Asked by a signed-in person and not with a key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "API keys"
+        ],
+        "summary": "Describe the API key in use"
+      }
+    },
     "/v1/orgs/{orgId}/removed-agents": {
       "get": {
         "operationId": "ErasureController_removedAgents",
@@ -6388,6 +6425,96 @@
         "required": [
           "kind",
           "webhookUrl"
+        ]
+      },
+      "KeyOrganizationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "KeyAgentDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "access": {
+            "type": "string",
+            "description": "How much of the agent the key sees",
+            "enum": [
+              "full",
+              "directory"
+            ]
+          },
+          "canMaintain": {
+            "type": "boolean",
+            "description": "Whether the key may start and end its maintenance right now"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "access",
+          "canMaintain"
+        ]
+      },
+      "KeyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name the key was given when it was made"
+          },
+          "organization": {
+            "description": "The one organization the key works in",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/KeyOrganizationDto"
+              }
+            ]
+          },
+          "actions": {
+            "type": "array",
+            "description": "What the key may do beyond reading",
+            "items": {
+              "type": "string",
+              "enum": [
+                "actions",
+                "maintenance"
+              ]
+            }
+          },
+          "limited": {
+            "type": "boolean",
+            "description": "Whether the key was limited to some agents when it was made"
+          },
+          "agents": {
+            "description": "Every agent the key reaches",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KeyAgentDto"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "organization",
+          "actions",
+          "limited",
+          "agents"
         ]
       },
       "RemovedAgentDto": {

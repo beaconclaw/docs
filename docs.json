@@ -36,7 +36,7 @@
           },
           {
             "group": "For supervising agents",
-            "pages": ["guides/api-keys", "guides/maintenance-from-an-agent", "guides/mcp"]
+            "pages": ["guides/api-keys", "guides/maintenance-from-an-agent", "guides/mcp", "guides/agents-use-beaconclaw"]
           }
         ]
       },

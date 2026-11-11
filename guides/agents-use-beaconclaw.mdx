@@ -1,0 +1,76 @@
+---
+title: "Let your agents use BeaconClaw"
+description: "Give an agent an API key so it can answer for its own uptime, or watch the agents it supervises."
+---
+
+An agent can read BeaconClaw the way a person does. Two uses:
+
+- **An agent, about itself.** "Were you down this morning?" gets a true answer from the record, and the agent can say when planned work is coming.
+- **A supervising agent, about the agents beneath it.** It can list them, see which is down or degraded, read incidents and alerts, and put one into maintenance before working on it.
+
+It needs one thing: an [API key](/guides/api-keys) in the agent's environment, as `BEACONCLAW_API_KEY`. This is not the agent token the CLI uses to report; that one starts with `bc_` and stays with the CLI.
+
+## 1. Make the key
+
+On the **Developer** page, make a key and **limit it to the agents it is for**.
+
+| The key is for | Limit it to | Permissions |
+| :-- | :-- | :-- |
+| An agent, about itself | That one agent | Read only |
+| A supervising agent | The agents it supervises | Read; add maintenance if it should start and end maintenance |
+
+A key acts as the person who made it and can never do more than they can. It is shown once.
+
+## 2. Let the agent find out what it is
+
+The agent asks with the key itself. No organization or agent IDs go in its configuration.
+
+```sh
+curl -H "Authorization: Bearer $BEACONCLAW_API_KEY" https://api.beaconclaw.ai/v1/key
+```
+
+```json
+{
+  "name": "Wiz, about itself",
+  "organization": { "id": "ORG_ID", "name": "Example Ltd" },
+  "actions": [],
+  "limited": true,
+  "agents": [{ "id": "AGENT_ID", "name": "Wiz", "access": "full", "canMaintain": false }]
+}
+```
+
+**A key that reaches one agent is that agent's own key.** That is how an agent knows which one it is. A key that reaches several belongs to a supervisor.
+
+## 3. Read
+
+Every call is a `GET` under `/v1/orgs/ORG_ID`, with the same header.
+
+| Path | What it gives |
+| :-- | :-- |
+| `/agents` | The agents the key reaches: status, last heard from, and any maintenance |
+| `/agents/AGENT_ID/heartbeats/latest` | The latest report: machine load and the runtime's health |
+| `/incidents?agentId=AGENT_ID&open=true` | What is wrong now. Drop `open=true` for history |
+| `/alerts?agentId=AGENT_ID` | Alerts raised and where each was sent |
+| `/uptime` | Uptime by month |
+| `/maintenance-windows` | Planned and past maintenance |
+
+A runtime that prefers tools can use the [MCP server](/guides/mcp) with the same key.
+
+## 4. Maintenance, if the key allows it
+
+See [Maintenance from an agent](/guides/maintenance-from-an-agent). The rules worth putting in the agent's own instructions:
+
+- Start it before planned work, with a reason and a length. The agent's users may be shown the reason, so write it for them.
+- Always end what you started.
+- Never put an agent into maintenance to quiet an alert you do not understand.
+
+## What to tell the agent
+
+A skill or instruction for this is short. These are the parts that matter:
+
+- **Answer from the record.** Say when it started, when it ended and what kind it was, as recorded. BeaconClaw records that something happened, not why: do not guess at a cause. If the record shows nothing, say that.
+- **Planned maintenance is not an outage.** Say it was planned, and until when.
+- **Never print or store the key.** Send it only in the `Authorization` header.
+- **Stay in your remit.** An agent hidden from the key answers "not found", the same as one that does not exist. That is not a reason to try other IDs.
+- **On `429`, wait** the number of seconds in `Retry-After`, then try once. See [abuse limits](/api-reference#abuse-limits).
+- **Being able to is not being allowed to.** A key that can start maintenance does not decide when a supervisor should. Put that in your own rules for the agent.

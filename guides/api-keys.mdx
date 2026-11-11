@@ -8,6 +8,7 @@ An API key lets a program use BeaconClaw in place of a person's sign-in.
 - A key **acts as the person who made it**, in **one organization**. It can never do more than that person can at the moment of each request. If they lose access or leave, so does the key.
 - A key is **read-only** unless it is given the maintenance permission. Anyone can give their own key that permission; it then works only on the agents its maker may run maintenance on: the ones they are an operator of, or every agent for an owner or admin. If its maker stops being an agent's operator, the key stops working for that agent at once.
 - The **actions** permission lets a key ask an agent's machine for a [remote action](/cli/remote-actions). It works only where its maker may ask and the machine's owner has switched that action on. No key has it unless it was chosen when the key was made.
+- A program holding a key can ask what the key is and which agents it reaches: `GET /v1/key`. See [Let your agents use BeaconClaw](/guides/agents-use-beaconclaw).
 - A key can be limited to chosen agents.
 - A key may make 120 requests a minute.
 
