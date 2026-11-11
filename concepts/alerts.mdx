@@ -49,6 +49,16 @@ Each can go to your email address, to a Slack direct message, or both. Slack dir
 
 Nobody is messaged because of their role. Someone newly assigned as an operator starts with outages by email and can change it; everyone else starts with nothing. You can only be told about an agent whose full page you can open.
 
+## Announcements to an agent's users
+
+Alerts are for the people who run agents. The people who **use** an agent, in a Discord or Slack channel, can be told about planned work where they already are.
+
+- Set a channel on the agent's page, under **Announcements**, or a default for the whole organization in **Settings**. It takes the channel's webhook address, which is stored encrypted and never shown again.
+- Posted there: maintenance planned ahead of time, starting, and over. Times are given in the time zone you choose for the readers: "back by about 3:30 PM EST".
+- The reason typed when starting maintenance is included, with mentions and links removed, so write it for the agent's users.
+- Outages and recoveries are posted only if you switch that on for the channel. Health detail never is.
+- The agent's operators, and owners and admins, can set a channel. The agent's page keeps a record of what was posted.
+
 ## History
 
 The Alerts page lists the last alerts raised, each with where it was sent and whether it arrived. An agent's own page lists the alerts raised about it.

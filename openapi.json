@@ -1303,6 +1303,441 @@
         "summary": "Get one remote action"
       }
     },
+    "/v1/orgs/{orgId}/agents/{agentId}/announcements": {
+      "get": {
+        "operationId": "AgentAnnouncementsController_list",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Where announcements go, and the record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentAnnouncementsDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not one of this agent's operators, nor an owner or admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Announcements"
+        ],
+        "summary": "List an agent's announcements"
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/announcements/destination": {
+      "put": {
+        "operationId": "AgentAnnouncementsController_set",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAnnouncementDestinationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The destination now set, without its address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementDestinationDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not a Discord or Slack webhook address, or not a time zone",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not one of this agent's operators, nor an owner or admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Announcements"
+        ],
+        "summary": "Set where an agent's users are told"
+      },
+      "delete": {
+        "operationId": "AgentAnnouncementsController_remove",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Removed. The agent falls back to the organization's default, if there is one."
+          },
+          "403": {
+            "description": "You are not one of this agent's operators, nor an owner or admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Announcements"
+        ],
+        "summary": "Remove an agent's announcement destination"
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/announcements/test": {
+      "post": {
+        "operationId": "AgentAnnouncementsController_test",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A test announcement was posted, or tried",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not one of this agent's operators, nor an owner or admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No destination is set for this agent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Announcements"
+        ],
+        "summary": "Send a test announcement"
+      }
+    },
+    "/v1/orgs/{orgId}/announcement-destination": {
+      "get": {
+        "operationId": "OrgAnnouncementsController_get",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The default destination, without its address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementDestinationDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "None is set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Announcements"
+        ],
+        "summary": "Get the organization's default announcement destination"
+      },
+      "put": {
+        "operationId": "OrgAnnouncementsController_set",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAnnouncementDestinationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The default now set, without its address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnouncementDestinationDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not a Discord or Slack webhook address, or not a time zone",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Announcements"
+        ],
+        "summary": "Set the organization's default announcement destination"
+      },
+      "delete": {
+        "operationId": "OrgAnnouncementsController_remove",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Removed"
+          },
+          "403": {
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Announcements"
+        ],
+        "summary": "Remove the organization's default announcement destination"
+      }
+    },
     "/v1/orgs/{orgId}/removed-agents": {
       "get": {
         "operationId": "ErasureController_removedAgents",
@@ -5813,6 +6248,146 @@
         },
         "required": [
           "action"
+        ]
+      },
+      "AnnouncementDestinationDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "discord",
+              "slack"
+            ]
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "outages": {
+            "type": "boolean",
+            "description": "Whether unplanned outages and recoveries are announced too"
+          },
+          "inherited": {
+            "type": "boolean",
+            "description": "Whether this is the organization's default, used because the agent has none of its own"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "timeZone",
+          "outages",
+          "inherited",
+          "updatedAt"
+        ]
+      },
+      "AnnouncementDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "event": {
+            "type": "string",
+            "enum": [
+              "maintenance_ended",
+              "maintenance_scheduled",
+              "maintenance_started",
+              "outage",
+              "recovered",
+              "test"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "description": "The words that were posted"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "discord",
+              "slack"
+            ]
+          },
+          "delivered": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string",
+            "description": "Why it was not delivered",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "event",
+          "text",
+          "kind",
+          "delivered",
+          "error",
+          "createdAt"
+        ]
+      },
+      "AgentAnnouncementsDto": {
+        "type": "object",
+        "properties": {
+          "destination": {
+            "description": "Where announcements for this agent go. Null when nowhere.",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AnnouncementDestinationDto"
+              }
+            ]
+          },
+          "recent": {
+            "description": "The record, newest first",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnnouncementDto"
+            }
+          }
+        },
+        "required": [
+          "destination",
+          "recent"
+        ]
+      },
+      "SetAnnouncementDestinationDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "discord",
+              "slack"
+            ]
+          },
+          "webhookUrl": {
+            "type": "string",
+            "description": "The webhook address of the channel. Stored encrypted and never returned."
+          },
+          "timeZone": {
+            "type": "string",
+            "description": "The readers' time zone, such as America/New_York. Times are given in it.",
+            "example": "America/New_York"
+          },
+          "outages": {
+            "type": "boolean",
+            "description": "Also say when the agent stops responding and when it is back. Off unless set."
+          }
+        },
+        "required": [
+          "kind",
+          "webhookUrl"
         ]
       },
       "RemovedAgentDto": {
