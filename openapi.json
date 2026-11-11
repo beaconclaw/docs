@@ -3991,6 +3991,16 @@
               }
             }
           },
+          "403": {
+            "description": "You are not one of this agent's operators, nor an owner or admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Agent not found, or hidden from you",
             "content": {
@@ -6007,6 +6017,10 @@
             "description": "Where the agent's picture is served from",
             "nullable": true
           },
+          "canMaintain": {
+            "type": "boolean",
+            "description": "Whether you may start and end this agent's maintenance: its operators may, and the organization's owners and admins"
+          },
           "canRotateToken": {
             "type": "boolean",
             "description": "Whether you may issue this agent a new token: an owner or admin, or the operator of an agent the client runs itself."
@@ -6136,6 +6150,7 @@
           "visibility",
           "access",
           "avatarUrl",
+          "canMaintain",
           "canRotateToken",
           "status",
           "lastSeen",
@@ -6264,6 +6279,10 @@
             "type": "string",
             "description": "Where the agent's picture is served from",
             "nullable": true
+          },
+          "canMaintain": {
+            "type": "boolean",
+            "description": "Whether you may start and end this agent's maintenance: its operators may, and the organization's owners and admins"
           },
           "canRotateToken": {
             "type": "boolean",
@@ -6400,6 +6419,7 @@
           "visibility",
           "access",
           "avatarUrl",
+          "canMaintain",
           "canRotateToken",
           "status",
           "lastSeen",

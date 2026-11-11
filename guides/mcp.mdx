@@ -19,8 +19,8 @@ Add it to your agent as a remote MCP server over HTTP, with an [API key](/guides
 | `get_agent` | One agent: its status, latest heartbeat and open incidents | Any key |
 | `list_incidents` | Stretches in which an agent was not healthy, newest first | Any key |
 | `list_alerts` | Alerts that were raised, with where each was sent | Any key |
-| `start_maintenance` | Put an agent into maintenance from now | The maintenance permission |
-| `end_maintenance` | Take it out again | The maintenance permission |
+| `start_maintenance` | Put an agent into maintenance from now | The maintenance permission, on a key whose maker is an operator of the agent, or an owner or admin |
+| `end_maintenance` | Take it out again | The same |
 
 An agent is named by its name or its ID.
 

@@ -5,7 +5,7 @@ description: "A worked example for a supervising agent."
 
 A supervising agent that is about to restart or upgrade another agent should say so first. The other agent's alerts are then held back and the time is left out of its uptime.
 
-You need an [API key](/guides/api-keys) with the maintenance permission, made by an owner or admin.
+You need an [API key](/guides/api-keys) with the maintenance permission, made by someone who may run maintenance on the agent: one of its operators, or an owner or admin of the organization. A key made by anyone else answers 403 for that agent.
 
 ## 1. Find the agent
 
