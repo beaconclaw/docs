@@ -4,7 +4,8 @@
   "description": "Documentation site for BeaconClaw.",
   "scripts": {
     "dev": "mint dev",
-    "check": "mint validate && mint broken-links"
+    "check": "mint validate && mint broken-links",
+    "sync-openapi": "node scripts/sync-openapi.mjs"
   },
   "repository": {
     "type": "git",

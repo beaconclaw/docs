@@ -14,6 +14,7 @@ Pages are Markdown (MDX). The site is built by [Mintlify](https://mintlify.com) 
 | `concepts/` | Organizations and access, health, alerts |
 | `guides/` | Enrolling an agent, API keys, maintenance from an agent, the MCP server |
 | `openapi.json` | The API's description, which the API reference is generated from |
+| `scripts/sync-openapi.mjs` | Refreshes `openapi.json` from the API's own description |
 
 ## Preview locally
 

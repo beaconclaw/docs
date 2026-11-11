@@ -818,7 +818,7 @@
             "name": "userId",
             "required": true,
             "in": "path",
-            "description": "The member\u2019s user ID",
+            "description": "The member’s user ID",
             "schema": {
               "type": "string"
             }
@@ -877,7 +877,7 @@
             "name": "userId",
             "required": true,
             "in": "path",
-            "description": "The member\u2019s user ID",
+            "description": "The member’s user ID",
             "schema": {
               "type": "string"
             }
@@ -1789,7 +1789,7 @@
             "name": "userId",
             "required": true,
             "in": "path",
-            "description": "The member\u2019s user ID",
+            "description": "The member’s user ID",
             "schema": {
               "type": "string"
             }
@@ -1844,7 +1844,7 @@
             "name": "userId",
             "required": true,
             "in": "path",
-            "description": "The member\u2019s user ID",
+            "description": "The member’s user ID",
             "schema": {
               "type": "string"
             }
@@ -1904,7 +1904,7 @@
             "name": "userId",
             "required": true,
             "in": "path",
-            "description": "The member\u2019s user ID",
+            "description": "The member’s user ID",
             "schema": {
               "type": "string"
             }
@@ -2302,124 +2302,6 @@
           "Access requests"
         ],
         "summary": "Request access"
-      }
-    },
-    "/v1/admin/orgs": {
-      "get": {
-        "operationId": "AdminController_orgs",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Every organization, by name",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AdminOrgDto"
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Not a system owner"
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ],
-        "tags": [
-          "System owner"
-        ],
-        "summary": "List every organization"
-      }
-    },
-    "/v1/admin/orgs/{orgId}": {
-      "patch": {
-        "operationId": "AdminController_update",
-        "parameters": [
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateAdminOrgDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "The organization after the change",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AdminOrgDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Not a system owner"
-          },
-          "404": {
-            "description": "Organization not found"
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ],
-        "tags": [
-          "System owner"
-        ],
-        "summary": "Show or hide cost for an organization"
-      }
-    },
-    "/v1/admin/access-requests": {
-      "get": {
-        "operationId": "AdminController_accessRequests",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The newest requests for an invitation, up to 100",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AdminAccessRequestDto"
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Not a system owner"
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ],
-        "tags": [
-          "System owner"
-        ],
-        "summary": "List requests for access"
       }
     },
     "/v1/orgs/{orgId}/avatar": {
@@ -3298,7 +3180,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Each agent\u2019s uptime for the month",
+            "description": "Each agent’s uptime for the month",
             "content": {
               "application/json": {
                 "schema": {
@@ -3664,8 +3546,8 @@
   ],
   "servers": [
     {
-      "url": "https://api.beaconclaw.ai",
-      "description": "BeaconClaw"
+      "description": "BeaconClaw",
+      "url": "https://api.beaconclaw.ai"
     }
   ],
   "components": {
@@ -4046,7 +3928,7 @@
           "hint": {
             "type": "string",
             "description": "The start of the key, to tell keys apart",
-            "example": "bck_3f9a\u2026"
+            "example": "bck_3f9a…"
           },
           "actions": {
             "type": "array",
@@ -4144,7 +4026,7 @@
           "hint": {
             "type": "string",
             "description": "The start of the key, to tell keys apart",
-            "example": "bck_3f9a\u2026"
+            "example": "bck_3f9a…"
           },
           "actions": {
             "type": "array",
@@ -4246,7 +4128,7 @@
           "hint": {
             "type": "string",
             "description": "The start of the key, to tell keys apart",
-            "example": "bck_3f9a\u2026"
+            "example": "bck_3f9a…"
           },
           "actions": {
             "type": "array",
@@ -4316,7 +4198,7 @@
         "properties": {
           "userId": {
             "type": "string",
-            "description": "The assigned member\u2019s user ID"
+            "description": "The assigned member’s user ID"
           },
           "email": {
             "type": "string",
@@ -5623,7 +5505,7 @@
         "properties": {
           "userId": {
             "type": "string",
-            "description": "The member\u2019s user ID"
+            "description": "The member’s user ID"
           },
           "email": {
             "type": "string",
@@ -5672,7 +5554,7 @@
         "properties": {
           "email": {
             "type": "string",
-            "description": "The person\u2019s email address",
+            "description": "The person’s email address",
             "example": "sam@example.com"
           },
           "role": {
@@ -5692,7 +5574,7 @@
           },
           "slackUserId": {
             "type": "string",
-            "description": "Their user ID in this organization\u2019s Slack workspace",
+            "description": "Their user ID in this organization’s Slack workspace",
             "example": "U012AB3CD",
             "nullable": true
           }
@@ -5707,7 +5589,7 @@
         "properties": {
           "userId": {
             "type": "string",
-            "description": "The member\u2019s user ID"
+            "description": "The member’s user ID"
           },
           "email": {
             "type": "string",
@@ -5787,7 +5669,7 @@
           },
           "slackUserId": {
             "type": "string",
-            "description": "Their user ID in this organization\u2019s Slack workspace",
+            "description": "Their user ID in this organization’s Slack workspace",
             "nullable": true
           }
         }
