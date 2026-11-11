@@ -37,7 +37,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "List alert channels"
       },
       "post": {
         "operationId": "AlertSettingsController_createChannel",
@@ -84,7 +85,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Add an alert channel"
       }
     },
     "/v1/orgs/{orgId}/alert-channels/{channelId}/test": {
@@ -128,7 +130,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Send a test alert"
       }
     },
     "/v1/orgs/{orgId}/alert-channels/{channelId}": {
@@ -185,7 +188,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Turn an alert channel on or off"
       },
       "delete": {
         "operationId": "AlertSettingsController_removeChannel",
@@ -220,7 +224,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Remove an alert channel"
       }
     },
     "/v1/orgs/{orgId}/alert-rules": {
@@ -259,7 +264,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "List alert rules"
       },
       "post": {
         "operationId": "AlertSettingsController_createRule",
@@ -306,7 +312,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Add an alert rule"
       }
     },
     "/v1/orgs/{orgId}/alert-rules/{ruleId}/send-digest": {
@@ -353,7 +360,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Send the daily summary now"
       }
     },
     "/v1/orgs/{orgId}/alert-rules/{ruleId}": {
@@ -410,7 +418,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Turn an alert rule on or off"
       },
       "delete": {
         "operationId": "AlertSettingsController_removeRule",
@@ -445,7 +454,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Remove an alert rule"
       }
     },
     "/v1/orgs/{orgId}/alerts": {
@@ -513,7 +523,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "List alerts"
       }
     },
     "/v1/orgs/{orgId}/api-keys": {
@@ -552,7 +563,8 @@
         ],
         "tags": [
           "API keys"
-        ]
+        ],
+        "summary": "List the organization's API keys"
       },
       "post": {
         "operationId": "ApiKeysController_create",
@@ -602,7 +614,8 @@
         ],
         "tags": [
           "API keys"
-        ]
+        ],
+        "summary": "Make an API key"
       }
     },
     "/v1/orgs/{orgId}/api-keys/{keyId}": {
@@ -642,7 +655,8 @@
         ],
         "tags": [
           "API keys"
-        ]
+        ],
+        "summary": "Revoke an API key"
       }
     },
     "/v1/orgs/{orgId}/api-keys/{keyId}/events": {
@@ -692,7 +706,8 @@
         ],
         "tags": [
           "API keys"
-        ]
+        ],
+        "summary": "Get an API key's record"
       }
     },
     "/v1/users/me/api-keys": {
@@ -721,7 +736,8 @@
         ],
         "tags": [
           "API keys"
-        ]
+        ],
+        "summary": "List your API keys"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/assignments": {
@@ -772,7 +788,8 @@
         ],
         "tags": [
           "Agent access"
-        ]
+        ],
+        "summary": "List an agent's stewards, operators and viewers"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/assignments/{userId}": {
@@ -832,7 +849,8 @@
         ],
         "tags": [
           "Agent access"
-        ]
+        ],
+        "summary": "Assign a person to an agent"
       },
       "delete": {
         "operationId": "AssignmentsController_unassign[0]",
@@ -880,7 +898,8 @@
         ],
         "tags": [
           "Agent access"
-        ]
+        ],
+        "summary": "Unassign a person from an agent"
       }
     },
     "/v1/orgs/{orgId}/directory": {
@@ -919,7 +938,8 @@
         ],
         "tags": [
           "Directory"
-        ]
+        ],
+        "summary": "List the agent directory"
       }
     },
     "/v1/orgs/{orgId}/directory/{agentId}": {
@@ -967,7 +987,8 @@
         ],
         "tags": [
           "Directory"
-        ]
+        ],
+        "summary": "Get an agent's directory entry"
       }
     },
     "/v1/health": {
@@ -998,7 +1019,8 @@
         },
         "tags": [
           "Health"
-        ]
+        ],
+        "summary": "Check the service is up"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/health-history": {
@@ -1084,7 +1106,8 @@
         ],
         "tags": [
           "Heartbeats"
-        ]
+        ],
+        "summary": "Get an agent's health history"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/heartbeats": {
@@ -1177,7 +1200,8 @@
         ],
         "tags": [
           "Heartbeats"
-        ]
+        ],
+        "summary": "List an agent's heartbeats"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/heartbeats/latest": {
@@ -1225,7 +1249,8 @@
         ],
         "tags": [
           "Heartbeats"
-        ]
+        ],
+        "summary": "Get an agent's latest heartbeat"
       }
     },
     "/v1/orgs/{orgId}/incidents": {
@@ -1302,7 +1327,8 @@
         ],
         "tags": [
           "Incidents"
-        ]
+        ],
+        "summary": "List incidents"
       }
     },
     "/v1/orgs/{orgId}/agents": {
@@ -1355,7 +1381,8 @@
         ],
         "tags": [
           "Agents"
-        ]
+        ],
+        "summary": "List agents"
       },
       "post": {
         "operationId": "InstancesController_create[0]",
@@ -1402,7 +1429,8 @@
         ],
         "tags": [
           "Agents"
-        ]
+        ],
+        "summary": "Register an agent"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}": {
@@ -1450,7 +1478,8 @@
         ],
         "tags": [
           "Agents"
-        ]
+        ],
+        "summary": "Get an agent"
       },
       "patch": {
         "operationId": "InstancesController_update[0]",
@@ -1509,7 +1538,8 @@
         ],
         "tags": [
           "Agents"
-        ]
+        ],
+        "summary": "Change an agent's profile"
       },
       "delete": {
         "operationId": "InstancesController_remove[0]",
@@ -1551,7 +1581,8 @@
         ],
         "tags": [
           "Agents"
-        ]
+        ],
+        "summary": "Remove an agent"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/rotate-token": {
@@ -1599,7 +1630,8 @@
         ],
         "tags": [
           "Agents"
-        ]
+        ],
+        "summary": "Rotate an agent's token"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/inventory": {
@@ -1645,7 +1677,8 @@
         ],
         "tags": [
           "Inventory"
-        ]
+        ],
+        "summary": "Get an agent's inventory"
       }
     },
     "/v1/orgs/{orgId}/members": {
@@ -1684,7 +1717,8 @@
         ],
         "tags": [
           "Members"
-        ]
+        ],
+        "summary": "List members"
       },
       "post": {
         "operationId": "MembersController_invite",
@@ -1734,7 +1768,8 @@
         ],
         "tags": [
           "Members"
-        ]
+        ],
+        "summary": "Invite a member"
       }
     },
     "/v1/orgs/{orgId}/members/{userId}/invitation": {
@@ -1788,7 +1823,8 @@
         ],
         "tags": [
           "Members"
-        ]
+        ],
+        "summary": "Send an invitation again"
       }
     },
     "/v1/orgs/{orgId}/members/{userId}": {
@@ -1849,7 +1885,8 @@
         ],
         "tags": [
           "Members"
-        ]
+        ],
+        "summary": "Change a member"
       },
       "delete": {
         "operationId": "MembersController_remove",
@@ -1891,7 +1928,8 @@
         ],
         "tags": [
           "Members"
-        ]
+        ],
+        "summary": "Remove a member"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/named-people": {
@@ -1939,7 +1977,8 @@
         ],
         "tags": [
           "Agent access"
-        ]
+        ],
+        "summary": "List an agent's named people"
       },
       "post": {
         "operationId": "NamedPeopleController_add",
@@ -1995,7 +2034,8 @@
         ],
         "tags": [
           "Agent access"
-        ]
+        ],
+        "summary": "Add a named person to an agent"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/named-people/{personId}": {
@@ -2044,7 +2084,8 @@
         ],
         "tags": [
           "Agent access"
-        ]
+        ],
+        "summary": "Remove a named person from an agent"
       }
     },
     "/v1/orgs": {
@@ -2073,7 +2114,8 @@
         ],
         "tags": [
           "Orgs"
-        ]
+        ],
+        "summary": "List your organizations"
       },
       "post": {
         "operationId": "OrgsController_create",
@@ -2110,7 +2152,8 @@
         ],
         "tags": [
           "Orgs"
-        ]
+        ],
+        "summary": "Create an organization"
       }
     },
     "/v1/orgs/{orgId}": {
@@ -2152,7 +2195,8 @@
         ],
         "tags": [
           "Orgs"
-        ]
+        ],
+        "summary": "Get an organization"
       }
     },
     "/v1/orgs/{orgId}/registry": {
@@ -2188,7 +2232,8 @@
         ],
         "tags": [
           "Directory"
-        ]
+        ],
+        "summary": "Get the agent registry"
       }
     },
     "/v1/orgs/{orgId}/registry.csv": {
@@ -2217,7 +2262,8 @@
         ],
         "tags": [
           "Directory"
-        ]
+        ],
+        "summary": "Get the agent registry as CSV"
       }
     },
     "/v1/access-requests": {
@@ -2254,7 +2300,8 @@
         },
         "tags": [
           "Access requests"
-        ]
+        ],
+        "summary": "Request access"
       }
     },
     "/v1/admin/orgs": {
@@ -2286,7 +2333,8 @@
         ],
         "tags": [
           "System owner"
-        ]
+        ],
+        "summary": "List every organization"
       }
     },
     "/v1/admin/orgs/{orgId}": {
@@ -2337,7 +2385,8 @@
         ],
         "tags": [
           "System owner"
-        ]
+        ],
+        "summary": "Show or hide cost for an organization"
       }
     },
     "/v1/admin/access-requests": {
@@ -2369,7 +2418,8 @@
         ],
         "tags": [
           "System owner"
-        ]
+        ],
+        "summary": "List requests for access"
       }
     },
     "/v1/orgs/{orgId}/avatar": {
@@ -2427,7 +2477,8 @@
         ],
         "tags": [
           "Avatars"
-        ]
+        ],
+        "summary": "Upload the organization's picture"
       },
       "delete": {
         "operationId": "AvatarsController_removeOrgAvatar",
@@ -2454,7 +2505,8 @@
         ],
         "tags": [
           "Avatars"
-        ]
+        ],
+        "summary": "Remove the organization's picture"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/avatar": {
@@ -2524,7 +2576,8 @@
         ],
         "tags": [
           "Avatars"
-        ]
+        ],
+        "summary": "Upload an agent's picture"
       },
       "delete": {
         "operationId": "AvatarsController_removeAgentAvatar",
@@ -2560,7 +2613,8 @@
         ],
         "tags": [
           "Avatars"
-        ]
+        ],
+        "summary": "Remove an agent's picture"
       }
     },
     "/mcp": {
@@ -2614,7 +2668,8 @@
         ],
         "tags": [
           "MCP"
-        ]
+        ],
+        "summary": "MCP endpoint (POST only)"
       }
     },
     "/v1/orgs/{orgId}/github": {
@@ -2650,7 +2705,8 @@
         ],
         "tags": [
           "Organizations"
-        ]
+        ],
+        "summary": "Get the GitHub connection"
       },
       "put": {
         "operationId": "GithubConnectionController_connect",
@@ -2697,7 +2753,8 @@
         ],
         "tags": [
           "Organizations"
-        ]
+        ],
+        "summary": "Connect GitHub"
       },
       "delete": {
         "operationId": "GithubConnectionController_disconnect",
@@ -2724,7 +2781,8 @@
         ],
         "tags": [
           "Organizations"
-        ]
+        ],
+        "summary": "Disconnect GitHub"
       }
     },
     "/v1/orgs/{orgId}/github/repositories": {
@@ -2773,7 +2831,8 @@
         ],
         "tags": [
           "Organizations"
-        ]
+        ],
+        "summary": "Set the repositories to count"
       }
     },
     "/v1/orgs/{orgId}/github/collect": {
@@ -2809,7 +2868,8 @@
         ],
         "tags": [
           "Organizations"
-        ]
+        ],
+        "summary": "Count GitHub numbers now"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/outcomes": {
@@ -2867,7 +2927,8 @@
         ],
         "tags": [
           "Agents"
-        ]
+        ],
+        "summary": "Get an agent's GitHub numbers"
       }
     },
     "/v1/orgs/{orgId}/slack": {
@@ -2903,7 +2964,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Get the Slack connection"
       },
       "put": {
         "operationId": "StewardNotificationsController_connect",
@@ -2950,7 +3012,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Connect Slack"
       },
       "delete": {
         "operationId": "StewardNotificationsController_disconnect",
@@ -2977,7 +3040,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "Disconnect Slack"
       }
     },
     "/v1/orgs/{orgId}/steward-notifications": {
@@ -3016,7 +3080,8 @@
         ],
         "tags": [
           "Alerts"
-        ]
+        ],
+        "summary": "List messages sent to stewards"
       }
     },
     "/v1/agent/maintenance": {
@@ -3055,7 +3120,8 @@
         ],
         "tags": [
           "Agent"
-        ]
+        ],
+        "summary": "Start maintenance for this agent"
       },
       "delete": {
         "operationId": "AgentMaintenanceController_end",
@@ -3082,7 +3148,8 @@
         ],
         "tags": [
           "Agent"
-        ]
+        ],
+        "summary": "End maintenance for this agent"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/maintenance": {
@@ -3140,7 +3207,8 @@
         ],
         "tags": [
           "Uptime"
-        ]
+        ],
+        "summary": "Start maintenance for an agent"
       },
       "delete": {
         "operationId": "MaintenanceController_end",
@@ -3186,7 +3254,8 @@
         ],
         "tags": [
           "Uptime"
-        ]
+        ],
+        "summary": "End maintenance for an agent"
       }
     },
     "/v1/orgs/{orgId}/uptime": {
@@ -3246,7 +3315,8 @@
         ],
         "tags": [
           "Uptime"
-        ]
+        ],
+        "summary": "Get uptime"
       }
     },
     "/v1/orgs/{orgId}/maintenance-windows": {
@@ -3285,7 +3355,8 @@
         ],
         "tags": [
           "Uptime"
-        ]
+        ],
+        "summary": "List maintenance windows"
       },
       "post": {
         "operationId": "UptimeController_createWindow",
@@ -3332,7 +3403,8 @@
         ],
         "tags": [
           "Uptime"
-        ]
+        ],
+        "summary": "Add a maintenance window"
       }
     },
     "/v1/orgs/{orgId}/maintenance-windows/{windowId}": {
@@ -3372,7 +3444,8 @@
         ],
         "tags": [
           "Uptime"
-        ]
+        ],
+        "summary": "Remove a maintenance window"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/usage": {
@@ -3444,7 +3517,8 @@
         ],
         "tags": [
           "Agents"
-        ]
+        ],
+        "summary": "Get an agent's usage"
       }
     },
     "/v1/users/me": {
@@ -3473,7 +3547,8 @@
         ],
         "tags": [
           "Users"
-        ]
+        ],
+        "summary": "Get the signed-in person"
       }
     },
     "/v1/orgs/{orgId}/agents/{agentId}/versions": {
@@ -3522,7 +3597,8 @@
         ],
         "tags": [
           "Agents"
-        ]
+        ],
+        "summary": "Get an agent's versions"
       }
     }
   },
