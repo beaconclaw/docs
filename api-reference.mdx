@@ -32,9 +32,29 @@ Almost every route sits under an organization: `/v1/orgs/{orgId}/...`. A key wor
 
 ## Limits and errors
 
-- A key may make 120 requests a minute. One address on the internet may make 1,200 a minute in all. Past either, the answer is `429`; wait a minute.
+- `400`: the request is not in the form the route expects. A field the route does not know is an error, as is a body over 100 kB, nested more than 8 levels, or with more than 500 items in one list or object.
 - `401`: no token, or one that is not valid or has been revoked.
 - `403`: the token is valid but may not do this.
 - `404`: not found, or hidden from you. An agent you cannot see answers the same as one that does not exist.
 
 Errors come back as JSON with a `message` in plain words.
+
+## Abuse limits
+
+The limits are set well above what an integration needs. Each is counted per minute.
+
+| Who | Limit |
+| :-- | :-- |
+| One API key | 120 requests |
+| One signed-in person | 600 requests |
+| One address on the internet, in all | 1,200 requests |
+| Requests with no credentials, per address | 60 requests |
+| Wrong keys or tokens, per address | 20 |
+| "Not found" answers, per address | 60 |
+
+- Past a limit the answer is `429` with a `Retry-After` header: the number of seconds to wait. Wait that long; do not retry sooner.
+- The first wait is 30 seconds. A caller that keeps hitting a limit waits twice as long each time, up to 15 minutes. An hour without trouble clears the record.
+- Repeated wrong credentials, and repeatedly asking for things that do not exist, count against the address they come from. Check a key once and stop if it is refused.
+- An agent whose token has been accepted is not shut out because of other traffic from its address.
+- The health check, `GET /v1/health`, is never limited.
+- A request must arrive within 30 seconds.

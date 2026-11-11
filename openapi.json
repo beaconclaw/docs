@@ -3049,7 +3049,7 @@
         },
         "responses": {
           "202": {
-            "description": "Received. The answer is the same whether or not the request was new.",
+            "description": "Received. The answer is the same whether the request was stored, a repeat, or turned away.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3060,16 +3060,6 @@
           },
           "400": {
             "description": "A field is missing or too long",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Too many requests from the same place",
             "content": {
               "application/json": {
                 "schema": {
@@ -7221,6 +7211,15 @@
           "website": {
             "type": "string",
             "description": "Leave empty. A field the form hides from people."
+          },
+          "elapsedMs": {
+            "type": "number",
+            "description": "Milliseconds between the form opening and being sent. A request without it, or sent faster than a person could, is quietly dropped.",
+            "example": 12000
+          },
+          "challengeToken": {
+            "type": "string",
+            "description": "The answer from the form's challenge, when one is switched on"
           }
         },
         "required": [
@@ -7238,6 +7237,134 @@
         },
         "required": [
           "received"
+        ]
+      },
+      "AdminBlockDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string",
+            "description": "The address on the internet that is shut out"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "until": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When it lapses by itself. Null stays until removed.",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "address",
+          "reason",
+          "until",
+          "createdAt"
+        ]
+      },
+      "AdminWaitingDto": {
+        "type": "object",
+        "properties": {
+          "sender": {
+            "type": "string",
+            "description": "An address, or \"person:\" and a user ID"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Which limit it hit"
+          },
+          "strikes": {
+            "type": "number",
+            "description": "How many times in a row; each one doubles the wait"
+          },
+          "until": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sender",
+          "reason",
+          "strikes",
+          "until"
+        ]
+      },
+      "AdminRefusedDto": {
+        "type": "object",
+        "properties": {
+          "sender": {
+            "type": "string"
+          },
+          "refusals": {
+            "type": "number",
+            "description": "Requests refused in the current hour"
+          }
+        },
+        "required": [
+          "sender",
+          "refusals"
+        ]
+      },
+      "AdminSafeguardsDto": {
+        "type": "object",
+        "properties": {
+          "blocks": {
+            "description": "Addresses a system owner has blocked",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminBlockDto"
+            }
+          },
+          "waiting": {
+            "description": "Senders made to wait right now, by this server process",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminWaitingDto"
+            }
+          },
+          "mostRefused": {
+            "description": "The senders this server process refused most in the current hour",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminRefusedDto"
+            }
+          }
+        },
+        "required": [
+          "blocks",
+          "waiting",
+          "mostRefused"
+        ]
+      },
+      "CreateAdminBlockDto": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "example": "203.0.113.7"
+          },
+          "reason": {
+            "type": "string",
+            "example": "Guessing agent IDs"
+          },
+          "hours": {
+            "type": "number",
+            "description": "How long it lasts, in hours. Left out, it stays until removed.",
+            "example": 24
+          }
+        },
+        "required": [
+          "address",
+          "reason"
         ]
       },
       "AdminDatabaseDto": {
@@ -7267,15 +7394,159 @@
           "warning"
         ]
       },
+      "AdminAccessRequestCountsDto": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": "number",
+            "description": "How many days the counts cover, today included"
+          },
+          "received": {
+            "type": "number",
+            "description": "Requests stored"
+          },
+          "refused": {
+            "type": "number",
+            "description": "Requests turned away: repeats, floods and programs"
+          }
+        },
+        "required": [
+          "days",
+          "received",
+          "refused"
+        ]
+      },
+      "AdminDatabaseConnectionsDto": {
+        "type": "object",
+        "properties": {
+          "open": {
+            "type": "number",
+            "description": "Connections open to the database from anywhere"
+          },
+          "limit": {
+            "type": "number",
+            "description": "How many the plan allows"
+          }
+        },
+        "required": [
+          "open",
+          "limit"
+        ]
+      },
+      "AdminEventLoopDto": {
+        "type": "object",
+        "properties": {
+          "p50": {
+            "type": "number"
+          },
+          "p95": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "p50",
+          "p95",
+          "max"
+        ]
+      },
+      "AdminServerMemoryDto": {
+        "type": "object",
+        "properties": {
+          "bytes": {
+            "type": "number",
+            "description": "Memory this server process is using, in bytes"
+          },
+          "limitBytes": {
+            "type": "number",
+            "description": "The server's memory limit, in bytes (the SERVER_MEMORY_LIMIT_MB setting)"
+          },
+          "percent": {
+            "type": "number",
+            "description": "The share of the limit in use, to one decimal place"
+          },
+          "peakBytes": {
+            "type": "number",
+            "description": "The most it used in the last day, or since it started if that is more recent"
+          },
+          "peakPercent": {
+            "type": "number"
+          },
+          "warning": {
+            "type": "boolean",
+            "description": "Whether the peak has reached 80% of the limit"
+          }
+        },
+        "required": [
+          "bytes",
+          "limitBytes",
+          "percent",
+          "peakBytes",
+          "peakPercent",
+          "warning"
+        ]
+      },
+      "AdminServerDto": {
+        "type": "object",
+        "properties": {
+          "connectedAgents": {
+            "type": "number",
+            "description": "Agents connected to this server process right now"
+          },
+          "databaseConnections": {
+            "$ref": "#/components/schemas/AdminDatabaseConnectionsDto"
+          },
+          "eventLoopDelayMs": {
+            "description": "How late the server ran its own timers over the last minute, in milliseconds. Near zero when it is keeping up.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdminEventLoopDto"
+              }
+            ]
+          },
+          "memory": {
+            "$ref": "#/components/schemas/AdminServerMemoryDto"
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When this server process started"
+          }
+        },
+        "required": [
+          "connectedAgents",
+          "databaseConnections",
+          "eventLoopDelayMs",
+          "memory",
+          "startedAt"
+        ]
+      },
       "AdminSystemDto": {
         "type": "object",
         "properties": {
           "database": {
             "$ref": "#/components/schemas/AdminDatabaseDto"
+          },
+          "accessRequests": {
+            "$ref": "#/components/schemas/AdminAccessRequestCountsDto"
+          },
+          "server": {
+            "description": "This server process. Null where it is not measured.",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AdminServerDto"
+              }
+            ]
           }
         },
         "required": [
-          "database"
+          "database",
+          "accessRequests",
+          "server"
         ]
       },
       "AdminOrgDto": {
