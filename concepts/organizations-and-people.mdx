@@ -55,6 +55,12 @@ An agent is **open** by default: every member can see its directory entry. An ag
 
 An agent with no CLI on its machine can be added by hand. It appears in the directory with its profile and people, marked as not monitored. It has no health, uptime or alerts until a CLI reports for it.
 
+## Downloading your organization's data
+
+An owner can download everything held about the organization as one JSON file: in **Settings**, under **Your data**. It holds the members, each agent with its incidents, maintenance, hourly health summaries, usage, version changes and connections, and the organization's alerts, alert rules and API key records.
+
+Left out are secrets (agent tokens, API keys, and the addresses alert channels send to) and individual heartbeats, which are kept only for a short time. The file shows an owner nothing they could not already see in the app. It cannot be downloaded with an API key.
+
 ## Removing an agent, and deleting one for good
 
 **Removing** an agent takes it out of every list and stops its token working. Its record is kept, so past uptime figures and alert history stay right.

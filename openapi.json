@@ -1348,6 +1348,54 @@
         "summary": "Delete an organization for good"
       }
     },
+    "/v1/orgs/{orgId}/export": {
+      "get": {
+        "operationId": "ExportController_export",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The organization, its people, its agents with their history, and its alerts, as one JSON document. Secrets are left out, and so are individual heartbeats: health history is given as hourly summaries.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Only an owner can export an organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Download the organization's data"
+      }
+    },
     "/v1/health": {
       "get": {
         "operationId": "HealthController_getHealth",
