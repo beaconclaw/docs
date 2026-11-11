@@ -75,7 +75,14 @@
             }
           },
           "403": {
-            "description": "You are not an owner or admin, nor a steward or operator of any agent"
+            "description": "You are not an owner or admin, nor a steward or operator of any agent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -178,7 +185,14 @@
             }
           },
           "403": {
-            "description": "Only an owner or admin can change the organization's channels"
+            "description": "Only an owner or admin can change the organization's channels",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -302,7 +316,14 @@
             }
           },
           "403": {
-            "description": "A steward or operator may only make a rule for an agent they answer for"
+            "description": "A steward or operator may only make a rule for an agent they answer for",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -350,7 +371,14 @@
             }
           },
           "404": {
-            "description": "Not a daily digest rule of this organization"
+            "description": "Not a daily digest rule of this organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -408,7 +436,14 @@
             }
           },
           "403": {
-            "description": "You can change only a rule you made"
+            "description": "You can change only a rule you made",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -444,7 +479,14 @@
         ],
         "responses": {
           "403": {
-            "description": "You can remove only a rule you made"
+            "description": "You can remove only a rule you made",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -601,10 +643,24 @@
             }
           },
           "403": {
-            "description": "Too many keys, or an action your role does not allow"
+            "description": "Too many keys, or an action your role does not allow",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "One of the agents was not found"
+            "description": "One of the agents was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -645,7 +701,14 @@
             "description": "Revoked. The key stops working at once."
           },
           "404": {
-            "description": "Not a key of yours, or not found"
+            "description": "Not a key of yours, or not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -696,7 +759,14 @@
             }
           },
           "404": {
-            "description": "Not a key of yours, or not found"
+            "description": "Not a key of yours, or not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -778,7 +848,14 @@
             }
           },
           "404": {
-            "description": "Agent not found, or hidden from you"
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -839,7 +916,14 @@
             "description": ""
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -888,7 +972,14 @@
             "description": ""
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -977,7 +1068,14 @@
             }
           },
           "404": {
-            "description": "Agent not found, or hidden from you"
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -989,6 +1087,265 @@
           "Directory"
         ],
         "summary": "Get an agent's directory entry"
+      }
+    },
+    "/v1/orgs/{orgId}/removed-agents": {
+      "get": {
+        "operationId": "ErasureController_removedAgents",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agents that have been removed and can be deleted for good",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RemovedAgentDto"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Only an owner may do this",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Deleting for good"
+        ],
+        "summary": "List removed agents"
+      }
+    },
+    "/v1/orgs/{orgId}/deletions": {
+      "get": {
+        "operationId": "ErasureController_deletions",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The deletions made here, newest first, with none of what was deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeletionDto"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Only an owner may do this",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Deleting for good"
+        ],
+        "summary": "List deletions made for good"
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/erase": {
+      "post": {
+        "operationId": "ErasureController_eraseAgent",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmErasureDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "The agent and everything held about it are gone"
+          },
+          "400": {
+            "description": "The name typed does not match",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Only an owner may do this",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The agent has not been removed yet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Deleting for good"
+        ],
+        "summary": "Delete a removed agent for good"
+      }
+    },
+    "/v1/orgs/{orgId}/erase": {
+      "post": {
+        "operationId": "ErasureController_eraseOrg",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmErasureDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "The organization and everything held about it are gone"
+          },
+          "400": {
+            "description": "The name typed does not match",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Only an owner may do this",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "It operates agents for other organizations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Deleting for good"
+        ],
+        "summary": "Delete an organization for good"
       }
     },
     "/v1/health": {
@@ -1093,10 +1450,24 @@
             }
           },
           "400": {
-            "description": "The period is too long or ends before it starts"
+            "description": "The period is too long or ends before it starts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Agent not found in this organization"
+            "description": "Agent not found in this organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1190,7 +1561,14 @@
             }
           },
           "404": {
-            "description": "Agent not found in this organization"
+            "description": "Agent not found in this organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1239,7 +1617,14 @@
             }
           },
           "404": {
-            "description": "No heartbeats found, or agent not found in this organization"
+            "description": "No heartbeats found, or agent not found in this organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1419,7 +1804,14 @@
             }
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1468,7 +1860,14 @@
             }
           },
           "404": {
-            "description": "Agent not found, or hidden from you"
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1525,10 +1924,24 @@
             }
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Agent not found"
+            "description": "Agent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1568,10 +1981,24 @@
             "description": "Agent deregistered"
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Agent not found"
+            "description": "Agent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1620,7 +2047,14 @@
             }
           },
           "403": {
-            "description": "Your role does not allow this action, or you are a member and do not operate this agent"
+            "description": "Your role does not allow this action, or you are a member and do not operate this agent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1669,7 +2103,14 @@
             }
           },
           "404": {
-            "description": "Agent not found in this organization"
+            "description": "Agent not found in this organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1709,7 +2150,14 @@
             }
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1757,7 +2205,14 @@
             }
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1816,10 +2271,24 @@
             }
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Agent not found"
+            "description": "Agent not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1907,10 +2376,24 @@
             }
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "409": {
-            "description": "That person is already in this organization"
+            "description": "That person is already in this organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1959,13 +2442,34 @@
             }
           },
           "404": {
-            "description": "Member not found"
+            "description": "Member not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "409": {
-            "description": "They have already signed in"
+            "description": "They have already signed in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "429": {
-            "description": "One was sent a moment ago"
+            "description": "One was sent a moment ago",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2024,10 +2528,24 @@
             }
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Member not found"
+            "description": "Member not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2067,10 +2585,24 @@
             "description": ""
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Member not found"
+            "description": "Member not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2176,7 +2708,14 @@
             }
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2226,7 +2765,14 @@
             "description": ""
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2294,7 +2840,14 @@
             }
           },
           "403": {
-            "description": "Not a system owner"
+            "description": "Not a system owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2334,10 +2887,24 @@
             }
           },
           "403": {
-            "description": "Not a member of this organization"
+            "description": "Not a member of this organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Organization not found"
+            "description": "Organization not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2444,10 +3011,24 @@
             }
           },
           "400": {
-            "description": "A field is missing or too long"
+            "description": "A field is missing or too long",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "429": {
-            "description": "Too many requests from the same place"
+            "description": "Too many requests from the same place",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -2501,7 +3082,14 @@
             }
           },
           "400": {
-            "description": "Not a PNG, JPEG or WebP, or larger than 2 MB"
+            "description": "Not a PNG, JPEG or WebP, or larger than 2 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2597,10 +3185,24 @@
             }
           },
           "400": {
-            "description": "Not a PNG, JPEG or WebP, or larger than 2 MB"
+            "description": "Not a PNG, JPEG or WebP, or larger than 2 MB",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Not an owner, admin, or the agent's steward or operator"
+            "description": "Not an owner, admin, or the agent's steward or operator",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2674,7 +3276,14 @@
             "description": "A notification was accepted; there is nothing to answer"
           },
           "401": {
-            "description": "No API key, or one that is not valid"
+            "description": "No API key, or one that is not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2692,7 +3301,14 @@
         "parameters": [],
         "responses": {
           "405": {
-            "description": "Only POST is served"
+            "description": "Only POST is served",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2777,7 +3393,14 @@
             }
           },
           "400": {
-            "description": "Not a token, or GitHub did not accept it"
+            "description": "Not a token, or GitHub did not accept it",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2855,7 +3478,14 @@
             }
           },
           "400": {
-            "description": "A name is not written as owner/name, or there are too many"
+            "description": "A name is not written as owner/name, or there are too many",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -2951,7 +3581,14 @@
             }
           },
           "404": {
-            "description": "Agent not found, or hidden from you"
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3047,7 +3684,14 @@
             }
           },
           "404": {
-            "description": "Agent not found, or you cannot open its full page"
+            "description": "Agent not found, or you cannot open its full page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3132,7 +3776,14 @@
             }
           },
           "400": {
-            "description": "Not a bot token, or Slack did not accept it"
+            "description": "Not a bot token, or Slack did not accept it",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3240,7 +3891,14 @@
             }
           },
           "401": {
-            "description": "The agent token is missing or not valid"
+            "description": "The agent token is missing or not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3268,7 +3926,14 @@
             }
           },
           "401": {
-            "description": "The agent token is missing or not valid"
+            "description": "The agent token is missing or not valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3327,7 +3992,14 @@
             }
           },
           "404": {
-            "description": "Agent not found, or hidden from you"
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3374,7 +4046,14 @@
             }
           },
           "404": {
-            "description": "Agent not found, or hidden from you"
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3523,7 +4202,14 @@
             }
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3564,7 +4250,14 @@
             "description": ""
           },
           "403": {
-            "description": "Your role does not allow this action"
+            "description": "Your role does not allow this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3634,10 +4327,24 @@
             }
           },
           "400": {
-            "description": "The period is too long or ends before it starts"
+            "description": "The period is too long or ends before it starts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Agent not found, or hidden from you"
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3667,7 +4374,14 @@
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3717,7 +4431,14 @@
             }
           },
           "404": {
-            "description": "Agent not found, or hidden from you"
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3789,6 +4510,38 @@
     },
     {
       "name": "Agent",
+      "description": ""
+    },
+    {
+      "name": "Organizations",
+      "description": ""
+    },
+    {
+      "name": "Operating",
+      "description": ""
+    },
+    {
+      "name": "Inventory",
+      "description": ""
+    },
+    {
+      "name": "Notifications",
+      "description": ""
+    },
+    {
+      "name": "Avatars",
+      "description": ""
+    },
+    {
+      "name": "MCP",
+      "description": ""
+    },
+    {
+      "name": "Access requests",
+      "description": ""
+    },
+    {
+      "name": "Deleting for good",
       "description": ""
     }
   ],
@@ -4689,6 +5442,67 @@
           "administeredBy"
         ]
       },
+      "RemovedAgentDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "removedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "removedAt"
+        ]
+      },
+      "DeletionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "organization"
+            ]
+          },
+          "byUserId": {
+            "type": "string",
+            "description": "Who did it"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "byUserId",
+          "createdAt"
+        ]
+      },
+      "ConfirmErasureDto": {
+        "type": "object",
+        "properties": {
+          "confirm": {
+            "type": "string",
+            "description": "The name of what is being deleted, typed exactly, to confirm"
+          }
+        },
+        "required": [
+          "confirm"
+        ]
+      },
       "HealthResponseSuccessDto": {
         "type": "object",
         "properties": {
@@ -4701,11 +5515,18 @@
             "type": "string",
             "description": "Current timestamp",
             "example": "2026-01-15T10:30:00.000Z"
+          },
+          "schema": {
+            "type": "string",
+            "description": "A short fingerprint of the API description this server was built from. A client holding a copy of the description can compare fingerprints to learn whether its copy is current.",
+            "example": "3f9a1c0b7d2e",
+            "nullable": true
           }
         },
         "required": [
           "status",
-          "timestamp"
+          "timestamp",
+          "schema"
         ]
       },
       "HealthResponseErrorDto": {
@@ -7101,6 +7922,38 @@
           "toVersion",
           "changedAt"
         ]
+      },
+      "ApiErrorDto": {
+        "properties": {
+          "error": {
+            "description": "The kind of refusal, in words",
+            "example": "Forbidden",
+            "type": "string"
+          },
+          "message": {
+            "description": "Why, in words a person can read. A list when several things were wrong with what was sent.",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ]
+          },
+          "statusCode": {
+            "example": 403,
+            "type": "number"
+          }
+        },
+        "required": [
+          "message",
+          "statusCode"
+        ],
+        "type": "object"
       }
     }
   }

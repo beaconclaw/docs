@@ -54,3 +54,13 @@ An agent is **open** by default: every member can see its directory entry. An ag
 ## Agents entered by hand
 
 An agent with no CLI on its machine can be added by hand. It appears in the directory with its profile and people, marked as not monitored. It has no health, uptime or alerts until a CLI reports for it.
+
+## Removing an agent, and deleting one for good
+
+**Removing** an agent takes it out of every list and stops its token working. Its record is kept, so past uptime figures and alert history stay right.
+
+**Deleting for good** erases it: the agent with its health history, incidents, alerts, versions, usage, the people assigned to it and its picture. An owner does this in **Settings**, under **Delete for good**, for an agent that has already been removed, by typing its name. It cannot be undone.
+
+An owner can delete the whole organization the same way. That erases every agent and its history, everyone's membership, alert channels and rules, API keys and stored connections. People keep their own logins.
+
+What is kept is one line per deletion: what kind of thing it was, when, and who did it. Nothing that was deleted is kept, not even its name. Deleting for good cannot be done with an API key.
