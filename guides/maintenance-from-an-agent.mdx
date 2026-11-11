@@ -40,6 +40,16 @@ curl -X DELETE \
 
 If the work overruns and this is never called, the window ends by itself at the time given, and alerts resume.
 
+## See whether an agent is in maintenance
+
+While a window is in force, the agent carries a `maintenance` field wherever the API returns it, with when the window ends and the reason. Otherwise the field is `null`.
+
+```json
+"maintenance": { "endsAt": "2026-11-11T18:00:00.000Z", "reason": "Runtime upgrade" }
+```
+
+A key that sees only the agent's directory entry gets the end time, with `reason` set to `null`.
+
 ## On the machine itself
 
 When the work is done from the agent's own machine, the CLI can do the same with the agent's own token and no API key. See [Maintenance](/cli/maintenance).

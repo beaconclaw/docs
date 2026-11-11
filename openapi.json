@@ -5870,6 +5870,25 @@
           "failing"
         ]
       },
+      "AgentCurrentMaintenanceDto": {
+        "type": "object",
+        "properties": {
+          "endsAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When it ends"
+          },
+          "reason": {
+            "type": "string",
+            "description": "What the work is. Null when you can see only the directory entry.",
+            "nullable": true
+          }
+        },
+        "required": [
+          "endsAt",
+          "reason"
+        ]
+      },
       "AgentMetadataDto": {
         "type": "object",
         "properties": {
@@ -6017,6 +6036,16 @@
             "description": "Where the agent's picture is served from",
             "nullable": true
           },
+          "maintenance": {
+            "description": "The maintenance the agent is in right now, or null. While it is set, being down is expected: no incident is opened and no alert is sent.",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AgentCurrentMaintenanceDto"
+              }
+            ]
+          },
           "canMaintain": {
             "type": "boolean",
             "description": "Whether you may start and end this agent's maintenance: its operators may, and the organization's owners and admins"
@@ -6150,6 +6179,7 @@
           "visibility",
           "access",
           "avatarUrl",
+          "maintenance",
           "canMaintain",
           "canRotateToken",
           "status",
@@ -6279,6 +6309,16 @@
             "type": "string",
             "description": "Where the agent's picture is served from",
             "nullable": true
+          },
+          "maintenance": {
+            "description": "The maintenance the agent is in right now, or null. While it is set, being down is expected: no incident is opened and no alert is sent.",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AgentCurrentMaintenanceDto"
+              }
+            ]
           },
           "canMaintain": {
             "type": "boolean",
@@ -6419,6 +6459,7 @@
           "visibility",
           "access",
           "avatarUrl",
+          "maintenance",
           "canMaintain",
           "canRotateToken",
           "status",
@@ -7149,6 +7190,44 @@
         },
         "required": [
           "received"
+        ]
+      },
+      "AdminDatabaseDto": {
+        "type": "object",
+        "properties": {
+          "bytes": {
+            "type": "number",
+            "description": "What the database holds, in bytes"
+          },
+          "limitBytes": {
+            "type": "number",
+            "description": "The plan's limit, in bytes (the DATABASE_LIMIT_MB setting)"
+          },
+          "percent": {
+            "type": "number",
+            "description": "The share of the limit in use, to one decimal place"
+          },
+          "warning": {
+            "type": "boolean",
+            "description": "Whether it has reached 80% of the limit"
+          }
+        },
+        "required": [
+          "bytes",
+          "limitBytes",
+          "percent",
+          "warning"
+        ]
+      },
+      "AdminSystemDto": {
+        "type": "object",
+        "properties": {
+          "database": {
+            "$ref": "#/components/schemas/AdminDatabaseDto"
+          }
+        },
+        "required": [
+          "database"
         ]
       },
       "AdminOrgDto": {

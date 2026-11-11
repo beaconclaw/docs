@@ -15,8 +15,8 @@ Add it to your agent as a remote MCP server over HTTP, with an [API key](/guides
 
 | Tool | What it does | Needs |
 | --- | --- | --- |
-| `list_agents` | Every agent the key can see, with whether it is reporting | Any key |
-| `get_agent` | One agent: its status, latest heartbeat and open incidents | Any key |
+| `list_agents` | Every agent the key can see, with whether it is reporting and any maintenance it is in | Any key |
+| `get_agent` | One agent: its status, any maintenance it is in, latest heartbeat and open incidents | Any key |
 | `list_incidents` | Stretches in which an agent was not healthy, newest first | Any key |
 | `list_alerts` | Alerts that were raised, with where each was sent | Any key |
 | `start_maintenance` | Put an agent into maintenance from now | The maintenance permission, on a key whose maker is an operator of the agent, or an owner or admin |
