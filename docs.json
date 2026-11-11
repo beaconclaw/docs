@@ -19,7 +19,7 @@
           },
           {
             "group": "The CLI",
-            "pages": ["cli/install", "cli/update", "cli/configuration", "cli/maintenance"]
+            "pages": ["cli/install", "cli/update", "cli/configuration", "cli/maintenance", "cli/remote-actions"]
           },
           {
             "group": "Concepts",

@@ -13,7 +13,7 @@ There are three parts.
 
 ## Outbound only
 
-The CLI opens one outbound WebSocket connection to the server over TLS. It opens no listening ports, needs no inbound firewall rule, and cannot receive or run commands from the server.
+The CLI opens one outbound WebSocket connection to the server over TLS. It opens no listening ports and needs no inbound firewall rule. Out of the box it cannot receive or run anything from the server; the owner of a machine can switch on a short list of [remote actions](/cli/remote-actions) there, such as restarting the gateway.
 
 "Outbound only" means nothing connects in to your machine. It does not mean no data leaves it. The next section lists everything that does.
 

@@ -1089,6 +1089,220 @@
         "summary": "Get an agent's directory entry"
       }
     },
+    "/v1/orgs/{orgId}/agents/{agentId}/actions": {
+      "get": {
+        "operationId": "ActionsController_list",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "What the machine allows, whether you may ask, and the record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentActionsDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Actions"
+        ],
+        "summary": "List an agent's remote actions"
+      },
+      "post": {
+        "operationId": "ActionsController_request",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestActionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sent to the machine. Read it again to see how it goes: the machine accepts within a minute or not at all, and a restart then runs for a few minutes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentActionDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You may not ask this agent to act",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The action is not switched on on the machine, or the agent is not connected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The agent was restarted in the last five minutes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Actions"
+        ],
+        "summary": "Ask an agent to act"
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/actions/{actionId}": {
+      "get": {
+        "operationId": "ActionsController_one",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "actionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One request and how it ended",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentActionDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Actions"
+        ],
+        "summary": "Get one remote action"
+      }
+    },
     "/v1/orgs/{orgId}/removed-agents": {
       "get": {
         "operationId": "ErasureController_removedAgents",
@@ -4984,6 +5198,7 @@
             "items": {
               "type": "string",
               "enum": [
+                "actions",
                 "maintenance"
               ]
             }
@@ -5047,6 +5262,7 @@
             "items": {
               "type": "string",
               "enum": [
+                "actions",
                 "maintenance"
               ]
             }
@@ -5082,6 +5298,7 @@
             "items": {
               "type": "string",
               "enum": [
+                "actions",
                 "maintenance"
               ]
             }
@@ -5184,6 +5401,7 @@
             "items": {
               "type": "string",
               "enum": [
+                "actions",
                 "maintenance"
               ]
             }
@@ -5488,6 +5706,113 @@
           "people",
           "connections",
           "administeredBy"
+        ]
+      },
+      "AgentActionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "diagnostics",
+              "restart_gateway"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "failed",
+              "no_answer",
+              "refused",
+              "running",
+              "sent",
+              "succeeded"
+            ]
+          },
+          "requestedBy": {
+            "type": "string",
+            "description": "Who asked, by the email address they sign in with",
+            "nullable": true
+          },
+          "byKey": {
+            "type": "boolean",
+            "description": "Whether it came through an API key and not from a person in the app"
+          },
+          "requestedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "answeredAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "result": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "What the machine sent back: names and states only",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "action",
+          "status",
+          "requestedBy",
+          "byKey",
+          "requestedAt",
+          "answeredAt",
+          "result"
+        ]
+      },
+      "AgentActionsDto": {
+        "type": "object",
+        "properties": {
+          "allowed": {
+            "type": "array",
+            "description": "The actions switched on on the agent's machine. Only someone on the machine can change this.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "diagnostics",
+                "restart_gateway"
+              ]
+            }
+          },
+          "mayAct": {
+            "type": "boolean",
+            "description": "Whether you may ask for one: an operator of the agent, or an owner or admin of the organization that operates it"
+          },
+          "recent": {
+            "description": "The record, newest first",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgentActionDto"
+            }
+          }
+        },
+        "required": [
+          "allowed",
+          "mayAct",
+          "recent"
+        ]
+      },
+      "RequestActionDto": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "diagnostics",
+              "restart_gateway"
+            ]
+          }
+        },
+        "required": [
+          "action"
         ]
       },
       "RemovedAgentDto": {

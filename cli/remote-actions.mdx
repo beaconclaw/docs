@@ -1,0 +1,49 @@
+---
+title: "Remote actions"
+description: "An add-on you switch on yourself: let an operator ask this machine to run its checks or restart the gateway."
+---
+
+Out of the box the CLI cannot receive or run anything from the server. Remote actions are an add-on the owner of a machine chooses, one action at a time. With an action switched on, someone who operates the agent can ask the machine to do that one thing from the app, without signing in to the machine.
+
+| Action | What it does on the machine |
+| :-- | :-- |
+| `diagnostics` | Runs the CLI's own checks again (gateway answering and ready, versions, memory, disk) and sends back each check's name and state. Changes nothing. |
+| `restart_gateway` | Runs the runtime's own restart command, the one you would run by hand, then reports whether the gateway answered again. Conversations in progress are cut off and the gateway is away for a few minutes. |
+
+## Switch one on, or off
+
+Run this on the machine. It is the only way to switch an action on.
+
+```sh
+beaconclaw actions                       # what is on and off
+beaconclaw actions allow diagnostics
+beaconclaw actions allow restart_gateway
+beaconclaw actions disallow --all        # switch everything off
+```
+
+The CLI restarts its own service so the change takes effect at once.
+
+## What keeps it safe
+
+- **Only the machine's owner switches an action on.** There is no setting for it on the server and no environment variable.
+- **The list is fixed.** The server sends the name of an action and nothing else. It cannot send a command line or arguments, and an unknown name is refused.
+- **Each request is checked on the machine**, whatever the server says: it must be for this agent, switched on, not expired and not seen before. At most one restart every five minutes.
+- **Every request is recorded on the machine**, carried out or refused, in `actions.log` in the CLI's config folder. That file is yours and is never sent.
+- **Nothing is queued.** A request reaches the machine only while the CLI is connected, over the connection the CLI itself opened. No port is opened.
+- **What comes back is names and states.** No logs, no output from the runtime, no conversation content.
+
+To build a copy that can never perform a remote action, whatever its settings say: `go build -tags noactions ./cmd/beaconclaw`.
+
+## Who can ask
+
+- The agent's operators.
+- Owners and admins of the organization that operates the agent. Where a provider runs an agent for you, that is the provider's people.
+- An [API key](/guides/api-keys) only if it was given the actions permission, and then only where its maker may ask.
+
+Stewards, viewers and other members cannot. In the app they are shown who can.
+
+Every request is kept on the agent's page: who asked, when, what, and how it ended.
+
+## When the agent is not connected
+
+The request is refused at once and says so. A machine that does not accept a request within a minute is recorded as not having answered, and the request is never sent again.
