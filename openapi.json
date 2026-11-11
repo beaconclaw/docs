@@ -5300,7 +5300,7 @@
         "properties": {
           "kind": {
             "type": "string",
-            "description": "The group the connection belongs to",
+            "description": "The group the connection belongs to. \"system\" is one the runtime holds a credential for, named as people call it.",
             "example": "channel"
           },
           "name": {
@@ -5945,6 +5945,11 @@
             "type": "boolean",
             "description": "It looks after other agents rather than serving a team"
           },
+          "supervisorId": {
+            "type": "string",
+            "description": "The agent that looks after this one. Null for none, or when you cannot see that agent.",
+            "nullable": true
+          },
           "githubLogin": {
             "type": "string",
             "description": "The GitHub login the agent works under",
@@ -6122,6 +6127,7 @@
           "howToAsk",
           "manual",
           "supervisor",
+          "supervisorId",
           "githubLogin",
           "slackUserId",
           "lifecycleStage",
@@ -6196,6 +6202,11 @@
           "supervisor": {
             "type": "boolean",
             "description": "It looks after other agents rather than serving a team"
+          },
+          "supervisorId": {
+            "type": "string",
+            "description": "The agent that looks after this one. Null for none, or when you cannot see that agent.",
+            "nullable": true
           },
           "githubLogin": {
             "type": "string",
@@ -6380,6 +6391,7 @@
           "howToAsk",
           "manual",
           "supervisor",
+          "supervisorId",
           "githubLogin",
           "slackUserId",
           "lifecycleStage",
@@ -6465,6 +6477,11 @@
           "supervisor": {
             "type": "boolean",
             "description": "True for an agent that looks after other agents rather than serving a team"
+          },
+          "supervisorId": {
+            "type": "string",
+            "description": "The agent that looks after this one, in the same organization. Null for none.",
+            "nullable": true
           },
           "visibility": {
             "type": "string",
@@ -6575,6 +6592,19 @@
               }
             ]
           },
+          "unrecognisedCredentials": {
+            "type": "number",
+            "description": "How many credentials the runtime holds that the CLI could not put a system to. Null unless you operate the agent, or from a CLI that does not say.",
+            "nullable": true
+          },
+          "credentialNames": {
+            "description": "The names of the credentials the runtime's skills declare and have. Present only where the machine's owner chose to send them, and only for the people who operate the agent.",
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "collectedAt": {
             "format": "date-time",
             "type": "string",
@@ -6596,6 +6626,8 @@
           "skills",
           "connections",
           "revision",
+          "unrecognisedCredentials",
+          "credentialNames",
           "collectedAt",
           "changedAt"
         ]
