@@ -36,9 +36,18 @@ Owners and admins manage every channel and rule. A steward or operator can add c
 
 While an agent is in maintenance its alerts are held back. When the window ends, those that are still true are sent.
 
-## Messages to stewards in Slack
+## Messages to you alone
 
-An organization can connect its own Slack app. Each agent's stewards then get a direct message when it goes down, comes back, changes version, or goes into and out of maintenance. For an agent the organization runs itself, its operators get them too.
+Alert rules send to shared channels. Separately, each person chooses what they are told about each agent, under **Notifications** in the menu under their email:
+
+- going offline and coming back
+- a health problem, and when it clears
+- maintenance starting or ending
+- a version changing
+
+Each can go to your email address, to a Slack direct message, or both. Slack direct messages need the organization to connect its own Slack app on the Alerts page.
+
+Nobody is messaged because of their role. Someone newly assigned as an operator starts with outages by email and can change it; everyone else starts with nothing. You can only be told about an agent whose full page you can open.
 
 ## History
 

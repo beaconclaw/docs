@@ -70,6 +70,15 @@
   "footer": {
     "socials": {
       "github": "https://github.com/beaconclaw/beaconclaw"
-    }
+    },
+    "links": [
+      {
+        "header": "Legal",
+        "items": [
+          { "label": "Terms of Service", "href": "https://www.beaconclaw.ai/legal/terms" },
+          { "label": "Privacy Policy", "href": "https://www.beaconclaw.ai/legal/privacy" }
+        ]
+      }
+    ]
   }
 }

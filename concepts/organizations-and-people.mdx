@@ -39,6 +39,14 @@ There are two levels.
 - **Directory entry:** what the agent is, how to ask it for something, who looks after it, and whether it is up. Nothing about the machine it runs on.
 - **Full:** also its health, incidents, uptime, alerts, versions, inventory and usage. For owners, admins and the people assigned to the agent.
 
+## Agents a provider runs for you
+
+An organization's agents can be operated by another organization: a provider that builds and runs agents for its client. BeaconClaw is told which organization that is.
+
+For an agent the provider runs, how it is built and administered is for the provider's people: the names of its skills and the channel it is administered through. Everyone else in the client's organization, whatever their role, sees what the agent is connected to, where people work with it, its model provider, and the line "Administered by" with the provider's name. Health, incidents, uptime and usage are unaffected.
+
+An agent the client runs itself is the client's in full.
+
 ## Restricted agents
 
 An agent is **open** by default: every member can see its directory entry. An agent marked **restricted** is hidden from members who are not assigned to it. They do not see that it exists, in the app or through the API.

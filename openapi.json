@@ -1639,6 +1639,15 @@
         "operationId": "InventoryController_find[0]",
         "parameters": [
           {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "agentId",
             "required": true,
             "in": "path",
@@ -1646,13 +1655,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "orgId",
-            "required": true,
-            "in": "path",
-            "description": "Organization ID",
-            "schema": {}
           }
         ],
         "responses": {
@@ -1679,6 +1681,156 @@
           "Inventory"
         ],
         "summary": "Get an agent's inventory"
+      }
+    },
+    "/v1/orgs/{orgId}/operating": {
+      "get": {
+        "operationId": "OperatingController_settings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Who operates the agents, and for whom",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatingSettingsDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Operating"
+        ],
+        "summary": "Get who operates the agents"
+      },
+      "patch": {
+        "operationId": "OperatingController_update",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOperatingSettingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The settings after the change",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperatingSettingsDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Operating"
+        ],
+        "summary": "Set the administrative channel kinds"
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/admin-channel": {
+      "put": {
+        "operationId": "OperatingController_setAdminChannel",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminChannelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The link now held",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminChannelDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          },
+          "404": {
+            "description": "Agent not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Operating"
+        ],
+        "summary": "Set an agent's administrative channel link"
       }
     },
     "/v1/orgs/{orgId}/members": {
@@ -2813,6 +2965,102 @@
         "summary": "Get an agent's GitHub numbers"
       }
     },
+    "/v1/orgs/{orgId}/notifications/me": {
+      "get": {
+        "operationId": "MyNotificationsController_mine",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Your choices in this organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyNotificationsDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get what you are told about"
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/notifications/me": {
+      "put": {
+        "operationId": "MyNotificationsController_choose",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChooseNotificationsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Your choice for this agent, as kept",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentNotificationChoiceDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or you cannot open its full page"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Choose what you are told about an agent"
+      }
+    },
     "/v1/orgs/{orgId}/slack": {
       "get": {
         "operationId": "StewardNotificationsController_connection",
@@ -2942,7 +3190,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The last 50 messages meant for stewards, newest first",
+            "description": "The last 50 messages sent to people who asked for them, newest first",
             "content": {
               "application/json": {
                 "schema": {
@@ -4305,6 +4553,10 @@
           "name": {
             "type": "string",
             "description": "The name of the connected system"
+          },
+          "administrative": {
+            "type": "boolean",
+            "description": "A channel the operating organization administers the agent through. Only its people are told."
           }
         },
         "required": [
@@ -4410,6 +4662,11 @@
             "items": {
               "$ref": "#/components/schemas/InventoryConnectionDto"
             }
+          },
+          "administeredBy": {
+            "type": "string",
+            "description": "The organization that operates the agent for yours, or null when your own organization runs it",
+            "nullable": true
           }
         },
         "required": [
@@ -4428,7 +4685,8 @@
           "manual",
           "supervisor",
           "people",
-          "connections"
+          "connections",
+          "administeredBy"
         ]
       },
       "HealthResponseSuccessDto": {
@@ -5452,6 +5710,24 @@
             "type": "boolean",
             "description": "Whether the agent has reported an inventory at all"
           },
+          "detail": {
+            "type": "string",
+            "description": "\"full\" for the people who operate the agent. \"summary\" when another organization operates it for yours: skills and administrative channels are then left out.",
+            "enum": [
+              "full",
+              "summary"
+            ]
+          },
+          "administeredBy": {
+            "type": "string",
+            "description": "The organization that operates the agent for yours, or null when your own organization runs it",
+            "nullable": true
+          },
+          "adminChannelUrl": {
+            "type": "string",
+            "description": "A link to the channel where the agent is administered. Null unless you operate it and one is set.",
+            "nullable": true
+          },
           "skills": {
             "description": "Skills the runtime can use now. Null when the CLI could not find out.",
             "nullable": true,
@@ -5493,11 +5769,94 @@
         },
         "required": [
           "reported",
+          "detail",
+          "administeredBy",
+          "adminChannelUrl",
           "skills",
           "connections",
           "revision",
           "collectedAt",
           "changedAt"
+        ]
+      },
+      "OrgRefDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "OperatingSettingsDto": {
+        "type": "object",
+        "properties": {
+          "adminChannelKinds": {
+            "description": "Kinds of chat channel this organization administers agents through, e.g. \"discord\". They are left out of what its clients are shown.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "operatedBy": {
+            "description": "The organization that runs this one's provider-run agents, or null when it runs its own",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OrgRefDto"
+              }
+            ]
+          },
+          "operatesFor": {
+            "description": "Organizations whose provider-run agents this one operates",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrgRefDto"
+            }
+          }
+        },
+        "required": [
+          "adminChannelKinds",
+          "operatedBy",
+          "operatesFor"
+        ]
+      },
+      "UpdateOperatingSettingsDto": {
+        "type": "object",
+        "properties": {
+          "adminChannelKinds": {
+            "example": [
+              "discord"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "adminChannelKinds"
+        ]
+      },
+      "AdminChannelDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "A link to the channel where the agent is administered, or null for none",
+            "example": "https://app.slack.com/client/T000/C000",
+            "nullable": true
+          }
+        },
+        "required": [
+          "url"
         ]
       },
       "MemberResponseDto": {
@@ -5940,6 +6299,11 @@
             "type": "boolean",
             "description": "Whether it is shown what its agents' model use cost"
           },
+          "operatedByOrgId": {
+            "type": "string",
+            "description": "The organization that runs this one's provider-run agents, or null when it runs its own",
+            "nullable": true
+          },
           "createdAt": {
             "format": "date-time",
             "type": "string"
@@ -5951,6 +6315,7 @@
           "members",
           "agents",
           "costVisible",
+          "operatedByOrgId",
           "createdAt"
         ]
       },
@@ -5960,11 +6325,13 @@
           "costVisible": {
             "type": "boolean",
             "description": "Show the organization what its agents' model use cost"
+          },
+          "operatedByOrgId": {
+            "type": "string",
+            "description": "The organization that runs this one's provider-run agents. Only its people then see those agents' skills. Null clears it.",
+            "nullable": true
           }
-        },
-        "required": [
-          "costVisible"
-        ]
+        }
       },
       "AdminAccessRequestDto": {
         "type": "object",
@@ -6179,6 +6546,116 @@
           "repositories"
         ]
       },
+      "AgentNotificationChoiceDto": {
+        "type": "object",
+        "properties": {
+          "agentId": {
+            "type": "string"
+          },
+          "agentName": {
+            "type": "string"
+          },
+          "events": {
+            "type": "array",
+            "description": "What you are told about. Empty means nothing.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "outage",
+                "health",
+                "maintenance",
+                "version"
+              ]
+            }
+          },
+          "destinations": {
+            "type": "array",
+            "description": "Where you are told",
+            "items": {
+              "type": "string",
+              "enum": [
+                "email",
+                "slack"
+              ]
+            }
+          }
+        },
+        "required": [
+          "agentId",
+          "agentName",
+          "events",
+          "destinations"
+        ]
+      },
+      "MyNotificationsDto": {
+        "type": "object",
+        "properties": {
+          "agents": {
+            "description": "Every monitored agent you can open in full, with what you chose",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgentNotificationChoiceDto"
+            }
+          },
+          "email": {
+            "type": "string",
+            "description": "The address email goes to: the one you sign in with",
+            "nullable": true
+          },
+          "emailAvailable": {
+            "type": "boolean",
+            "description": "Whether email can be sent at all"
+          },
+          "slackAvailable": {
+            "type": "boolean",
+            "description": "Whether the organization has connected Slack, so a direct message can be sent"
+          }
+        },
+        "required": [
+          "agents",
+          "email",
+          "emailAvailable",
+          "slackAvailable"
+        ]
+      },
+      "ChooseNotificationsDto": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "array",
+            "example": [
+              "outage",
+              "maintenance"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "outage",
+                "health",
+                "maintenance",
+                "version"
+              ]
+            }
+          },
+          "destinations": {
+            "type": "array",
+            "example": [
+              "email"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "email",
+                "slack"
+              ]
+            }
+          }
+        },
+        "required": [
+          "events",
+          "destinations"
+        ]
+      },
       "SlackConnectionDto": {
         "type": "object",
         "properties": {
@@ -6220,7 +6697,15 @@
           },
           "userId": {
             "type": "string",
-            "description": "The steward it was for"
+            "description": "The person it was for"
+          },
+          "destination": {
+            "type": "string",
+            "description": "How it was sent",
+            "enum": [
+              "email",
+              "slack"
+            ]
           },
           "kind": {
             "type": "string",
@@ -6229,7 +6714,9 @@
               "back",
               "version_changed",
               "maintenance_started",
-              "maintenance_ended"
+              "maintenance_ended",
+              "health_problem",
+              "health_cleared"
             ]
           },
           "text": {
@@ -6257,6 +6744,7 @@
           "id",
           "agentId",
           "userId",
+          "destination",
           "kind",
           "text",
           "status",
