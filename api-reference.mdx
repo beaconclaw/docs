@@ -1,0 +1,40 @@
+---
+title: "API reference"
+description: "How to call the API, and where each route is described."
+---
+
+The API is served at:
+
+```text
+https://api.beaconclaw.ai
+```
+
+Every route is listed in this section, generated from the server's own description, so it cannot drift from what the server does. The description itself is in the docs repository as [`openapi.json`](https://github.com/beaconclaw/docs/blob/main/openapi.json).
+
+## Signing in
+
+Send a bearer token in the `Authorization` header.
+
+| Caller | Token | Where it works |
+| --- | --- | --- |
+| A program or an agent | An [API key](/guides/api-keys), which starts with `bck_` | The routes that read, and maintenance. Also the [MCP server](/guides/mcp) |
+| The CLI on a machine | The agent's own token, which starts with `bc_` | The CLI's connection, and maintenance for that agent |
+| The app | A person's sign-in | Everything their role allows |
+
+```sh
+curl -H "Authorization: Bearer $BEACONCLAW_API_KEY" \
+  https://api.beaconclaw.ai/v1/orgs/ORG_ID/agents
+```
+
+## Addresses
+
+Almost every route sits under an organization: `/v1/orgs/{orgId}/...`. A key works in the one organization it was made for.
+
+## Limits and errors
+
+- A key may make 120 requests a minute. One address on the internet may make 1,200 a minute in all. Past either, the answer is `429`; wait a minute.
+- `401`: no token, or one that is not valid or has been revoked.
+- `403`: the token is valid but may not do this.
+- `404`: not found, or hidden from you. An agent you cannot see answers the same as one that does not exist.
+
+Errors come back as JSON with a `message` in plain words.

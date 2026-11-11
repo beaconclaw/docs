@@ -1,0 +1,6661 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/orgs/{orgId}/alert-channels": {
+      "get": {
+        "operationId": "AlertSettingsController_listChannels",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The organization's channels and your own. Owners and admins see everyone's.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertChannelResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      },
+      "post": {
+        "operationId": "AlertSettingsController_createChannel",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAlertChannelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertChannelResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You are not an owner or admin, nor a steward or operator of any agent"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/alert-channels/{channelId}/test": {
+      "post": {
+        "operationId": "AlertSettingsController_testChannel",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "channelId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertChannelTestResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/alert-channels/{channelId}": {
+      "patch": {
+        "operationId": "AlertSettingsController_setChannelEnabled",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "channelId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetEnabledDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The channel, switched off or on",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertChannelResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Only an owner or admin can change the organization's channels"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      },
+      "delete": {
+        "operationId": "AlertSettingsController_removeChannel",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "channelId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/alert-rules": {
+      "get": {
+        "operationId": "AlertSettingsController_listRules",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertRuleResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      },
+      "post": {
+        "operationId": "AlertSettingsController_createRule",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAlertRuleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRuleResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "A steward or operator may only make a rule for an agent they answer for"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/alert-rules/{ruleId}/send-digest": {
+      "post": {
+        "operationId": "AlertSettingsController_sendDigest",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ruleId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The digest that was queued to send",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not a daily digest rule of this organization"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/alert-rules/{ruleId}": {
+      "patch": {
+        "operationId": "AlertSettingsController_setRuleEnabled",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ruleId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetEnabledDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The rule, switched off or on",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRuleResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You can change only a rule you made"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      },
+      "delete": {
+        "operationId": "AlertSettingsController_removeRule",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ruleId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "You can remove only a rule you made"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/alerts": {
+      "get": {
+        "operationId": "AlertsController_findAll",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": false,
+            "in": "query",
+            "description": "Only alerts for this agent",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "How many to return (maximum 200)",
+            "schema": {
+              "default": 50,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "How many to skip",
+            "schema": {
+              "default": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert history, newest first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/api-keys": {
+      "get": {
+        "operationId": "ApiKeysController_list",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Every key in the organization, whoever made it, newest first. For owners and admins. The keys themselves are never returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiKeyResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "API keys"
+        ]
+      },
+      "post": {
+        "operationId": "ApiKeysController_create",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApiKeyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The new key, which acts as you. It is shown ONCE.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyCreatedDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Too many keys, or an action your role does not allow"
+          },
+          "404": {
+            "description": "One of the agents was not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "API keys"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/api-keys/{keyId}": {
+      "delete": {
+        "operationId": "ApiKeysController_revoke",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Revoked. The key stops working at once."
+          },
+          "404": {
+            "description": "Not a key of yours, or not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "API keys"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/api-keys/{keyId}/events": {
+      "get": {
+        "operationId": "ApiKeysController_events",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "What the key changed and what it was refused, newest first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiKeyEventResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not a key of yours, or not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "API keys"
+        ]
+      }
+    },
+    "/v1/users/me/api-keys": {
+      "get": {
+        "operationId": "MyApiKeysController_mine",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Your keys, newest first, each with its organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MyApiKeyResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "API keys"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/assignments": {
+      "get": {
+        "operationId": "AssignmentsController_list[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssignmentResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agent access"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/assignments/{userId}": {
+      "put": {
+        "operationId": "AssignmentsController_assign[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "The member\u2019s user ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignMemberDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agent access"
+        ]
+      },
+      "delete": {
+        "operationId": "AssignmentsController_unassign[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "The member\u2019s user ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agent access"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/directory": {
+      "get": {
+        "operationId": "DirectoryController_list",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Every agent you may see, by name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DirectoryEntryDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Directory"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/directory/{agentId}": {
+      "get": {
+        "operationId": "DirectoryController_findOne",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One agent's directory entry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirectoryEntryDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Directory"
+        ]
+      }
+    },
+    "/v1/health": {
+      "get": {
+        "operationId": "HealthController_getHealth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Health check response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponseSuccessDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponseErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/health-history": {
+      "get": {
+        "operationId": "HealthHistoryController_find[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "required": false,
+            "in": "query",
+            "description": "Start of the period (ISO 8601). Defaults to 30 days before the end.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "required": false,
+            "in": "query",
+            "description": "End of the period (ISO 8601). Defaults to now.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bucket",
+            "required": false,
+            "in": "query",
+            "description": "Size of each point, in UTC",
+            "schema": {
+              "default": "day",
+              "type": "string",
+              "enum": [
+                "hour",
+                "day"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Health history, oldest first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HealthHistoryPointDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The period is too long or ends before it starts"
+          },
+          "404": {
+            "description": "Agent not found in this organization"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Heartbeats"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/heartbeats": {
+      "get": {
+        "operationId": "HeartbeatsController_findAll[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "required": false,
+            "in": "query",
+            "description": "Start time (ISO 8601)",
+            "schema": {
+              "example": "2026-01-15T00:00:00.000Z",
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "required": false,
+            "in": "query",
+            "description": "End time (ISO 8601)",
+            "schema": {
+              "example": "2026-01-15T23:59:59.999Z",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Max results to return (maximum 1000)",
+            "schema": {
+              "default": 100,
+              "example": 100,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Offset for pagination",
+            "schema": {
+              "default": 0,
+              "example": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of heartbeats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HeartbeatResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found in this organization"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Heartbeats"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/heartbeats/latest": {
+      "get": {
+        "operationId": "HeartbeatsController_findLatest[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Latest heartbeat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HeartbeatResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No heartbeats found, or agent not found in this organization"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Heartbeats"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/incidents": {
+      "get": {
+        "operationId": "IncidentsController_findAll",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": false,
+            "in": "query",
+            "description": "Only incidents for this agent",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "open",
+            "required": false,
+            "in": "query",
+            "description": "Only incidents that are still going on",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "How many to return (maximum 200)",
+            "schema": {
+              "default": 50,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "How many to skip",
+            "schema": {
+              "default": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Incidents, newest first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IncidentResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Incidents"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents": {
+      "get": {
+        "operationId": "InstancesController_findAll[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Filter by status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "online",
+                "degraded",
+                "offline"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of agents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AgentResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agents"
+        ]
+      },
+      "post": {
+        "operationId": "InstancesController_create[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAgentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Agent registered. The token is shown ONCE. Registered by a member rather than an owner or admin, the agent is marked as run by the client and the member becomes its operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRegisteredDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}": {
+      "get": {
+        "operationId": "InstancesController_findOne[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agent detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agents"
+        ]
+      },
+      "patch": {
+        "operationId": "InstancesController_update[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAgentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The agent after the change",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          },
+          "404": {
+            "description": "Agent not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agents"
+        ]
+      },
+      "delete": {
+        "operationId": "InstancesController_remove[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Agent deregistered"
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          },
+          "404": {
+            "description": "Agent not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/rotate-token": {
+      "post": {
+        "operationId": "InstancesController_rotateToken[0]",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token rotated. The new agent token is shown ONCE.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentTokenRotatedDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action, or you are a member and do not operate this agent"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/inventory": {
+      "get": {
+        "operationId": "InventoryController_find[0]",
+        "parameters": [
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The skills and connections last reported",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentInventoryDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found in this organization"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Inventory"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/members": {
+      "get": {
+        "operationId": "MembersController_list",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MemberResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Members"
+        ]
+      },
+      "post": {
+        "operationId": "MembersController_invite",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteMemberDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The person was added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvitedMemberDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          },
+          "409": {
+            "description": "That person is already in this organization"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/members/{userId}/invitation": {
+      "post": {
+        "operationId": "MembersController_resend",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "The member\u2019s user ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sent again, with a fresh link, or not: see \"emailed\"",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvitationResentDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Member not found"
+          },
+          "409": {
+            "description": "They have already signed in"
+          },
+          "429": {
+            "description": "One was sent a moment ago"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/members/{userId}": {
+      "patch": {
+        "operationId": "MembersController_update",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "The member\u2019s user ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMemberDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Members"
+        ]
+      },
+      "delete": {
+        "operationId": "MembersController_remove",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "The member\u2019s user ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          },
+          "404": {
+            "description": "Member not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Members"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/named-people": {
+      "get": {
+        "operationId": "NamedPeopleController_list",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NamedPersonResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agent access"
+        ]
+      },
+      "post": {
+        "operationId": "NamedPeopleController_add",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddNamedPersonDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NamedPersonResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agent access"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/named-people/{personId}": {
+      "delete": {
+        "operationId": "NamedPeopleController_remove",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "personId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agent access"
+        ]
+      }
+    },
+    "/v1/orgs": {
+      "get": {
+        "operationId": "OrgsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of orgs for the current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrgResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Orgs"
+        ]
+      },
+      "post": {
+        "operationId": "OrgsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrgDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Organization created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a system owner"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Orgs"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}": {
+      "get": {
+        "operationId": "OrgsController_findOne",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Organization detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of this organization"
+          },
+          "404": {
+            "description": "Organization not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Orgs"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/registry": {
+      "get": {
+        "operationId": "RegistryController_json",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Every agent you may see, by name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistryDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Directory"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/registry.csv": {
+      "get": {
+        "operationId": "RegistryController_csv",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The same registry as CSV: github_login, display_name, contributor_kind, team, stage, live_since, slack_id, supervisor, agent_id"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Directory"
+        ]
+      }
+    },
+    "/v1/access-requests": {
+      "post": {
+        "operationId": "AccessRequestsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccessRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Received. The answer is the same whether or not the request was new.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessRequestReceivedDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A field is missing or too long"
+          },
+          "429": {
+            "description": "Too many requests from the same place"
+          }
+        },
+        "tags": [
+          "Access requests"
+        ]
+      }
+    },
+    "/v1/admin/orgs": {
+      "get": {
+        "operationId": "AdminController_orgs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Every organization, by name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminOrgDto"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a system owner"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "System owner"
+        ]
+      }
+    },
+    "/v1/admin/orgs/{orgId}": {
+      "patch": {
+        "operationId": "AdminController_update",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAdminOrgDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The organization after the change",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminOrgDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a system owner"
+          },
+          "404": {
+            "description": "Organization not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "System owner"
+        ]
+      }
+    },
+    "/v1/admin/access-requests": {
+      "get": {
+        "operationId": "AdminController_accessRequests",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The newest requests for an invitation, up to 100",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminAccessRequestDto"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a system owner"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "System owner"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/avatar": {
+      "put": {
+        "operationId": "AvatarsController_setOrgAvatar",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "file"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The organization's new picture",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvatarDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not a PNG, JPEG or WebP, or larger than 2 MB"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Avatars"
+        ]
+      },
+      "delete": {
+        "operationId": "AvatarsController_removeOrgAvatar",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Avatars"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/avatar": {
+      "put": {
+        "operationId": "AvatarsController_setAgentAvatar",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "file"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The agent's new picture",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvatarDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not a PNG, JPEG or WebP, or larger than 2 MB"
+          },
+          "403": {
+            "description": "Not an owner, admin, or the agent's steward or operator"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Avatars"
+        ]
+      },
+      "delete": {
+        "operationId": "AvatarsController_removeAgentAvatar",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Avatars"
+        ]
+      }
+    },
+    "/mcp": {
+      "post": {
+        "description": "Model Context Protocol over HTTP, for agents. Send one JSON-RPC 2.0 message per request with an API key as the bearer token. Tools: list_agents, get_agent, list_incidents, list_alerts, start_maintenance, end_maintenance. Each tool does what the same key can do through the rest of this API.",
+        "operationId": "McpController_post",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The JSON-RPC answer"
+          },
+          "202": {
+            "description": "A notification was accepted; there is nothing to answer"
+          },
+          "401": {
+            "description": "No API key, or one that is not valid"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "summary": "MCP endpoint for supervising agents",
+        "tags": [
+          "MCP"
+        ]
+      },
+      "get": {
+        "operationId": "McpController_notServed",
+        "parameters": [],
+        "responses": {
+          "405": {
+            "description": "Only POST is served"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "MCP"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/github": {
+      "get": {
+        "operationId": "GithubConnectionController_connection",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GithubConnectionDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Organizations"
+        ]
+      },
+      "put": {
+        "operationId": "GithubConnectionController_connect",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectGithubDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Connected, after GitHub accepted the token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GithubConnectionDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not a token, or GitHub did not accept it"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Organizations"
+        ]
+      },
+      "delete": {
+        "operationId": "GithubConnectionController_disconnect",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Organizations"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/github/repositories": {
+      "put": {
+        "operationId": "GithubConnectionController_repositories",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GithubRepositoriesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GithubConnectionDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A name is not written as owner/name, or there are too many"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Organizations"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/github/collect": {
+      "post": {
+        "operationId": "GithubConnectionController_collect",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Counted now rather than at the next hourly run. The answer says how it went.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GithubConnectionDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Organizations"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/outcomes": {
+      "get": {
+        "operationId": "OutcomesController_find",
+        "parameters": [
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "months",
+            "required": false,
+            "in": "query",
+            "description": "How many months to return, this month included. Defaults to 6.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The months that were counted, newest first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OutcomeMonthDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/slack": {
+      "get": {
+        "operationId": "StewardNotificationsController_connection",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SlackConnectionDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      },
+      "put": {
+        "operationId": "StewardNotificationsController_connect",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectSlackDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Connected, after Slack accepted the token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SlackConnectionDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not a bot token, or Slack did not accept it"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      },
+      "delete": {
+        "operationId": "StewardNotificationsController_disconnect",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/steward-notifications": {
+      "get": {
+        "operationId": "StewardNotificationsController_recent",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The last 50 messages meant for stewards, newest first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StewardNotificationDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/v1/agent/maintenance": {
+      "post": {
+        "operationId": "AgentMaintenanceController_start",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartMaintenanceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The window now in force",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceWindowResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The agent token is missing or not valid"
+          }
+        },
+        "security": [
+          {
+            "AgentToken": []
+          }
+        ],
+        "tags": [
+          "Agent"
+        ]
+      },
+      "delete": {
+        "operationId": "AgentMaintenanceController_end",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Maintenance ended now, if there was any",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceEndedDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The agent token is missing or not valid"
+          }
+        },
+        "security": [
+          {
+            "AgentToken": []
+          }
+        ],
+        "tags": [
+          "Agent"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/maintenance": {
+      "post": {
+        "operationId": "MaintenanceController_start",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartMaintenanceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The window now in force. Starting again while one is in force keeps it, made longer if need be.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceWindowResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Uptime"
+        ]
+      },
+      "delete": {
+        "operationId": "MaintenanceController_end",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Maintenance ended now, if there was any",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceEndedDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Uptime"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/uptime": {
+      "get": {
+        "operationId": "UptimeController_report",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "month",
+            "required": false,
+            "in": "query",
+            "description": "The month, in UTC, as YYYY-MM. Defaults to the current month.",
+            "schema": {
+              "example": "2026-11",
+              "type": "string"
+            }
+          },
+          {
+            "name": "definition",
+            "required": false,
+            "in": "query",
+            "description": "What counts as up. Defaults to the server setting.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "healthy",
+                "answering",
+                "reporting"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Each agent\u2019s uptime for the month",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UptimeReportDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Uptime"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/maintenance-windows": {
+      "get": {
+        "operationId": "UptimeController_listWindows",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MaintenanceWindowResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Uptime"
+        ]
+      },
+      "post": {
+        "operationId": "UptimeController_createWindow",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMaintenanceWindowDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintenanceWindowResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Uptime"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/maintenance-windows/{windowId}": {
+      "delete": {
+        "operationId": "UptimeController_removeWindow",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "windowId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "403": {
+            "description": "Your role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Uptime"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/usage": {
+      "get": {
+        "operationId": "UsageController_find",
+        "parameters": [
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "required": false,
+            "in": "query",
+            "description": "First UTC day, as YYYY-MM-DD. Defaults to 29 days before the last.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "required": false,
+            "in": "query",
+            "description": "Last UTC day, as YYYY-MM-DD. Defaults to today.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The days that were counted, oldest first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UsageDayDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The period is too long or ends before it starts"
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agents"
+        ]
+      }
+    },
+    "/v1/users/me": {
+      "get": {
+        "operationId": "UsersController_getMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Current user profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/agents/{agentId}/versions": {
+      "get": {
+        "operationId": "VersionsController_history",
+        "parameters": [
+          {
+            "name": "agentId",
+            "required": true,
+            "in": "path",
+            "description": "Agent ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orgId",
+            "required": true,
+            "in": "path",
+            "description": "Organization ID",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Version changes, newest first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VersionChangeResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Agent not found, or hidden from you"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ],
+        "tags": [
+          "Agents"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "BeaconClaw API",
+    "description": "Fleet monitoring API for BeaconClaw",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "Health",
+      "description": ""
+    },
+    {
+      "name": "Users",
+      "description": ""
+    },
+    {
+      "name": "Orgs",
+      "description": ""
+    },
+    {
+      "name": "Members",
+      "description": ""
+    },
+    {
+      "name": "Agent access",
+      "description": ""
+    },
+    {
+      "name": "Directory",
+      "description": ""
+    },
+    {
+      "name": "Agents",
+      "description": ""
+    },
+    {
+      "name": "Heartbeats",
+      "description": ""
+    },
+    {
+      "name": "Incidents",
+      "description": ""
+    },
+    {
+      "name": "Alerts",
+      "description": ""
+    },
+    {
+      "name": "Uptime",
+      "description": ""
+    },
+    {
+      "name": "API keys",
+      "description": ""
+    },
+    {
+      "name": "Agent",
+      "description": ""
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.beaconclaw.ai",
+      "description": "BeaconClaw"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "JWT": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "A person's sign-in token, or an API key (it starts with bck_). A key works only on the routes that say so, inside its own organization, and never reaches further than the person who made it.",
+        "type": "http"
+      },
+      "AgentToken": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "An agent's own token (it starts with bc_), as held by the CLI on its machine.",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "AlertChannelResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orgId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "discord",
+              "slack",
+              "email"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Whose it is: the organization, you, or another steward or operator",
+            "enum": [
+              "organization",
+              "you",
+              "someone_else"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "orgId",
+          "kind",
+          "name",
+          "enabled",
+          "createdAt",
+          "owner"
+        ]
+      },
+      "CreateAlertChannelDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Kind of channel",
+            "enum": [
+              "discord",
+              "slack",
+              "email"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "A name for this channel",
+            "example": "Ops alerts"
+          },
+          "webhookUrl": {
+            "type": "string",
+            "description": "Discord and Slack channels: the webhook address. Stored encrypted and never returned."
+          },
+          "emails": {
+            "description": "Email channels: who to send to, up to 10 addresses. Stored encrypted and never returned.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "kind",
+          "name"
+        ]
+      },
+      "AlertChannelTestResponseDto": {
+        "type": "object",
+        "properties": {
+          "delivered": {
+            "type": "boolean",
+            "description": "Whether the test message was accepted by the channel"
+          },
+          "error": {
+            "type": "string",
+            "description": "Why it failed",
+            "nullable": true
+          }
+        },
+        "required": [
+          "delivered"
+        ]
+      },
+      "SetEnabledDto": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "False switches it off without removing it; true switches it back on"
+          }
+        },
+        "required": [
+          "enabled"
+        ]
+      },
+      "AlertRuleResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orgId": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "state_change",
+              "threshold",
+              "check_failure",
+              "daily_digest"
+            ]
+          },
+          "channelId": {
+            "type": "string"
+          },
+          "agentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "metric": {
+            "type": "string",
+            "description": "Threshold rules: what is measured",
+            "enum": [
+              "memory",
+              "disk"
+            ],
+            "nullable": true
+          },
+          "percent": {
+            "type": "number",
+            "description": "Threshold rules: the level, in percent",
+            "nullable": true
+          },
+          "forMinutes": {
+            "type": "number",
+            "description": "How long the problem must last, in minutes",
+            "nullable": true
+          },
+          "hourUtc": {
+            "type": "number",
+            "description": "Daily digest rules: the hour it is sent, in UTC",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "madeBy": {
+            "type": "string",
+            "description": "Who made it: the organization's owners and admins, you, or another steward or operator",
+            "enum": [
+              "organization",
+              "you",
+              "someone_else"
+            ]
+          },
+          "applies": {
+            "type": "boolean",
+            "description": "False for a rule made by a steward or operator who is no longer assigned to its agent. It sends nothing until an owner or admin removes or remakes it."
+          }
+        },
+        "required": [
+          "id",
+          "orgId",
+          "kind",
+          "channelId",
+          "enabled",
+          "createdAt",
+          "madeBy",
+          "applies"
+        ]
+      },
+      "CreateAlertRuleDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "What the rule watches for",
+            "enum": [
+              "state_change",
+              "threshold",
+              "check_failure",
+              "daily_digest"
+            ]
+          },
+          "channelId": {
+            "type": "string",
+            "description": "Channel to send to"
+          },
+          "agentId": {
+            "type": "string",
+            "description": "Limit the rule to one agent. Leave out to cover the whole organization."
+          },
+          "metric": {
+            "type": "string",
+            "description": "Threshold rules only (required): what to measure",
+            "enum": [
+              "memory",
+              "disk"
+            ]
+          },
+          "percent": {
+            "type": "number",
+            "default": 90,
+            "description": "Threshold rules only: alert at or above this percent (50 to 100)"
+          },
+          "forMinutes": {
+            "type": "number",
+            "description": "Threshold and check-failure rules: how long the problem must last before alerting, in minutes (1 to 120). Defaults to 10 for a threshold and 5 for a failing check."
+          },
+          "hourUtc": {
+            "type": "number",
+            "default": 17,
+            "description": "Daily digest rules only: the hour of the day, in UTC, to send it (0 to 23)"
+          }
+        },
+        "required": [
+          "kind",
+          "channelId"
+        ]
+      },
+      "AlertDeliveryResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Delivery ID"
+          },
+          "channelKind": {
+            "type": "string",
+            "description": "Kind of channel it was sent to",
+            "enum": [
+              "discord",
+              "slack",
+              "email"
+            ]
+          },
+          "channelName": {
+            "type": "string",
+            "description": "Name of the channel when the alert was raised"
+          },
+          "status": {
+            "type": "string",
+            "description": "Delivery status",
+            "enum": [
+              "pending",
+              "sent",
+              "failed"
+            ]
+          },
+          "attempts": {
+            "type": "number",
+            "description": "How many times sending was tried"
+          },
+          "lastError": {
+            "type": "string",
+            "description": "Why the last attempt failed",
+            "nullable": true
+          },
+          "sentAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When it was sent",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "channelKind",
+          "channelName",
+          "status",
+          "attempts"
+        ]
+      },
+      "AlertResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Alert ID"
+          },
+          "orgId": {
+            "type": "string",
+            "description": "Organization ID"
+          },
+          "agentId": {
+            "type": "string",
+            "description": "Agent the alert is about. Null for one about the whole organization, such as the daily digest.",
+            "nullable": true
+          },
+          "kind": {
+            "type": "string",
+            "description": "What happened",
+            "enum": [
+              "offline",
+              "recovered",
+              "threshold_exceeded",
+              "threshold_cleared",
+              "check_failing",
+              "check_recovered",
+              "daily_digest"
+            ]
+          },
+          "occurredAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When it happened"
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Details recorded with the alert"
+          },
+          "deliveries": {
+            "description": "Where it was sent and whether it arrived",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlertDeliveryResponseDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "orgId",
+          "agentId",
+          "kind",
+          "occurredAt",
+          "details",
+          "deliveries"
+        ]
+      },
+      "ApiKeyResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hint": {
+            "type": "string",
+            "description": "The start of the key, to tell keys apart",
+            "example": "bck_3f9a\u2026"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "maintenance"
+              ]
+            }
+          },
+          "agentIds": {
+            "description": "The only agents it reaches. Null reaches every agent its maker can.",
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdByEmail": {
+            "type": "string",
+            "description": "The person it acts as",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "lastUsedAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "revokedAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean",
+            "description": "False once revoked, or once its maker has left the organization"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "hint",
+          "actions",
+          "agentIds",
+          "createdByEmail",
+          "createdAt",
+          "lastUsedAt",
+          "revokedAt",
+          "active"
+        ]
+      },
+      "CreateApiKeyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "A name to tell this key from others",
+            "example": "Supervising agent"
+          },
+          "actions": {
+            "type": "array",
+            "description": "What the key may do beyond reading. Leave out for a read-only key.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "maintenance"
+              ]
+            }
+          },
+          "agentIds": {
+            "description": "Limit the key to these agents. Leave out to reach every agent you can.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "ApiKeyCreatedDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hint": {
+            "type": "string",
+            "description": "The start of the key, to tell keys apart",
+            "example": "bck_3f9a\u2026"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "maintenance"
+              ]
+            }
+          },
+          "agentIds": {
+            "description": "The only agents it reaches. Null reaches every agent its maker can.",
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdByEmail": {
+            "type": "string",
+            "description": "The person it acts as",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "lastUsedAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "revokedAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean",
+            "description": "False once revoked, or once its maker has left the organization"
+          },
+          "key": {
+            "type": "string",
+            "description": "The key itself. Shown ONCE; it cannot be read again."
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "hint",
+          "actions",
+          "agentIds",
+          "createdByEmail",
+          "createdAt",
+          "lastUsedAt",
+          "revokedAt",
+          "active",
+          "key"
+        ]
+      },
+      "ApiKeyEventResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "status": {
+            "type": "number",
+            "description": "The HTTP status the request ended with"
+          },
+          "occurredAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "method",
+          "path",
+          "status",
+          "occurredAt"
+        ]
+      },
+      "MyApiKeyResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hint": {
+            "type": "string",
+            "description": "The start of the key, to tell keys apart",
+            "example": "bck_3f9a\u2026"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "maintenance"
+              ]
+            }
+          },
+          "agentIds": {
+            "description": "The only agents it reaches. Null reaches every agent its maker can.",
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdByEmail": {
+            "type": "string",
+            "description": "The person it acts as",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "lastUsedAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "revokedAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean",
+            "description": "False once revoked, or once its maker has left the organization"
+          },
+          "orgId": {
+            "type": "string",
+            "description": "The one organization the key works in"
+          },
+          "orgName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "hint",
+          "actions",
+          "agentIds",
+          "createdByEmail",
+          "createdAt",
+          "lastUsedAt",
+          "revokedAt",
+          "active",
+          "orgId",
+          "orgName"
+        ]
+      },
+      "AssignmentResponseDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "The assigned member\u2019s user ID"
+          },
+          "email": {
+            "type": "string",
+            "description": "Their email address",
+            "nullable": true
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "steward",
+              "operator",
+              "viewer"
+            ]
+          },
+          "githubLogin": {
+            "type": "string",
+            "description": "Their GitHub login in this organization",
+            "nullable": true
+          },
+          "slackUserId": {
+            "type": "string",
+            "description": "Their Slack member ID in this organization",
+            "nullable": true
+          }
+        },
+        "required": [
+          "userId",
+          "email",
+          "kind",
+          "githubLogin",
+          "slackUserId"
+        ]
+      },
+      "AssignMemberDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "What the person is to the agent",
+            "enum": [
+              "steward",
+              "operator",
+              "viewer"
+            ]
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "DirectoryPersonDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "Their user ID. Null for someone listed by name only, who has no login.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Their name, when they are listed by name",
+            "nullable": true
+          },
+          "note": {
+            "type": "string",
+            "description": "A word or two about them, such as \"engineering\"",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "kind": {
+            "type": "string",
+            "description": "Steward: answers for what the agent does. Operator: keeps it running.",
+            "enum": [
+              "steward",
+              "operator"
+            ]
+          },
+          "slackUserId": {
+            "type": "string",
+            "description": "Their ID in the organization's Slack, if known",
+            "nullable": true
+          }
+        },
+        "required": [
+          "userId",
+          "name",
+          "note",
+          "email",
+          "kind",
+          "slackUserId"
+        ]
+      },
+      "InventoryConnectionDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "The group the connection belongs to",
+            "example": "channel"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the connected system"
+          }
+        },
+        "required": [
+          "kind",
+          "name"
+        ]
+      },
+      "DirectoryEntryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "Where the agent's picture is served from",
+            "nullable": true
+          },
+          "businessArea": {
+            "type": "string",
+            "description": "The part of the business it serves",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "description": "What it does there",
+            "nullable": true
+          },
+          "howToAsk": {
+            "type": "string",
+            "description": "How to ask it for something",
+            "nullable": true
+          },
+          "lifecycleStage": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "pilot",
+              "live",
+              "paused",
+              "retired"
+            ],
+            "nullable": true
+          },
+          "liveSince": {
+            "type": "string",
+            "description": "The day it went live, as YYYY-MM-DD",
+            "nullable": true
+          },
+          "managedBy": {
+            "type": "string",
+            "enum": [
+              "task_admin",
+              "client"
+            ],
+            "nullable": true
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "open",
+              "restricted"
+            ]
+          },
+          "access": {
+            "type": "string",
+            "description": "How much of the agent the caller may see",
+            "enum": [
+              "full",
+              "directory"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "online",
+              "degraded",
+              "offline"
+            ]
+          },
+          "manual": {
+            "type": "boolean",
+            "description": "Entered by hand, with no CLI reporting for it, so whether it is up is not known"
+          },
+          "supervisor": {
+            "type": "boolean",
+            "description": "It looks after other agents rather than serving a team"
+          },
+          "people": {
+            "description": "Its stewards and operators, stewards first",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DirectoryPersonDto"
+            }
+          },
+          "connections": {
+            "description": "The systems it is set up to reach, by name. Null when its CLI has not reported them.",
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventoryConnectionDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "avatarUrl",
+          "businessArea",
+          "role",
+          "howToAsk",
+          "lifecycleStage",
+          "liveSince",
+          "managedBy",
+          "visibility",
+          "access",
+          "status",
+          "manual",
+          "supervisor",
+          "people",
+          "connections"
+        ]
+      },
+      "HealthResponseSuccessDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Health status",
+            "example": "ok"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Current timestamp",
+            "example": "2026-01-15T10:30:00.000Z"
+          }
+        },
+        "required": [
+          "status",
+          "timestamp"
+        ]
+      },
+      "HealthResponseErrorDto": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message",
+            "example": "Internal server error"
+          },
+          "status": {
+            "type": "number",
+            "description": "HTTP status code",
+            "example": 500
+          }
+        },
+        "required": [
+          "error",
+          "status"
+        ]
+      },
+      "HealthHistoryPointDto": {
+        "type": "object",
+        "properties": {
+          "bucketStart": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Start of the hour or day, in UTC"
+          },
+          "samples": {
+            "type": "number",
+            "description": "Heartbeats received"
+          },
+          "expectedSamples": {
+            "type": "number",
+            "description": "Heartbeats a fully reporting agent sends in this much time"
+          },
+          "healthySamples": {
+            "type": "number",
+            "description": "Heartbeats where the runtime was fully working"
+          },
+          "degradedSamples": {
+            "type": "number",
+            "description": "Heartbeats where the runtime was up but part of it was failing"
+          },
+          "unhealthySamples": {
+            "type": "number",
+            "description": "Heartbeats where the runtime was not answering"
+          },
+          "cpuAvg": {
+            "type": "number"
+          },
+          "cpuMax": {
+            "type": "number"
+          },
+          "memoryAvg": {
+            "type": "number"
+          },
+          "memoryMax": {
+            "type": "number"
+          },
+          "diskAvg": {
+            "type": "number"
+          },
+          "diskMax": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "bucketStart",
+          "samples",
+          "expectedSamples",
+          "healthySamples",
+          "degradedSamples",
+          "unhealthySamples",
+          "cpuAvg",
+          "cpuMax",
+          "memoryAvg",
+          "memoryMax",
+          "diskAvg",
+          "diskMax"
+        ]
+      },
+      "RuntimeStatusDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The runtime state as the CLI judged it",
+            "example": "online"
+          },
+          "healthy": {
+            "type": "boolean",
+            "description": "The runtime answered its health check"
+          },
+          "ready": {
+            "type": "boolean",
+            "description": "The runtime reported every channel working"
+          },
+          "failing_channels": {
+            "description": "Names of the channels that are failing",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "uptime_ms": {
+            "type": "number",
+            "description": "How long the runtime has been up, in milliseconds"
+          },
+          "gateway_port": {
+            "type": "number",
+            "description": "The local port the runtime listens on"
+          },
+          "version": {
+            "type": "string",
+            "description": "The runtime version",
+            "example": "2026.9.9"
+          }
+        }
+      },
+      "RuntimeHealthDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Which runtime this is",
+            "example": "openclaw"
+          },
+          "state": {
+            "type": "string",
+            "description": "One word for the runtime health",
+            "enum": [
+              "healthy",
+              "degraded",
+              "unhealthy",
+              "absent"
+            ]
+          },
+          "present": {
+            "type": "boolean",
+            "description": "Whether the runtime exists on the machine. Null when the CLI is too old to say.",
+            "nullable": true
+          },
+          "healthy": {
+            "type": "boolean",
+            "description": "The runtime is responding"
+          },
+          "ready": {
+            "type": "boolean",
+            "description": "The runtime is responding and fully working"
+          },
+          "failing": {
+            "description": "Names of the parts of the runtime that are failing",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "uptimeMs": {
+            "type": "number",
+            "description": "How long the runtime has been up, in milliseconds",
+            "nullable": true
+          },
+          "version": {
+            "type": "string",
+            "description": "The runtime version",
+            "example": "2026.9.9",
+            "nullable": true
+          }
+        },
+        "required": [
+          "kind",
+          "state",
+          "present",
+          "healthy",
+          "ready",
+          "failing",
+          "uptimeMs",
+          "version"
+        ]
+      },
+      "HeartbeatResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Heartbeat ID"
+          },
+          "instanceId": {
+            "type": "string",
+            "description": "Agent ID"
+          },
+          "timestamp": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Heartbeat timestamp"
+          },
+          "seq": {
+            "type": "number",
+            "description": "Sequence number"
+          },
+          "cpuPercent": {
+            "type": "number",
+            "description": "CPU usage percent"
+          },
+          "memoryPercent": {
+            "type": "number",
+            "description": "Memory usage percent"
+          },
+          "memoryTotalBytes": {
+            "type": "string",
+            "description": "Total memory in bytes"
+          },
+          "memoryUsedBytes": {
+            "type": "string",
+            "description": "Used memory in bytes"
+          },
+          "diskPercent": {
+            "type": "number",
+            "description": "Disk usage percent"
+          },
+          "diskTotalBytes": {
+            "type": "string",
+            "description": "Total disk in bytes"
+          },
+          "diskUsedBytes": {
+            "type": "string",
+            "description": "Used disk in bytes"
+          },
+          "openclawStatus": {
+            "deprecated": true,
+            "description": "The runtime adapter's own data. Use `runtime` instead.",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RuntimeStatusDto"
+              }
+            ]
+          },
+          "runtime": {
+            "description": "The runtime health in neutral terms",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RuntimeHealthDto"
+              }
+            ]
+          },
+          "protocolVersion": {
+            "type": "number",
+            "description": "The protocol version the CLI spoke",
+            "example": 2
+          }
+        },
+        "required": [
+          "id",
+          "instanceId",
+          "timestamp",
+          "seq",
+          "cpuPercent",
+          "memoryPercent",
+          "memoryTotalBytes",
+          "memoryUsedBytes",
+          "diskPercent",
+          "diskTotalBytes",
+          "diskUsedBytes",
+          "openclawStatus",
+          "runtime",
+          "protocolVersion"
+        ]
+      },
+      "IncidentResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Incident ID"
+          },
+          "orgId": {
+            "type": "string",
+            "description": "Organization ID"
+          },
+          "agentId": {
+            "type": "string",
+            "description": "Agent the incident is about"
+          },
+          "kind": {
+            "type": "string",
+            "description": "The most severe state reached",
+            "enum": [
+              "degraded",
+              "unhealthy",
+              "offline"
+            ]
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When it began"
+          },
+          "endedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When it ended. Null while it is still going on.",
+            "nullable": true
+          },
+          "durationSeconds": {
+            "type": "number",
+            "description": "How long it lasted, in seconds. Null while it is still going on.",
+            "nullable": true
+          },
+          "failing": {
+            "description": "Every part of the runtime reported as failing during it",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "orgId",
+          "agentId",
+          "kind",
+          "startedAt",
+          "endedAt",
+          "durationSeconds",
+          "failing"
+        ]
+      },
+      "AgentMetadataDto": {
+        "type": "object",
+        "properties": {
+          "os": {
+            "type": "string",
+            "description": "Operating system",
+            "example": "linux"
+          },
+          "arch": {
+            "type": "string",
+            "description": "Processor architecture",
+            "example": "amd64"
+          },
+          "hostname": {
+            "type": "string",
+            "description": "Machine name"
+          },
+          "agentVersion": {
+            "type": "string",
+            "description": "CLI version",
+            "example": "v0.1.0"
+          },
+          "openclawVersion": {
+            "type": "string",
+            "deprecated": true,
+            "description": "Use runtimeVersion instead",
+            "example": "2026.9.9"
+          },
+          "runtimeKind": {
+            "type": "string",
+            "description": "Which runtime the CLI watches",
+            "example": "openclaw"
+          },
+          "runtimeVersion": {
+            "type": "string",
+            "description": "Runtime version",
+            "example": "2026.9.9"
+          },
+          "protocolVersion": {
+            "type": "number",
+            "description": "The protocol version the CLI speaks",
+            "example": 2
+          }
+        }
+      },
+      "AgentResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Agent ID",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "orgId": {
+            "type": "string",
+            "description": "Organization ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Agent name",
+            "example": "prod-agent-01"
+          },
+          "businessArea": {
+            "type": "string",
+            "description": "The part of the business it serves",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "description": "What it does there, in a sentence",
+            "nullable": true
+          },
+          "howToAsk": {
+            "type": "string",
+            "description": "How to ask it for something",
+            "nullable": true
+          },
+          "manual": {
+            "type": "boolean",
+            "description": "Entered by hand, with no CLI reporting for it. It has no health or uptime."
+          },
+          "supervisor": {
+            "type": "boolean",
+            "description": "It looks after other agents rather than serving a team"
+          },
+          "githubLogin": {
+            "type": "string",
+            "description": "The GitHub login the agent works under",
+            "nullable": true
+          },
+          "slackUserId": {
+            "type": "string",
+            "description": "The agent's Slack app or bot ID",
+            "nullable": true
+          },
+          "lifecycleStage": {
+            "type": "string",
+            "description": "How far along it is",
+            "enum": [
+              "planned",
+              "pilot",
+              "live",
+              "paused",
+              "retired"
+            ],
+            "nullable": true
+          },
+          "liveSince": {
+            "type": "string",
+            "description": "The day it went live, as YYYY-MM-DD",
+            "nullable": true
+          },
+          "managedBy": {
+            "type": "string",
+            "description": "Who runs it day to day",
+            "enum": [
+              "task_admin",
+              "client"
+            ],
+            "nullable": true
+          },
+          "visibility": {
+            "type": "string",
+            "description": "Whether members who are not assigned to it can see that it exists",
+            "enum": [
+              "open",
+              "restricted"
+            ]
+          },
+          "access": {
+            "type": "string",
+            "description": "How much of this agent you may see. \"directory\" is the entry only: what it is and whether it is up; the machine, runtime and capacity fields are then null.",
+            "enum": [
+              "full",
+              "directory"
+            ]
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "Where the agent's picture is served from",
+            "nullable": true
+          },
+          "canRotateToken": {
+            "type": "boolean",
+            "description": "Whether you may issue this agent a new token: an owner or admin, or the operator of an agent the client runs itself."
+          },
+          "status": {
+            "type": "string",
+            "description": "Agent status",
+            "enum": [
+              "online",
+              "degraded",
+              "offline"
+            ],
+            "example": "online"
+          },
+          "lastSeen": {
+            "type": "string",
+            "description": "Last heartbeat timestamp",
+            "example": "2026-01-15T10:30:00.000Z",
+            "format": "date-time",
+            "nullable": true
+          },
+          "firstSeen": {
+            "type": "string",
+            "description": "When the agent was first heard from. Null until it has been. Uptime is counted from here.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "metadata": {
+            "description": "What the CLI reported about its machine",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AgentMetadataDto"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update date"
+          },
+          "cpuPercent": {
+            "type": "number",
+            "description": "CPU usage percent from latest heartbeat",
+            "example": 42.5,
+            "nullable": true
+          },
+          "memoryPercent": {
+            "type": "number",
+            "description": "Memory usage percent from latest heartbeat",
+            "example": 67.3,
+            "nullable": true
+          },
+          "memoryTotalBytes": {
+            "type": "string",
+            "description": "Total memory in bytes",
+            "example": "8589934592",
+            "nullable": true
+          },
+          "memoryUsedBytes": {
+            "type": "string",
+            "description": "Used memory in bytes",
+            "example": "4294967296",
+            "nullable": true
+          },
+          "diskPercent": {
+            "type": "number",
+            "description": "Disk usage percent from latest heartbeat",
+            "example": 23.1,
+            "nullable": true
+          },
+          "diskTotalBytes": {
+            "type": "string",
+            "description": "Total disk in bytes",
+            "example": "500107862016",
+            "nullable": true
+          },
+          "diskUsedBytes": {
+            "type": "string",
+            "description": "Used disk in bytes",
+            "example": "125026965504",
+            "nullable": true
+          },
+          "openclawStatus": {
+            "deprecated": true,
+            "description": "The runtime adapter's own data from the latest heartbeat. Use `runtime` instead.",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RuntimeStatusDto"
+              }
+            ]
+          },
+          "runtime": {
+            "description": "The runtime health from the latest heartbeat, in neutral terms",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RuntimeHealthDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "orgId",
+          "name",
+          "businessArea",
+          "role",
+          "howToAsk",
+          "manual",
+          "supervisor",
+          "githubLogin",
+          "slackUserId",
+          "lifecycleStage",
+          "liveSince",
+          "managedBy",
+          "visibility",
+          "access",
+          "avatarUrl",
+          "canRotateToken",
+          "status",
+          "lastSeen",
+          "firstSeen",
+          "metadata",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CreateAgentDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Agent name",
+            "example": "prod-agent-01"
+          },
+          "manual": {
+            "type": "boolean",
+            "default": false,
+            "description": "True for an agent with no CLI on its machine: a directory entry kept by hand, with no health. No token is issued."
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "AgentRegisteredDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Agent ID",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "orgId": {
+            "type": "string",
+            "description": "Organization ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Agent name",
+            "example": "prod-agent-01"
+          },
+          "businessArea": {
+            "type": "string",
+            "description": "The part of the business it serves",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "description": "What it does there, in a sentence",
+            "nullable": true
+          },
+          "howToAsk": {
+            "type": "string",
+            "description": "How to ask it for something",
+            "nullable": true
+          },
+          "manual": {
+            "type": "boolean",
+            "description": "Entered by hand, with no CLI reporting for it. It has no health or uptime."
+          },
+          "supervisor": {
+            "type": "boolean",
+            "description": "It looks after other agents rather than serving a team"
+          },
+          "githubLogin": {
+            "type": "string",
+            "description": "The GitHub login the agent works under",
+            "nullable": true
+          },
+          "slackUserId": {
+            "type": "string",
+            "description": "The agent's Slack app or bot ID",
+            "nullable": true
+          },
+          "lifecycleStage": {
+            "type": "string",
+            "description": "How far along it is",
+            "enum": [
+              "planned",
+              "pilot",
+              "live",
+              "paused",
+              "retired"
+            ],
+            "nullable": true
+          },
+          "liveSince": {
+            "type": "string",
+            "description": "The day it went live, as YYYY-MM-DD",
+            "nullable": true
+          },
+          "managedBy": {
+            "type": "string",
+            "description": "Who runs it day to day",
+            "enum": [
+              "task_admin",
+              "client"
+            ],
+            "nullable": true
+          },
+          "visibility": {
+            "type": "string",
+            "description": "Whether members who are not assigned to it can see that it exists",
+            "enum": [
+              "open",
+              "restricted"
+            ]
+          },
+          "access": {
+            "type": "string",
+            "description": "How much of this agent you may see. \"directory\" is the entry only: what it is and whether it is up; the machine, runtime and capacity fields are then null.",
+            "enum": [
+              "full",
+              "directory"
+            ]
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "Where the agent's picture is served from",
+            "nullable": true
+          },
+          "canRotateToken": {
+            "type": "boolean",
+            "description": "Whether you may issue this agent a new token: an owner or admin, or the operator of an agent the client runs itself."
+          },
+          "status": {
+            "type": "string",
+            "description": "Agent status",
+            "enum": [
+              "online",
+              "degraded",
+              "offline"
+            ],
+            "example": "online"
+          },
+          "lastSeen": {
+            "type": "string",
+            "description": "Last heartbeat timestamp",
+            "example": "2026-01-15T10:30:00.000Z",
+            "format": "date-time",
+            "nullable": true
+          },
+          "firstSeen": {
+            "type": "string",
+            "description": "When the agent was first heard from. Null until it has been. Uptime is counted from here.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "metadata": {
+            "description": "What the CLI reported about its machine",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AgentMetadataDto"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update date"
+          },
+          "cpuPercent": {
+            "type": "number",
+            "description": "CPU usage percent from latest heartbeat",
+            "example": 42.5,
+            "nullable": true
+          },
+          "memoryPercent": {
+            "type": "number",
+            "description": "Memory usage percent from latest heartbeat",
+            "example": 67.3,
+            "nullable": true
+          },
+          "memoryTotalBytes": {
+            "type": "string",
+            "description": "Total memory in bytes",
+            "example": "8589934592",
+            "nullable": true
+          },
+          "memoryUsedBytes": {
+            "type": "string",
+            "description": "Used memory in bytes",
+            "example": "4294967296",
+            "nullable": true
+          },
+          "diskPercent": {
+            "type": "number",
+            "description": "Disk usage percent from latest heartbeat",
+            "example": 23.1,
+            "nullable": true
+          },
+          "diskTotalBytes": {
+            "type": "string",
+            "description": "Total disk in bytes",
+            "example": "500107862016",
+            "nullable": true
+          },
+          "diskUsedBytes": {
+            "type": "string",
+            "description": "Used disk in bytes",
+            "example": "125026965504",
+            "nullable": true
+          },
+          "openclawStatus": {
+            "deprecated": true,
+            "description": "The runtime adapter's own data from the latest heartbeat. Use `runtime` instead.",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RuntimeStatusDto"
+              }
+            ]
+          },
+          "runtime": {
+            "description": "The runtime health from the latest heartbeat, in neutral terms",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RuntimeHealthDto"
+              }
+            ]
+          },
+          "instanceToken": {
+            "type": "string",
+            "description": "Agent token (shown ONCE at registration). Store this securely. Null for an agent entered by hand, which has none.",
+            "example": "bc_a1b2c3d4e5f6...",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "orgId",
+          "name",
+          "businessArea",
+          "role",
+          "howToAsk",
+          "manual",
+          "supervisor",
+          "githubLogin",
+          "slackUserId",
+          "lifecycleStage",
+          "liveSince",
+          "managedBy",
+          "visibility",
+          "access",
+          "avatarUrl",
+          "canRotateToken",
+          "status",
+          "lastSeen",
+          "firstSeen",
+          "metadata",
+          "createdAt",
+          "updatedAt",
+          "instanceToken"
+        ]
+      },
+      "UpdateAgentDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Agent name",
+            "example": "prod-agent-01"
+          },
+          "businessArea": {
+            "type": "string",
+            "description": "The part of the business it serves",
+            "example": "Admissions",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "description": "What it does there, in a sentence",
+            "nullable": true
+          },
+          "howToAsk": {
+            "type": "string",
+            "description": "How to ask it for something, in a sentence or two",
+            "example": "Mention @helper in #ops, or message it directly.",
+            "nullable": true
+          },
+          "lifecycleStage": {
+            "type": "string",
+            "description": "How far along it is",
+            "enum": [
+              "planned",
+              "pilot",
+              "live",
+              "paused",
+              "retired"
+            ],
+            "nullable": true
+          },
+          "liveSince": {
+            "type": "string",
+            "description": "The day it went live, as YYYY-MM-DD",
+            "example": "2026-03-01",
+            "nullable": true
+          },
+          "managedBy": {
+            "type": "string",
+            "description": "Who runs it day to day",
+            "enum": [
+              "task_admin",
+              "client"
+            ],
+            "nullable": true
+          },
+          "githubLogin": {
+            "type": "string",
+            "description": "The GitHub login the agent works under, without the @",
+            "example": "example-agent-ai",
+            "nullable": true
+          },
+          "slackUserId": {
+            "type": "string",
+            "description": "The agent's ID in the organization's Slack. Agents are Slack apps: give the app ID (A...) or its bot user's ID.",
+            "example": "A012AB3CD",
+            "nullable": true
+          },
+          "supervisor": {
+            "type": "boolean",
+            "description": "True for an agent that looks after other agents rather than serving a team"
+          },
+          "visibility": {
+            "type": "string",
+            "description": "Whether members who are not assigned to it can see that it exists",
+            "enum": [
+              "open",
+              "restricted"
+            ]
+          }
+        }
+      },
+      "AgentTokenRotatedDto": {
+        "type": "object",
+        "properties": {
+          "instanceToken": {
+            "type": "string",
+            "description": "New agent token (shown ONCE). Store this securely.",
+            "example": "bc_a1b2c3d4e5f6..."
+          }
+        },
+        "required": [
+          "instanceToken"
+        ]
+      },
+      "InventorySkillDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the skill"
+          },
+          "source": {
+            "type": "string",
+            "description": "Where the skill comes from, in the runtime's own words",
+            "nullable": true
+          }
+        },
+        "required": [
+          "name",
+          "source"
+        ]
+      },
+      "InventoryRevisionDto": {
+        "type": "object",
+        "properties": {
+          "commit": {
+            "type": "string",
+            "description": "The commit of the runtime's working folder"
+          },
+          "dirty": {
+            "type": "boolean",
+            "description": "Whether the folder had changes beyond that commit"
+          }
+        },
+        "required": [
+          "commit",
+          "dirty"
+        ]
+      },
+      "AgentInventoryDto": {
+        "type": "object",
+        "properties": {
+          "reported": {
+            "type": "boolean",
+            "description": "Whether the agent has reported an inventory at all"
+          },
+          "skills": {
+            "description": "Skills the runtime can use now. Null when the CLI could not find out.",
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventorySkillDto"
+            }
+          },
+          "connections": {
+            "description": "Systems the runtime is set up to reach. Null when the CLI could not find out.",
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventoryConnectionDto"
+            }
+          },
+          "revision": {
+            "description": "The commit of the runtime's working folder. Null when it is not a git checkout.",
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/InventoryRevisionDto"
+              }
+            ]
+          },
+          "collectedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the CLI gathered this",
+            "nullable": true
+          },
+          "changedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the contents last changed",
+            "nullable": true
+          }
+        },
+        "required": [
+          "reported",
+          "skills",
+          "connections",
+          "revision",
+          "collectedAt",
+          "changedAt"
+        ]
+      },
+      "MemberResponseDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "The member\u2019s user ID"
+          },
+          "email": {
+            "type": "string",
+            "description": "Their email address",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "admin",
+              "member",
+              "viewer"
+            ]
+          },
+          "pending": {
+            "type": "boolean",
+            "description": "They were added but have not signed in yet"
+          },
+          "githubLogin": {
+            "type": "string",
+            "nullable": true
+          },
+          "slackUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "addedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When they were added to the organization"
+          }
+        },
+        "required": [
+          "userId",
+          "email",
+          "role",
+          "pending",
+          "githubLogin",
+          "slackUserId",
+          "addedAt"
+        ]
+      },
+      "InviteMemberDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The person\u2019s email address",
+            "example": "sam@example.com"
+          },
+          "role": {
+            "type": "string",
+            "description": "Their role in the organization",
+            "enum": [
+              "admin",
+              "member",
+              "viewer"
+            ]
+          },
+          "githubLogin": {
+            "type": "string",
+            "description": "Their GitHub login",
+            "example": "octocat",
+            "nullable": true
+          },
+          "slackUserId": {
+            "type": "string",
+            "description": "Their user ID in this organization\u2019s Slack workspace",
+            "example": "U012AB3CD",
+            "nullable": true
+          }
+        },
+        "required": [
+          "email",
+          "role"
+        ]
+      },
+      "InvitedMemberDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "The member\u2019s user ID"
+          },
+          "email": {
+            "type": "string",
+            "description": "Their email address",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "admin",
+              "member",
+              "viewer"
+            ]
+          },
+          "pending": {
+            "type": "boolean",
+            "description": "They were added but have not signed in yet"
+          },
+          "githubLogin": {
+            "type": "string",
+            "nullable": true
+          },
+          "slackUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "addedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When they were added to the organization"
+          },
+          "emailed": {
+            "type": "boolean",
+            "description": "Whether an invitation email was sent. False when email is not set up on the server or the message was refused; the person can still get in with \"Reset password\" on the sign-in page."
+          }
+        },
+        "required": [
+          "userId",
+          "email",
+          "role",
+          "pending",
+          "githubLogin",
+          "slackUserId",
+          "addedAt",
+          "emailed"
+        ]
+      },
+      "InvitationResentDto": {
+        "type": "object",
+        "properties": {
+          "emailed": {
+            "type": "boolean",
+            "description": "Whether the invitation email was sent. False when email is not set up on the server or the message was refused."
+          }
+        },
+        "required": [
+          "emailed"
+        ]
+      },
+      "UpdateMemberDto": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "Their role in the organization",
+            "enum": [
+              "admin",
+              "member",
+              "viewer"
+            ]
+          },
+          "githubLogin": {
+            "type": "string",
+            "description": "Their GitHub login",
+            "nullable": true
+          },
+          "slackUserId": {
+            "type": "string",
+            "description": "Their user ID in this organization\u2019s Slack workspace",
+            "nullable": true
+          }
+        }
+      },
+      "NamedPersonResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "steward",
+              "operator"
+            ]
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "note"
+        ]
+      },
+      "AddNamedPersonDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The person's name",
+            "example": "Alex Example"
+          },
+          "kind": {
+            "type": "string",
+            "description": "What they are to the agent",
+            "enum": [
+              "steward",
+              "operator"
+            ]
+          },
+          "note": {
+            "type": "string",
+            "description": "A word or two about them",
+            "example": "engineering",
+            "nullable": true
+          }
+        },
+        "required": [
+          "name",
+          "kind"
+        ]
+      },
+      "OrgResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Organization ID",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "name": {
+            "type": "string",
+            "description": "Organization name",
+            "example": "My Fleet"
+          },
+          "costVisible": {
+            "type": "boolean",
+            "description": "Whether the organization is shown what its agents' model use cost. Set by the provider, not by the organization."
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "Where the organization's picture is served from",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date",
+            "example": "2026-01-15T10:30:00.000Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update date",
+            "example": "2026-01-15T10:30:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "costVisible",
+          "avatarUrl",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CreateOrgDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Organization name",
+            "example": "My Fleet"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "RegistryAgentDto": {
+        "type": "object",
+        "properties": {
+          "agentId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "The agent's name, as it should read in reports"
+          },
+          "githubLogin": {
+            "type": "string",
+            "description": "The GitHub login it works under. Null until someone enters it.",
+            "nullable": true
+          },
+          "slackId": {
+            "type": "string",
+            "description": "Its Slack app or bot ID. Agents are Slack apps, not people.",
+            "nullable": true
+          },
+          "team": {
+            "type": "string",
+            "description": "The team or part of the business it serves",
+            "nullable": true
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "pilot",
+              "live",
+              "paused",
+              "retired"
+            ],
+            "nullable": true
+          },
+          "liveSince": {
+            "type": "string",
+            "description": "The day it went live, as YYYY-MM-DD",
+            "nullable": true
+          },
+          "supervisor": {
+            "type": "boolean",
+            "description": "It looks after other agents rather than serving a team"
+          },
+          "contributorKind": {
+            "type": "string",
+            "description": "Always \"ai_agent\": what kind of contributor this is, for systems that also track people",
+            "example": "ai_agent"
+          }
+        },
+        "required": [
+          "agentId",
+          "name",
+          "githubLogin",
+          "slackId",
+          "team",
+          "stage",
+          "liveSince",
+          "supervisor",
+          "contributorKind"
+        ]
+      },
+      "RegistryDto": {
+        "type": "object",
+        "properties": {
+          "organization": {
+            "type": "string"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "agents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegistryAgentDto"
+            }
+          }
+        },
+        "required": [
+          "organization",
+          "generatedAt",
+          "agents"
+        ]
+      },
+      "CreateAccessRequestDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Ada Lovelace"
+          },
+          "email": {
+            "type": "string",
+            "example": "ada@example.com"
+          },
+          "company": {
+            "type": "string",
+            "example": "Example Ltd"
+          },
+          "agents": {
+            "type": "string",
+            "description": "How many agents they run, in their own words",
+            "example": "About a dozen"
+          },
+          "message": {
+            "type": "string",
+            "description": "What they want it for"
+          },
+          "website": {
+            "type": "string",
+            "description": "Leave empty. A field the form hides from people."
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "company"
+        ]
+      },
+      "AccessRequestReceivedDto": {
+        "type": "object",
+        "properties": {
+          "received": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "received"
+        ]
+      },
+      "AdminOrgDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "members": {
+            "type": "number",
+            "description": "People who belong to it"
+          },
+          "agents": {
+            "type": "number",
+            "description": "Agents registered in it, not counting removed ones"
+          },
+          "costVisible": {
+            "type": "boolean",
+            "description": "Whether it is shown what its agents' model use cost"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "members",
+          "agents",
+          "costVisible",
+          "createdAt"
+        ]
+      },
+      "UpdateAdminOrgDto": {
+        "type": "object",
+        "properties": {
+          "costVisible": {
+            "type": "boolean",
+            "description": "Show the organization what its agents' model use cost"
+          }
+        },
+        "required": [
+          "costVisible"
+        ]
+      },
+      "AdminAccessRequestDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "agents": {
+            "type": "string",
+            "description": "How many agents they run, in their own words",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "email",
+          "company",
+          "agents",
+          "message",
+          "createdAt"
+        ]
+      },
+      "AvatarDto": {
+        "type": "object",
+        "properties": {
+          "avatarUrl": {
+            "type": "string",
+            "description": "Where the picture is served from"
+          }
+        },
+        "required": [
+          "avatarUrl"
+        ]
+      },
+      "GithubConnectionDto": {
+        "type": "object",
+        "properties": {
+          "connected": {
+            "type": "boolean"
+          },
+          "account": {
+            "type": "string",
+            "description": "The GitHub login the token belongs to",
+            "nullable": true
+          },
+          "repositories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "checkedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When GitHub was last asked",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "description": "Why the last collection failed. Null when it worked.",
+            "nullable": true
+          }
+        },
+        "required": [
+          "connected",
+          "account",
+          "repositories",
+          "checkedAt",
+          "error"
+        ]
+      },
+      "ConnectGithubDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "A GitHub token that can read the repositories to count. Read-only access is enough. Stored encrypted and never returned."
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "GithubRepositoriesDto": {
+        "type": "object",
+        "properties": {
+          "repositories": {
+            "description": "The repositories to count, each as owner/name",
+            "example": [
+              "acme/app"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "repositories"
+        ]
+      },
+      "OutcomeRepositoryDto": {
+        "type": "object",
+        "properties": {
+          "repository": {
+            "type": "string",
+            "description": "The repository, as owner/name"
+          },
+          "pullRequestsMerged": {
+            "type": "number",
+            "description": "Pull requests the agent wrote that were merged in the month"
+          },
+          "linesAdded": {
+            "type": "number"
+          },
+          "linesRemoved": {
+            "type": "number"
+          },
+          "issuesResolved": {
+            "type": "number",
+            "description": "Distinct issues GitHub links as closed by those pull requests"
+          },
+          "teamPullRequests": {
+            "type": "number",
+            "description": "Pull requests merged that were not a bot's, the agent's included"
+          },
+          "botPullRequests": {
+            "type": "number",
+            "description": "Pull requests merged that were written by bots, such as dependency updates"
+          },
+          "truncated": {
+            "type": "boolean",
+            "description": "True when GitHub listed more pull requests than could be read, so the figures are short"
+          }
+        },
+        "required": [
+          "repository",
+          "pullRequestsMerged",
+          "linesAdded",
+          "linesRemoved",
+          "issuesResolved",
+          "teamPullRequests",
+          "botPullRequests",
+          "truncated"
+        ]
+      },
+      "OutcomeMonthDto": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "string",
+            "description": "The UTC month, as YYYY-MM"
+          },
+          "final": {
+            "type": "boolean",
+            "description": "False while the month is still going"
+          },
+          "pullRequestsMerged": {
+            "type": "number"
+          },
+          "linesAdded": {
+            "type": "number"
+          },
+          "linesRemoved": {
+            "type": "number"
+          },
+          "issuesResolved": {
+            "type": "number"
+          },
+          "teamPullRequests": {
+            "type": "number",
+            "description": "Pull requests merged across the repositories that were not a bot's"
+          },
+          "collectedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "repositories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OutcomeRepositoryDto"
+            }
+          }
+        },
+        "required": [
+          "month",
+          "final",
+          "pullRequestsMerged",
+          "linesAdded",
+          "linesRemoved",
+          "issuesResolved",
+          "teamPullRequests",
+          "collectedAt",
+          "repositories"
+        ]
+      },
+      "SlackConnectionDto": {
+        "type": "object",
+        "properties": {
+          "connected": {
+            "type": "boolean"
+          },
+          "team": {
+            "type": "string",
+            "description": "The Slack workspace it is connected to",
+            "nullable": true
+          }
+        },
+        "required": [
+          "connected",
+          "team"
+        ]
+      },
+      "ConnectSlackDto": {
+        "type": "object",
+        "properties": {
+          "botToken": {
+            "type": "string",
+            "description": "The bot token of the organization's Slack app. Stored encrypted and never returned.",
+            "example": "xoxb-..."
+          }
+        },
+        "required": [
+          "botToken"
+        ]
+      },
+      "StewardNotificationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "agentId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The steward it was for"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "down",
+              "back",
+              "version_changed",
+              "maintenance_started",
+              "maintenance_ended"
+            ]
+          },
+          "text": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "sent",
+              "failed",
+              "skipped"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Why it was not sent",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "agentId",
+          "userId",
+          "kind",
+          "text",
+          "status",
+          "error",
+          "createdAt"
+        ]
+      },
+      "StartMaintenanceDto": {
+        "type": "object",
+        "properties": {
+          "reason": {
+            "type": "string",
+            "description": "What the work is",
+            "example": "Runtime upgrade"
+          },
+          "minutes": {
+            "type": "number",
+            "default": 60,
+            "description": "How long it will take, in minutes. At most 14 days."
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      },
+      "MaintenanceWindowResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orgId": {
+            "type": "string"
+          },
+          "agentId": {
+            "type": "string",
+            "description": "The agent it covers. Null covers every agent.",
+            "nullable": true
+          },
+          "startsAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "endsAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "orgId",
+          "agentId",
+          "startsAt",
+          "endsAt",
+          "reason",
+          "createdAt"
+        ]
+      },
+      "MaintenanceEndedDto": {
+        "type": "object",
+        "properties": {
+          "ended": {
+            "type": "boolean",
+            "description": "Whether the agent was in maintenance"
+          }
+        },
+        "required": [
+          "ended"
+        ]
+      },
+      "AgentUptimeDto": {
+        "type": "object",
+        "properties": {
+          "agentId": {
+            "type": "string"
+          },
+          "agentName": {
+            "type": "string"
+          },
+          "percent": {
+            "type": "number",
+            "description": "Uptime as a percentage. Null when nothing was expected of the agent in the month.",
+            "nullable": true
+          },
+          "up": {
+            "type": "number",
+            "description": "Heartbeats that counted as up"
+          },
+          "expected": {
+            "type": "number",
+            "description": "Heartbeats expected, after maintenance is taken out"
+          },
+          "maintenanceHours": {
+            "type": "number",
+            "description": "Hours of maintenance left out"
+          }
+        },
+        "required": [
+          "agentId",
+          "agentName",
+          "percent",
+          "up",
+          "expected",
+          "maintenanceHours"
+        ]
+      },
+      "UptimeReportDto": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "string",
+            "description": "The month, in UTC, as YYYY-MM",
+            "example": "2026-11"
+          },
+          "definition": {
+            "type": "string",
+            "description": "What counted as up",
+            "enum": [
+              "healthy",
+              "answering",
+              "reporting"
+            ]
+          },
+          "inProgress": {
+            "type": "boolean",
+            "description": "The month has not finished: figures are to date"
+          },
+          "agents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AgentUptimeDto"
+            }
+          }
+        },
+        "required": [
+          "month",
+          "definition",
+          "inProgress",
+          "agents"
+        ]
+      },
+      "CreateMaintenanceWindowDto": {
+        "type": "object",
+        "properties": {
+          "agentId": {
+            "type": "string",
+            "description": "The agent it covers. Leave out to cover every agent in the organization."
+          },
+          "startsAt": {
+            "type": "string",
+            "description": "When the work starts (ISO 8601)"
+          },
+          "endsAt": {
+            "type": "string",
+            "description": "When the work ends (ISO 8601). At most 14 days after it starts."
+          },
+          "reason": {
+            "type": "string",
+            "description": "What the work is",
+            "example": "Runtime upgrade"
+          }
+        },
+        "required": [
+          "startsAt",
+          "endsAt",
+          "reason"
+        ]
+      },
+      "UsageChannelDto": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "type": "string",
+            "description": "Where the conversations came from, such as a chat service or a schedule"
+          },
+          "sessions": {
+            "type": "number"
+          },
+          "userMessages": {
+            "type": "number"
+          },
+          "assistantMessages": {
+            "type": "number"
+          },
+          "toolCalls": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "channel",
+          "sessions",
+          "userMessages",
+          "assistantMessages",
+          "toolCalls"
+        ]
+      },
+      "UsageDayDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "The UTC day, as YYYY-MM-DD"
+          },
+          "sessions": {
+            "type": "number",
+            "description": "Conversations that had activity"
+          },
+          "userMessages": {
+            "type": "number",
+            "description": "Messages in the user role. These include scheduled and agent-to-agent messages, not only people."
+          },
+          "assistantMessages": {
+            "type": "number"
+          },
+          "toolCalls": {
+            "type": "number"
+          },
+          "tokens": {
+            "type": "number",
+            "description": "Model tokens used. Null unless cost is switched on for the organization.",
+            "nullable": true
+          },
+          "cost": {
+            "type": "number",
+            "description": "What the runtime says the day's model use cost, in US dollars. Null unless cost is switched on for the organization.",
+            "nullable": true
+          },
+          "channels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageChannelDto"
+            }
+          },
+          "final": {
+            "type": "boolean",
+            "description": "False while the day is still going, or was counted before it ended"
+          },
+          "truncated": {
+            "type": "boolean",
+            "description": "True when the per-channel split may be missing some conversations"
+          }
+        },
+        "required": [
+          "date",
+          "sessions",
+          "userMessages",
+          "assistantMessages",
+          "toolCalls",
+          "tokens",
+          "cost",
+          "channels",
+          "final",
+          "truncated"
+        ]
+      },
+      "OrgMembershipDto": {
+        "type": "object",
+        "properties": {
+          "orgId": {
+            "type": "string",
+            "description": "Organization ID",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role in the organization",
+            "enum": [
+              "owner",
+              "admin",
+              "member",
+              "viewer"
+            ],
+            "example": "owner"
+          }
+        },
+        "required": [
+          "orgId",
+          "role"
+        ]
+      },
+      "UserResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User ID (Auth0 sub)",
+            "example": "auth0|abc123"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "user@example.com",
+            "nullable": true
+          },
+          "isSystemOwner": {
+            "type": "boolean",
+            "description": "Whether this person runs the platform. Set in server configuration, never from the app."
+          },
+          "orgMemberships": {
+            "description": "Organization memberships",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrgMembershipDto"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "isSystemOwner",
+          "orgMemberships"
+        ]
+      },
+      "VersionChangeResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "component": {
+            "type": "string",
+            "description": "What changed: the runtime, the CLI, or the commit of the runtime's working folder",
+            "enum": [
+              "runtime",
+              "cli",
+              "revision"
+            ]
+          },
+          "fromVersion": {
+            "type": "string",
+            "description": "The version before. Null for the first one seen.",
+            "nullable": true
+          },
+          "toVersion": {
+            "type": "string"
+          },
+          "changedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the new version was first reported"
+          }
+        },
+        "required": [
+          "id",
+          "component",
+          "fromVersion",
+          "toVersion",
+          "changedAt"
+        ]
+      }
+    }
+  }
+}

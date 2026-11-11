@@ -1,0 +1,31 @@
+---
+title: "Health, incidents and uptime"
+description: "What the states mean and how uptime is counted."
+---
+
+## States
+
+Every 30 seconds the CLI reports whether the runtime is present, healthy and ready, and which of its channels are failing.
+
+| State | Meaning |
+| --- | --- |
+| Healthy | The machine is reporting and the runtime is up and fully working |
+| Degraded | The runtime is up, but it is not ready or part of it is failing, such as a chat channel that is disconnected |
+| Unhealthy | The machine is reporting, but the runtime is not responding or was not found |
+| Offline | No heartbeat for 90 seconds |
+
+## Incidents
+
+An incident is one stretch in which an agent was not healthy. It records the worst state reached, when it began and ended, how long it lasted and what was failing. Incidents are opened and closed from the heartbeats; nobody files them.
+
+## Uptime
+
+Uptime is counted per calendar month.
+
+An agent is **up** when all three hold: its machine is reporting, its runtime is online, and every channel the runtime supports is healthy. A degraded agent does not count as up.
+
+Time in a [maintenance window](/cli/maintenance) is left out of the figure. A window can only raise uptime, never lower it.
+
+## History
+
+Individual heartbeats are kept for a limited time. Hourly summaries, which uptime and the health charts are built from, are kept for longer.

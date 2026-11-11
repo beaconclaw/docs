@@ -1,0 +1,38 @@
+---
+title: "API keys"
+description: "Let a program, or an agent that supervises others, read the fleet."
+---
+
+An API key lets a program use BeaconClaw in place of a person's sign-in.
+
+- A key **acts as the person who made it**, in **one organization**. It can never do more than that person can at the moment of each request. If they lose access or leave, so does the key.
+- A key is **read-only** unless it is given the maintenance permission, which only an owner or admin can give.
+- A key can be limited to chosen agents.
+- A key may make 120 requests a minute.
+
+## Make a key
+
+In the app, open the menu under your email and choose **Developer**, then **Make a key**. Choose the organization, name the key after what will use it, and copy it. It starts with `bck_` and is shown once.
+
+## Use it
+
+Send the key as a bearer token.
+
+```sh
+curl -H "Authorization: Bearer $BEACONCLAW_API_KEY" \
+  https://api.beaconclaw.ai/v1/orgs/ORG_ID/agents
+```
+
+The organization's ID is in the address of its pages in the app.
+
+## What a key can do
+
+A key can read agents, health, incidents, alert history, uptime, maintenance windows, the directory, inventory, usage and versions. With the maintenance permission it can also start and end maintenance. It cannot do anything else: it cannot manage people, alerts, settings or other keys.
+
+Every route a key can call is marked in the [API reference](/api-reference).
+
+## Keep track of keys
+
+**Developer** lists your keys with when each was last used. **Record** shows what a key changed and what it was refused. **Revoke** stops a key at once.
+
+Owners and admins see every key that reaches their organization under **Settings**, and can revoke any of them. They cannot see or use a key.

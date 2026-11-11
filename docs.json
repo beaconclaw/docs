@@ -2,18 +2,70 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "BeaconClaw",
+  "description": "Fleet visibility for self-hosted AI agents.",
   "colors": {
     "primary": "#1d9e75",
     "light": "#3ecf9a",
     "dark": "#1d9e75"
   },
   "navigation": {
-    "groups": [
+    "tabs": [
       {
-        "group": "Get started",
-        "pages": ["index"]
+        "tab": "Docs",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": ["index", "how-it-works", "security"]
+          },
+          {
+            "group": "The CLI",
+            "pages": ["cli/install", "cli/update", "cli/configuration", "cli/maintenance"]
+          },
+          {
+            "group": "Concepts",
+            "pages": ["concepts/organizations-and-people", "concepts/health", "concepts/alerts"]
+          }
+        ]
+      },
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Your own agents",
+            "pages": ["guides/enrol-an-agent"]
+          },
+          {
+            "group": "For supervising agents",
+            "pages": ["guides/api-keys", "guides/maintenance-from-an-agent", "guides/mcp"]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "API reference",
+            "pages": ["api-reference"]
+          },
+          {
+            "group": "Routes",
+            "openapi": "openapi.json"
+          }
+        ]
+      },
+      {
+        "tab": "Changelog",
+        "groups": [
+          {
+            "group": "Changelog",
+            "pages": ["changelog"]
+          }
+        ]
       }
     ]
+  },
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude"]
   },
   "footer": {
     "socials": {

@@ -1,0 +1,39 @@
+---
+title: "Update the CLI"
+description: "Release tracks, and how a copy changes version."
+---
+
+There are no automatic updates. A copy changes version only when someone runs `update`.
+
+```sh
+# Update to the newest release on this copy's track
+beaconclaw update
+
+# Only report what is available
+beaconclaw update --check
+
+# Install an exact version
+beaconclaw update --version v0.1.0
+```
+
+`update` downloads the binary for your platform, checks it against the release's `checksums.txt`, confirms the new binary runs, replaces the old one in a single step, and restarts the service if it was running. If any step fails, the old binary stays in place. If the service does not come back on the new version, the old binary is restored and restarted.
+
+Without `--version`, `update` never moves to an older version than the one installed.
+
+## Release tracks
+
+| Track | What it gets | Tag form |
+| --- | --- | --- |
+| `stable` (default) | Official releases only | `v0.1.0` |
+| `beta` | Pre-releases as well | `v0.1.0-beta.1` |
+
+A copy stays on `stable` unless you move it.
+
+```sh
+# Show or set the track without updating
+beaconclaw channel
+beaconclaw channel beta
+
+# Switch track, then update. The choice is remembered.
+beaconclaw update --channel beta
+```

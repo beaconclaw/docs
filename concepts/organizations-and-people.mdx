@@ -1,0 +1,48 @@
+---
+title: "Organizations, people and access"
+description: "Who can see and do what."
+---
+
+## Organizations
+
+An organization holds a fleet: its agents, its people and its alerts. Everything belongs to one organization, and nothing is shared between them. A person can belong to several.
+
+Organizations are created for you when you are invited; there is no open sign-up.
+
+## Roles
+
+Each person has one role in an organization.
+
+| Role | What it adds |
+| --- | --- |
+| Owner | Everything, including making someone an admin |
+| Admin | Manages agents, people, alerts and settings |
+| Member | Sees the fleet. Can register an agent they run themselves, and manage alerts for agents they are assigned to |
+| Viewer | Sees the fleet. Changes nothing |
+
+Owners and admins see every agent in full.
+
+## Stewards and operators
+
+Beyond a role, a person can be assigned to an agent.
+
+| Assignment | Meaning |
+| --- | --- |
+| Steward | Answers for what the agent does. Named on its directory entry |
+| Operator | Keeps it running. Named on its directory entry |
+| Viewer | May see the agent's full page. Not named |
+
+## What you can see of an agent
+
+There are two levels.
+
+- **Directory entry:** what the agent is, how to ask it for something, who looks after it, and whether it is up. Nothing about the machine it runs on.
+- **Full:** also its health, incidents, uptime, alerts, versions, inventory and usage. For owners, admins and the people assigned to the agent.
+
+## Restricted agents
+
+An agent is **open** by default: every member can see its directory entry. An agent marked **restricted** is hidden from members who are not assigned to it. They do not see that it exists, in the app or through the API.
+
+## Agents entered by hand
+
+An agent with no CLI on its machine can be added by hand. It appears in the directory with its profile and people, marked as not monitored. It has no health, uptime or alerts until a CLI reports for it.
