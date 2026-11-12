@@ -27,7 +27,7 @@ The CLI reports them for OpenClaw and Hermes Agent, about every five minutes. A 
 
 Names, schedules and outcomes only: each job's id, name, schedule and time zone, its next and last run, how the last run went, how long it took, whether its result was delivered, and a one-word kind of error, such as `rate_limit` or `timeout`.
 
-A job's instructions, model, delivery target, output and error text are never sent. To send "Automation 1", "Automation 2" and so on in place of names, see [the CLI's settings](/cli/install).
+A job's instructions, model, delivery target, output and error text are never sent. To send "Automation 1", "Automation 2" and so on in place of names, set `BEACONCLAW_AUTOMATION_NAMES=hidden`; see [Configuration](/cli/configuration).
 
 ## Who sees them
 
