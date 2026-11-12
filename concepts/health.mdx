@@ -41,7 +41,7 @@ An agent can be up and still useless: its model sign-in has stopped working, an 
 
 Only counts, dates, provider names, kinds of channel and finding codes leave the machine: never messages, people, keys or file paths. Lines the runtime cannot report are left out. OpenClaw reports all of them; Hermes Agent reports pairing requests and backups, and its version is compared with the newest release.
 
-An [alert rule](/concepts/alerts) of the kind "A sign-in, approval or backup needs attention" tells a channel when a sign-in expires within 7 days (and again within 1 day) or stops working, approvals have waited 4 hours, pairing requests jump, there has been no backup for 7 days, or a security update is out; and again when each is fine.
+An [alert rule](/concepts/alerts) of the kind "A sign-in, approval or backup needs attention" tells a channel when a sign-in stops working or a key with a fixed expiry expires within 7 days (and again within 1 day), approvals have waited 4 hours, pairing requests jump, there has been no backup for 7 days, or a security update is out; and again when each is fine.
 
 The organization's overview also shows **coverage**: agents with no steward, operator or supervising agent, no alert that reaches a person, no channel to tell their users, remote actions off, or an older CLI or runtime.
 
