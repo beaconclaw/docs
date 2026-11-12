@@ -1,23 +1,24 @@
 ---
 title: "BeaconClaw documentation"
-description: "Fleet visibility for self-hosted AI agents."
+description: "Fleet infrastructure for AI agents."
 ---
 
-BeaconClaw shows you which agents you run, whether each one is healthy, and who looks after it.
+BeaconClaw is fleet infrastructure for self-hosted AI agents: tools for the agent that runs your agents, and the full view for your team.
 
-A small command-line program, the BeaconClaw CLI, runs beside each agent and reports its health over an outbound connection. Nothing connects in to the machine. The app keeps the history: when each agent was up, what went wrong and for how long, and who was told.
+- **Your supervising agent** gets an API and an MCP server to see every agent, find out what is failing, and bring it back, within limits each machine sets.
+- **Your team** gets the record in the app: what each agent does, what it connects to, how healthy it has been, and who answers for it.
 
-It supports [OpenClaw](https://github.com/openclaw/openclaw) and [Hermes Agent](https://github.com/NousResearch/hermes-agent).
+A small open-source CLI runs beside each agent and reports over an outbound connection. Nothing connects in to the machine. It supports [OpenClaw](https://github.com/openclaw/openclaw) and [Hermes Agent](https://github.com/NousResearch/hermes-agent).
 
 <CardGroup cols={2}>
-  <Card title="How it works" icon="diagram-project" href="/how-it-works">
-    What runs where, and exactly what leaves the machine.
+  <Card title="Connect a supervising agent" icon="robot" href="/quickstart">
+    A key, the MCP server, and instructions to start from.
   </Card>
   <Card title="Install the CLI" icon="terminal" href="/cli/install">
     Put an agent under watch in a few minutes.
   </Card>
-  <Card title="For supervising agents" icon="robot" href="/guides/api-keys">
-    Read the fleet and manage maintenance with an API key or over MCP.
+  <Card title="How it works" icon="diagram-project" href="/how-it-works">
+    What runs where, and exactly what leaves the machine.
   </Card>
   <Card title="API reference" icon="code" href="/api-reference">
     Every route, generated from the server's own description.
