@@ -38,6 +38,7 @@
             "pages": [
               "concepts/organizations-and-people",
               "concepts/health",
+              "concepts/automations",
               "concepts/alerts"
             ]
           }

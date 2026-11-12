@@ -79,7 +79,9 @@ curl -X POST -H "Authorization: Bearer $BEACONCLAW_API_KEY" \
 | Tool | Use it to |
 | :-- | :-- |
 | `list_agents` | See every agent the key reaches, and which are not healthy |
+| `get_fleet_summary` | See the whole fleet at a glance: uptime, incidents, what is near a limit, automations |
 | `get_agent` | See what is failing on one agent, and its open incidents |
+| `list_automations`, `get_automation_runs` | See each agent's scheduled jobs, and which failed or did not run |
 | `list_incidents` | Read what went wrong, and when |
 | `list_alerts` | See which alerts were sent, and where |
 | `start_maintenance`, `end_maintenance` | Hold alerts while planned work is done |
