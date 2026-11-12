@@ -22,6 +22,7 @@ A channel has a **Send test** button. Webhook addresses are stored encrypted and
 | Goes offline, and comes back | An agent stops reporting, and again when it returns |
 | Memory or disk stays high | It stays at or above a percentage for a number of minutes |
 | A part of the runtime keeps failing | A check, such as a chat channel, fails for a number of minutes |
+| An automation fails or does not run | A scheduled job fails a number of times in a row (2 unless you choose), does not run when due, or runs but its result is not delivered; and when it works again. See [Automations](/concepts/automations) |
 | Daily summary | Once a day, one message covering every agent |
 
 A rule applies to one agent or to every agent in the organization.
@@ -55,10 +56,11 @@ Alert rules send to shared channels. Separately, each person chooses what they a
 - a health problem, and when it clears
 - maintenance starting or ending
 - a version changing
+- an automation failing or not running, and working again
 
 Each can go to your email address, to a Slack direct message, or both. Slack direct messages need the organization to connect its own Slack app on the Alerts page.
 
-Nobody is messaged because of their role. Someone newly assigned as an operator starts with outages by email and can change it; everyone else starts with nothing. You can only be told about an agent whose full page you can open.
+Nobody is messaged because of their role. Someone newly assigned as an operator starts with outages and automations by email, and a new steward with automations by email; either can change it. Everyone else starts with nothing. You can only be told about an agent whose full page you can open.
 
 ## Announcements to an agent's users
 

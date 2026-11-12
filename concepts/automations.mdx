@@ -29,6 +29,12 @@ Names, schedules and outcomes only: each job's id, name, schedule and time zone,
 
 A job's instructions, model, delivery target, output and error text are never sent. To send "Automation 1", "Automation 2" and so on in place of names, set `BEACONCLAW_AUTOMATION_NAMES=hidden`; see [Configuration](/cli/configuration).
 
+## Alerts and maintenance
+
+An [alert rule](/concepts/alerts) of the kind "An automation fails or does not run" tells a channel when a job fails, does not run when due, or is not delivered, and when it works again. A job that did not run while its agent was in maintenance is reported once the maintenance ends.
+
+Starting maintenance lists the runs it will cut across. When recording a window, **Suggest a time** offers the next times when no automation of those agents is due. A supervising agent can do the same with `find_maintenance_window`.
+
 ## Who sees them
 
 Anyone who can open an agent in full sees its automations. If another organization runs your agents, it can mark a job as its own, which hides that job from your people.
