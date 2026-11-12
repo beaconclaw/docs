@@ -12,7 +12,7 @@ You need:
 
 ## 1. Make a key for the supervisor
 
-In the app, open the menu under your email, choose **Developer**, then **Make a key**. Name it after the supervisor and limit it to the agents it supervises.
+In the app, open the menu under your email, choose **Developer**, then **Make a key**. Name it after the supervisor, tick **Belongs to the organization** so it keeps working if you leave, and limit it to the agents it supervises. If another organization runs these agents, give the key to that organization; see [API keys](/guides/api-keys#keys-that-belong-to-the-organization).
 
 | Permission | Lets the supervisor |
 | :-- | :-- |
@@ -20,7 +20,7 @@ In the app, open the menu under your email, choose **Developer**, then **Make a 
 | Maintenance | Start and end maintenance on agents its maker may maintain |
 | Actions | Ask an agent's machine to run diagnostics or restart its gateway, where that machine has [switched the action on](/cli/remote-actions) |
 
-The key acts as you, and can never do more than you can. It is shown once. Put it in the supervisor's environment as `BEACONCLAW_API_KEY`. See [API keys](/guides/api-keys).
+A key that belongs to you acts as you and stops if you leave; one that belongs to the organization acts as an admin within what you chose. It is shown once. Put it in the supervisor's environment as `BEACONCLAW_API_KEY`. See [API keys](/guides/api-keys).
 
 ## 2. Connect it over MCP
 

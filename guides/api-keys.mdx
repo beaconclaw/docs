@@ -12,9 +12,19 @@ An API key lets a program use BeaconClaw in place of a person's sign-in.
 - A key can be limited to chosen agents.
 - A key may make 120 requests a minute.
 
+## Keys that belong to the organization
+
+A key for a supervising agent should not stop when the person who set it up leaves. An owner or admin can make a key that **belongs to the organization** instead:
+
+- It acts as an admin of the organization, but only on the agents it is limited to and with the permissions chosen for it.
+- It keeps working when its maker leaves. Its maker is still on record.
+- Only owners and admins see it, in the organization's settings, and only they can revoke it. It is not in its maker's own list.
+- Where another organization runs this one's agents, an owner or admin of both can give the key to **the organization that runs them**. Only that organization's people may ask those agents to [act](/cli/remote-actions), so its supervising agent needs a key it owns.
+- Anything it does is recorded under the key's name.
+
 ## Make a key
 
-In the app, open the menu under your email and choose **Developer**, then **Make a key**. Choose the organization, name the key after what will use it, and copy it. It starts with `bck_` and is shown once.
+In the app, open the menu under your email and choose **Developer**, then **Make a key**. Choose the organization, name the key after what will use it, and tick **Belongs to the organization** if it is for a supervising agent. Copy it: it starts with `bck_` and is shown once.
 
 ## Use it
 
