@@ -3,7 +3,7 @@ title: "Runtimes"
 description: "OpenClaw and Hermes Agent, and what the CLI reads on each."
 ---
 
-The CLI watches one agent runtime per machine. It supports [OpenClaw](https://github.com/openclaw/openclaw) and [Hermes Agent](https://github.com/NousResearch/hermes-agent), and finds which one is installed by itself. To choose, set `"runtime": "openclaw"` or `"runtime": "hermes"` in the [config file](/cli/configuration), or `BEACONCLAW_RUNTIME`.
+Each copy of the CLI reports on one agent runtime. It supports [OpenClaw](https://github.com/openclaw/openclaw) and [Hermes Agent](https://github.com/NousResearch/hermes-agent). `beaconclaw auth` saves which one: the one you give with `--runtime openclaw` or `--runtime hermes`, or the only one installed. A saved choice never changes by itself, so a runtime that is down is reported as down, not swapped for another.
 
 Everything in the app works the same for both: health, incidents, uptime, alerts, the inventory, usage and [remote actions](/cli/remote-actions).
 
@@ -26,3 +26,15 @@ On both, the CLI reads names and counts only. It never opens the runtime's envir
 The CLI reads Hermes's home folder: `$HERMES_HOME`, or `~/.hermes`. Set another with `"hermes_home"` in the config file or `BEACONCLAW_HERMES_HOME`. In the official Docker image the home folder is `/opt/data`; run the CLI in the same container so it can see the gateway's process.
 
 A restart counts as done only when a new gateway process appears. If Hermes refuses because a conversation or job is in progress, the result says the gateway was not restarted.
+
+## Both on one machine
+
+Each runtime is a separate agent in BeaconClaw, with its own token. Run one copy of the CLI for each, as two profiles:
+
+```sh
+beaconclaw auth --runtime openclaw
+beaconclaw --profile hermes auth --token bc_... --runtime hermes
+beaconclaw --profile hermes install
+```
+
+When both are installed and no choice is saved, `beaconclaw status` and the CLI's log say so and print these commands. Until then the copy reports on OpenClaw.
