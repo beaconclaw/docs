@@ -15,7 +15,8 @@ Everything in the app works the same for both: health, incidents, uptime, alerts
 | A gateway that says it is fine but has stopped working | Failing channels the gateway reports | The state file has not been rewritten for two minutes while the process is alive |
 | Skills | `openclaw skills list` | Folders under `skills/` with a `SKILL.md` |
 | Connections | Names under `channels`, `mcp.servers` and `models.providers` | Names of platforms, `mcp_servers`, `providers` and `model.provider` |
-| Usage | `openclaw gateway call sessions.usage` | `state.db`, opened read-only: counts by role and source |
+| Usage | `openclaw gateway call sessions.usage` | `state.db`, opened read-only: counts by role and source, and each conversation's cost shared across its days |
+| Revision | The commit of the workspace folder, if it is under git | The commit of Hermes's home folder, if it is under git |
 | Version | The running gateway's package | `code_version` in the state file |
 | Restart | `openclaw gateway restart` | `hermes gateway restart`, without `--yes` |
 
