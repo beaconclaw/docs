@@ -24,7 +24,7 @@ Uptime is counted per calendar month.
 
 An agent is **up** when all three hold: its machine is reporting, its runtime is online, and every channel the runtime supports is healthy. A degraded agent does not count as up.
 
-Time in a [maintenance window](/cli/maintenance) is left out of the figure. A window can only raise uptime, never lower it.
+Time in a [maintenance window](/cli/maintenance) is left out of the figure, except for **repair**: a window that began while the agent already had an incident open. Its alerts are held all the same, but its time counts, so starting maintenance during an outage does not erase the outage.
 
 ## History
 

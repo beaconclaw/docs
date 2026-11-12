@@ -3,7 +3,7 @@ title: "Maintenance"
 description: "Tell BeaconClaw you are working on an agent."
 ---
 
-While an agent is in maintenance, its alerts are held back and the time is left out of its uptime. Start it before working on the agent and end it after.
+While an agent is in maintenance, its alerts are held back and the time is left out of its uptime. Start it before working on the agent and end it after. Started while the agent is already down, it is [repair](/concepts/health): alerts are held, but the time counts.
 
 ```sh
 beaconclaw maintenance start --reason "runtime upgrade" --for 2h

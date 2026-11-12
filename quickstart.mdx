@@ -104,9 +104,10 @@ Every 5 minutes, call list_agents. For each agent that is not healthy:
    the agent's name, what was failing, and what you tried.
 
 Before planned work on an agent, call start_maintenance with the reason and how
-long it will take, and end_maintenance when it is done. Do not use maintenance
-to cover an outage: the outage belongs on the record.
+long it will take, and end_maintenance when it is done.
 ```
+
+Maintenance started while an agent already has an incident open is **repair**: its alerts are still held while the supervisor works, but the time counts in uptime, so an outage stays on the record.
 
 The CLI allows at most one restart every five minutes on a machine, whatever the supervisor asks.
 
