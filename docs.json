@@ -2,22 +2,122 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "BeaconClaw",
+  "description": "Fleet visibility for self-hosted AI agents.",
   "colors": {
     "primary": "#1d9e75",
     "light": "#3ecf9a",
     "dark": "#1d9e75"
   },
   "navigation": {
-    "groups": [
+    "tabs": [
       {
-        "group": "Get started",
-        "pages": ["index"]
+        "tab": "Docs",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": [
+              "index",
+              "quickstart",
+              "how-it-works",
+              "security"
+            ]
+          },
+          {
+            "group": "The CLI",
+            "pages": [
+              "cli/install",
+              "cli/runtimes",
+              "cli/update",
+              "cli/configuration",
+              "cli/maintenance",
+              "cli/remote-actions"
+            ]
+          },
+          {
+            "group": "Concepts",
+            "pages": [
+              "concepts/organizations-and-people",
+              "concepts/health",
+              "concepts/automations",
+              "concepts/alerts"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "For supervising agents",
+            "pages": [
+              "guides/api-keys",
+              "guides/maintenance-from-an-agent",
+              "guides/mcp",
+              "guides/agents-use-beaconclaw"
+            ]
+          },
+          {
+            "group": "Your own agents",
+            "pages": [
+              "guides/enrol-an-agent"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "API reference",
+            "pages": [
+              "api-reference"
+            ]
+          },
+          {
+            "group": "Routes",
+            "openapi": "openapi.json"
+          }
+        ]
+      },
+      {
+        "tab": "Changelog",
+        "groups": [
+          {
+            "group": "Changelog",
+            "pages": [
+              "changelog"
+            ]
+          }
+        ]
       }
+    ]
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude"
     ]
   },
   "footer": {
     "socials": {
       "github": "https://github.com/beaconclaw/beaconclaw"
-    }
+    },
+    "links": [
+      {
+        "header": "Legal",
+        "items": [
+          {
+            "label": "Terms of Service",
+            "href": "https://www.beaconclaw.ai/legal/terms"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "https://www.beaconclaw.ai/legal/privacy"
+          }
+        ]
+      }
+    ]
   }
 }

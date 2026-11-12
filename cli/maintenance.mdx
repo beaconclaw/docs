@@ -1,0 +1,18 @@
+---
+title: "Maintenance"
+description: "Tell BeaconClaw you are working on an agent."
+---
+
+While an agent is in maintenance, its alerts are held back and the time is left out of its uptime. Start it before working on the agent and end it after. Started while the agent is already down, it is [repair](/concepts/health): alerts are held, but the time counts.
+
+```sh
+beaconclaw maintenance start --reason "runtime upgrade" --for 2h
+beaconclaw maintenance end
+```
+
+- `--for` defaults to `1h`. The longest is 14 days.
+- Starting again while the agent is already in maintenance keeps the one window, made longer if the new request runs later.
+- If you forget to end it, it ends by itself at the time given.
+- Alerts held during the window are sent when it ends, if they are still true.
+
+The CLI's token can only put its own agent into maintenance. To do it for another agent, from a program or a supervising agent, use an [API key](/guides/api-keys).

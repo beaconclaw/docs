@@ -1,0 +1,34 @@
+---
+title: "Enrol an agent you run"
+description: "Register an agent, get its token and install the CLI."
+---
+
+Anyone in an organization except a viewer can register an agent.
+
+<Steps>
+  <Step title="Register it">
+    In the app, open **Agents** and choose **Register agent**. Give it a name.
+
+    You are shown its **agent token** once. It starts with `bc_`. Copy it now.
+
+    If you are a member rather than an owner or admin, you become the agent's operator: you can open its pages, set up alerts for it and issue it a new token.
+  </Step>
+  <Step title="Install the CLI on its machine">
+    Follow [Install the CLI](/cli/install) with that token.
+  </Step>
+  <Step title="Check it is reporting">
+    The agent's row on the Agents page shows its state within seconds of the CLI starting.
+  </Step>
+  <Step title="Decide who hears about it">
+    Add an alert rule for it on the **Alerts** page. See [Alerts](/concepts/alerts).
+  </Step>
+</Steps>
+
+## If the token is lost
+
+Open the agent's menu on the Agents page and choose **Rotate token**. The old token stops working at once and the agent shows as offline until its machine has the new one:
+
+```sh
+beaconclaw auth --token bc_your_new_token
+beaconclaw restart
+```

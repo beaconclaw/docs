@@ -1,0 +1,118 @@
+---
+title: "Connect a supervising agent"
+description: "Give the agent that runs your agents what it needs to keep them healthy."
+---
+
+A supervising agent is one of your agents whose job is to watch the others: notice when one is down, find out why, and bring it back. BeaconClaw gives it an outside view of every agent and a short, safe list of things it may do. Your team sees the same record in the app.
+
+You need:
+
+- The [CLI](/cli/install) on each agent you want watched, on OpenClaw or Hermes Agent.
+- An agent of your own to supervise them. It needs to speak MCP or make HTTP requests.
+
+## 1. Make a key for the supervisor
+
+In the app, open the menu under your email, choose **Developer**, then **Make a key**. Name it after the supervisor, tick **Belongs to the organization** so it keeps working if you leave, and limit it to the agents it supervises. If another organization runs these agents, give the key to that organization; see [API keys](/guides/api-keys#keys-that-belong-to-the-organization).
+
+| Permission | Lets the supervisor |
+| :-- | :-- |
+| Read (every key) | List agents, read health, incidents and alerts |
+| Maintenance | Start and end maintenance on agents its maker may maintain |
+| Actions | Ask an agent's machine to run diagnostics or restart its gateway, where that machine has [switched the action on](/cli/remote-actions) |
+
+A key that belongs to you acts as you and stops if you leave; one that belongs to the organization acts as an admin within what you chose. It is shown once. Put it in the supervisor's environment as `BEACONCLAW_API_KEY`. See [API keys](/guides/api-keys).
+
+## 2. Connect it over MCP
+
+The MCP server is at `https://api.beaconclaw.ai/mcp`, with the key as a bearer token.
+
+<Tabs>
+  <Tab title="Hermes Agent">
+    Add to `config.yaml`, with `BEACONCLAW_API_KEY` in Hermes's `.env`:
+
+    ```yaml
+    mcp_servers:
+      beaconclaw:
+        url: https://api.beaconclaw.ai/mcp
+        headers:
+          Authorization: "Bearer ${BEACONCLAW_API_KEY}"
+    ```
+  </Tab>
+  <Tab title="OpenClaw">
+    ```sh
+    openclaw mcp add beaconclaw \
+      --url https://api.beaconclaw.ai/mcp \
+      --transport streamable-http \
+      --header "Authorization=Bearer $BEACONCLAW_API_KEY"
+    ```
+
+    OpenClaw checks the connection before saving. The key is saved in `openclaw.json`.
+  </Tab>
+  <Tab title="Other MCP clients">
+    ```json
+    {
+      "mcpServers": {
+        "beaconclaw": {
+          "type": "http",
+          "url": "https://api.beaconclaw.ai/mcp",
+          "headers": { "Authorization": "Bearer bck_your_key_here" }
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+An agent without MCP can use the same key with the [REST API](/guides/agents-use-beaconclaw).
+
+Check the key and the address from a terminal:
+
+```sh
+curl -X POST -H "Authorization: Bearer $BEACONCLAW_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' \
+  https://api.beaconclaw.ai/mcp
+```
+
+## 3. The tools it gets
+
+| Tool | Use it to |
+| :-- | :-- |
+| `list_agents` | See every agent the key reaches, and which are not healthy |
+| `get_fleet_summary` | See the whole fleet at a glance: uptime, incidents, what is near a limit, automations |
+| `get_agent` | See what is failing on one agent, and its open incidents |
+| `list_automations`, `get_automation_runs` | See each agent's scheduled jobs, and which failed or did not run |
+| `list_incidents` | Read what went wrong, and when |
+| `list_alerts` | See which alerts were sent, and where |
+| `start_maintenance`, `end_maintenance` | Hold alerts while planned work is done |
+| `run_diagnostics` | Ask the agent's machine to check itself again |
+| `restart_gateway` | Ask the agent's machine to restart its gateway |
+
+Each is a call to the API with the supervisor's key, so every change it makes is on that key's record. Details on the [MCP server](/guides/mcp) page.
+
+## 4. Tell it how to supervise
+
+Give the supervisor instructions like these, as part of its prompt or as a skill. Adjust them to your own rules.
+
+```markdown
+You supervise agents through the BeaconClaw tools.
+
+Every 5 minutes, call list_agents. For each agent that is not healthy:
+1. Call get_agent to see what is failing. If it is in maintenance, leave it alone.
+2. Call run_diagnostics, and read what it reports.
+3. If the gateway is not answering, call restart_gateway once.
+4. Call get_agent again. If the agent is healthy, note what happened and stop.
+5. If it is still not healthy, do not restart it again. Tell a person:
+   the agent's name, what was failing, and what you tried.
+
+Before planned work on an agent, call start_maintenance with the reason and how
+long it will take, and end_maintenance when it is done.
+```
+
+Maintenance started while an agent already has an incident open is **repair**: its alerts are still held while the supervisor works, but the time counts in uptime, so an outage stays on the record.
+
+The CLI allows at most one restart every five minutes on a machine, whatever the supervisor asks.
+
+## What your team sees
+
+Everything the supervisor does is in the app: the incident, the diagnostics and restarts it asked for, and any maintenance it recorded. People can be [alerted](/concepts/alerts) as well, in Slack, Discord or email, so someone hears about it even when the supervisor itself is down. To tell people only when the supervisor has not fixed it, give their rule a wait; see [the supervising agent first, then a person](/concepts/alerts#the-supervising-agent-first-then-a-person).

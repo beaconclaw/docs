@@ -1,0 +1,43 @@
+---
+title: "MCP server"
+description: "Use BeaconClaw as tools from an agent."
+---
+
+BeaconClaw serves the Model Context Protocol at one address, so that an agent can use it as tools.
+
+```text
+https://api.beaconclaw.ai/mcp
+```
+
+Add it to your agent as a remote MCP server over HTTP, with an [API key](/guides/api-keys) as the bearer token in an `Authorization` header. A person's sign-in is not accepted.
+
+## Tools
+
+| Tool | What it does | Needs |
+| --- | --- | --- |
+| `list_agents` | Every agent the key can see, with whether it is reporting and any maintenance it is in | Any key |
+| `get_agent` | One agent: its status, any maintenance it is in, latest heartbeat and open incidents | Any key |
+| `list_incidents` | Stretches in which an agent was not healthy, newest first | Any key |
+| `list_alerts` | Alerts that were raised, with where each was sent | Any key |
+| `start_maintenance` | Put an agent into maintenance from now | The maintenance permission, on a key whose maker is an operator of the agent, or an owner or admin |
+| `end_maintenance` | Take it out again | The same |
+| `run_diagnostics` | Ask an agent's machine to run its checks again and report | The actions permission, on a key whose maker may ask, and the action switched on on the machine. See [Remote actions](/cli/remote-actions) |
+| `restart_gateway` | Ask an agent's machine to restart its gateway. The agent is away for a few minutes | The same |
+
+An agent is named by its name or its ID.
+
+Each tool is a call to the public API with the same key, so a tool can do exactly what the key can: a key limited to some agents sees only those, and every change is in the key's record.
+
+## Check the address and the key
+
+```sh
+curl -X POST \
+  -H "Authorization: Bearer $BEACONCLAW_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' \
+  https://api.beaconclaw.ai/mcp
+```
+
+## Limits
+
+One tool call counts as two to four requests against the key's 120 a minute.

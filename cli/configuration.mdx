@@ -1,0 +1,71 @@
+---
+title: "Configuration"
+description: "The config file, environment variables and profiles."
+---
+
+The CLI needs only a token. Everything else has a default.
+
+## Config file
+
+Optional. `~/.beaconclaw/config.json`:
+
+```json
+{
+  "token": "bc_your_token_here",
+  "endpoint": "wss://api.beaconclaw.ai/ws",
+  "openclaw_port": 18789,
+  "channel": "stable",
+  "inventory": true,
+  "usage": true
+}
+```
+
+Environment variables override the config file, which overrides the defaults.
+
+## Environment variables
+
+| Variable | What it sets | Default |
+| --- | --- | --- |
+| `BEACONCLAW_TOKEN` | Agent token (required) | none |
+| `BEACONCLAW_ENDPOINT` | Server WebSocket address | `wss://api.beaconclaw.ai/ws` |
+| `BEACONCLAW_RUNTIME` | `openclaw` or `hermes` | found automatically |
+| `BEACONCLAW_OPENCLAW_PORT` | The OpenClaw gateway port | found automatically |
+| `BEACONCLAW_HERMES_HOME` | Hermes's home folder | `$HERMES_HOME`, then `~/.hermes` |
+| `BEACONCLAW_PROFILE` | Profile to act on | the default profile |
+| `BEACONCLAW_INVENTORY` | `false` stops reporting skill and connection names | `true` |
+| `BEACONCLAW_USAGE` | `false` stops reporting daily usage counts | `true` |
+| `BEACONCLAW_AUTOMATIONS` | `false` stops reporting scheduled jobs | `true` |
+| `BEACONCLAW_SIGNALS` | `false` stops reporting sign-ins, approvals, pairing, backups and versions | `true` |
+| `BEACONCLAW_AUTOMATION_NAMES` | `hidden` sends "Automation 1", "Automation 2" and so on in place of scheduled jobs' names | `shown` |
+
+The server address must start with `wss://`. An unencrypted `ws://` address is accepted only for a server on the same machine.
+
+## Send less
+
+The inventory, usage, automations and signals are on by default and switch off separately.
+
+- **Inventory:** set `"inventory": false` in the config file, or `BEACONCLAW_INVENTORY=false` in the service's environment.
+- **Usage:** set `"usage": false`, or `BEACONCLAW_USAGE=false`.
+- **Automations:** set `"automations": false`, or `BEACONCLAW_AUTOMATIONS=false`. To keep them but hide their names, see `BEACONCLAW_AUTOMATION_NAMES` above.
+- **Signals** (sign-ins, approvals, pairing, backups, versions): set `"signals": false`, or `BEACONCLAW_SIGNALS=false`.
+
+Restart the CLI afterwards. Nothing is then collected or sent for that part, and the CLI tells the server it does not report it.
+
+## Profiles
+
+A profile is a second, independent copy of the CLI on the same machine, for example one reporting to a test server beside the normal one. Each profile has its own config folder, agent ID, token, release track, service and logs.
+
+```sh
+beaconclaw --profile dev auth --token bc_your_other_token --endpoint wss://manager.example.com/ws
+beaconclaw --profile dev install
+beaconclaw --profile dev status
+```
+
+| | Default profile | Profile `dev` |
+| --- | --- | --- |
+| Config folder | `~/.beaconclaw/` | `~/.beaconclaw-dev/` |
+| Linux service | `beaconclaw.service` | `beaconclaw-dev.service` |
+| macOS service | `ai.beaconclaw.agent` | `ai.beaconclaw.agent.dev` |
+| Windows task | `BeaconClaw` | `BeaconClaw-dev` |
+
+Every command acts on one profile and leaves the others alone. Choose the profile with `--profile`, with `BEACONCLAW_PROFILE`, or by installing the binary under the name `beaconclaw-<profile>`: a binary named `beaconclaw-dev` acts on the `dev` profile with no flag.

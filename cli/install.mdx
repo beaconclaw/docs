@@ -1,0 +1,67 @@
+---
+title: "Install the CLI"
+description: "Put an agent under watch."
+---
+
+## Before you start
+
+- An agent runtime running on the machine: OpenClaw or Hermes Agent. The CLI finds which one by itself; see [Runtimes](/cli/runtimes).
+- An **agent token** from BeaconClaw. It starts with `bc_`. You get one when you [register the agent](/guides/enrol-an-agent) in the app.
+
+## 1. Download
+
+Download the binary for your platform from the [releases page](https://github.com/beaconclaw/beaconclaw/releases), make it executable and put it on your `PATH`. Binaries are published for Linux, macOS and Windows, on amd64 and arm64.
+
+Each release includes a `checksums.txt` file with the SHA-256 of every binary.
+
+```sh
+# Example: Linux on amd64. Replace v0.0.0 with the release you want.
+curl -fsSL -o beaconclaw https://github.com/beaconclaw/beaconclaw/releases/download/v0.0.0/beaconclaw-linux-amd64
+chmod +x beaconclaw
+mkdir -p ~/.local/bin && mv beaconclaw ~/.local/bin/
+```
+
+## 2. Give it the token
+
+```sh
+beaconclaw auth --token bc_your_token_here
+```
+
+To keep the token out of your shell history, set it in the environment instead:
+
+```sh
+BEACONCLAW_TOKEN=bc_your_token_here beaconclaw auth
+```
+
+## 3. Install it as a service
+
+```sh
+beaconclaw install
+```
+
+This registers a service for the current user, not a system-wide one: a systemd user unit on Linux, a launchd agent on macOS and a scheduled task on Windows. It needs no root access. The service starts at login or boot and restarts on failure.
+
+## 4. Check it
+
+```sh
+beaconclaw status
+```
+
+The agent appears in the app within seconds.
+
+## Day to day
+
+```sh
+beaconclaw start
+beaconclaw stop
+beaconclaw restart     # restarts the CLI's service, not the runtime
+beaconclaw version     # prints the version and release track
+```
+
+## Uninstall
+
+```sh
+beaconclaw uninstall
+```
+
+This removes the service. To remove everything, also delete the binary and the config folder, `~/.beaconclaw/`.

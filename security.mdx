@@ -1,0 +1,37 @@
+---
+title: "Security and data"
+description: "What is collected, where it goes and how access is controlled."
+---
+
+## On your machine
+
+- The CLI opens one outbound connection and no listening ports. Out of the box it cannot receive or run anything from the server.
+- [Remote actions](/cli/remote-actions) are an add-on the owner of a machine switches on, one at a time, on the machine. The server can then ask for that fixed action and nothing else: it cannot send a command of its own, and it cannot switch an action on.
+- It runs as your user, as a user-level service. It needs no root access.
+- It reads no conversations, messages, prompts, logs, files or credentials. [How it works](/how-it-works) lists everything it sends.
+- Its token is kept in its config folder, readable only by your user.
+- The inventory and usage reports can each be switched off. See [Configuration](/cli/configuration).
+
+## In transit
+
+- The connection to the server must be encrypted (`wss://`). The CLI refuses an unencrypted address unless it is on the same machine.
+- The agent token is sent in a header, not in the address.
+
+## On the server
+
+- Agent tokens and API keys are stored as hashes. Each is shown once, when it is made.
+- Webhook addresses and connected-service tokens are stored encrypted and are never returned.
+- Everything belongs to one organization. A person, a key and an agent token each reach one organization's data only.
+- An agent marked restricted is hidden from members who are not assigned to it.
+
+## Updates
+
+The CLI never updates itself. `beaconclaw update` checks each download against the release's published checksums and keeps the old binary if anything fails. See [Update the CLI](/cli/update).
+
+## The CLI is open source
+
+Read exactly what it does at [github.com/beaconclaw/beaconclaw](https://github.com/beaconclaw/beaconclaw).
+
+## Report a vulnerability
+
+Use **Report a vulnerability** under the Security tab of the [CLI repository](https://github.com/beaconclaw/beaconclaw/security). Please do not open a public issue for it.

@@ -1,0 +1,77 @@
+---
+title: "Alerts"
+description: "Where alerts go and what raises them."
+---
+
+An alert needs two things: a **channel**, which is where it is sent, and a **rule**, which says what raises it and for which agents.
+
+## Channels
+
+| Kind | Needs |
+| --- | --- |
+| Discord | An incoming webhook address |
+| Slack | An incoming webhook address |
+| Email | Up to ten addresses |
+
+A channel has a **Send test** button. Webhook addresses are stored encrypted and are not shown again.
+
+## Rules
+
+| Rule | Raised when |
+| --- | --- |
+| Goes offline, and comes back | An agent stops reporting, and again when it returns |
+| Memory or disk stays high | It stays at or above a percentage for a number of minutes |
+| A part of the runtime keeps failing | A check, such as a chat channel, fails for a number of minutes |
+| An automation fails or does not run | A scheduled job fails a number of times in a row (2 unless you choose), does not run when due, or runs but its result is not delivered; and when it works again. See [Automations](/concepts/automations) |
+| Daily summary | Once a day, one message covering every agent |
+
+A rule applies to one agent or to every agent in the organization.
+
+A rule or a channel can be turned off without deleting it. Nothing is sent through one that is off.
+
+## The supervising agent first, then a person
+
+If a [supervising agent](/quickstart) looks after your agents, it should hear about a problem at once and people only if it cannot fix it. Make two rules:
+
+1. One that sends to the supervising agent's channel straight away.
+2. One that sends to your team's channel, with **Only if still not fixed after a while** ticked and a wait of 1 to 240 minutes.
+
+The second rule holds its alert for the wait. If the problem is still going on when the wait is over, the alert is sent, and so is the recovery when it comes. If the agent recovers in time, or maintenance begins, nothing is sent to that channel at all. History shows a held alert as **waiting**, then as sent or **not needed, fixed in time**.
+
+A daily summary is never held.
+
+## Who can set them up
+
+Owners and admins manage every channel and rule. A steward or operator can add channels of their own and rules for the agents they are assigned to.
+
+## Maintenance
+
+While an agent is in maintenance its alerts are held back. When the window ends, those that are still true are sent.
+
+## Messages to you alone
+
+Alert rules send to shared channels. Separately, each person chooses what they are told about each agent, under **Notifications** in the menu under their email:
+
+- going offline and coming back
+- a health problem, and when it clears
+- maintenance starting or ending
+- a version changing
+- an automation failing or not running, and working again
+
+Each can go to your email address, to a Slack direct message, or both. Slack direct messages need the organization to connect its own Slack app on the Alerts page.
+
+Nobody is messaged because of their role. Someone newly assigned as an operator starts with outages and automations by email, and a new steward with automations by email; either can change it. Everyone else starts with nothing. You can only be told about an agent whose full page you can open.
+
+## Announcements to an agent's users
+
+Alerts are for the people who run agents. The people who **use** an agent, in a Discord or Slack channel, can be told about planned work where they already are.
+
+- Set a channel on the agent's page, under **Announcements**, or a default for the whole organization in **Settings**. It takes the channel's webhook address, which is stored encrypted and never shown again.
+- Posted there: maintenance planned ahead of time, starting, and over. Times are given in the time zone you choose for the readers: "back by about 3:30 PM EST".
+- The reason typed when starting maintenance is included, with mentions and links removed, so write it for the agent's users.
+- Outages and recoveries are posted only if you switch that on for the channel. Health detail never is.
+- The agent's operators, and owners and admins, can set a channel. The agent's page keeps a record of what was posted.
+
+## History
+
+The Alerts page lists the last alerts raised, each with where it was sent and whether it arrived. An agent's own page lists the alerts raised about it.

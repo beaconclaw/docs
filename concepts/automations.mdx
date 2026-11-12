@@ -1,0 +1,44 @@
+---
+title: "Automations"
+description: "Each agent's scheduled jobs: what is scheduled, whether it ran, and how."
+---
+
+Agents run scheduled work: morning briefs, daily summaries, weekly reports, health checks. BeaconClaw shows each agent's scheduled jobs and whether they ran, so a job that quietly stopped does not go unnoticed.
+
+The CLI reports them for OpenClaw and Hermes Agent, about every five minutes. A runtime without a scheduler reports nothing, and its agent shows no automations panel.
+
+## What you see
+
+- **Automations**, in the organization menu: every job you may see, grouped by agent, with what needs attention first. Each job shows its schedule in plain words, its next run, its state, and its last 14 runs.
+- **The week as a calendar**: past runs by outcome, runs to come outlined, and runs that should have happened but did not. A job that runs more often than hourly is one bar a day with a count. Times are in your own time zone.
+- **On an agent's page**: its automations, how many are working, and the next one due.
+- **On the overview**: the share of runs that succeeded, the jobs that need attention, and what is still due today.
+
+| State | Means |
+| :-- | :-- |
+| Working | The last run succeeded |
+| Failing | The last run failed |
+| Did not run | It was due, and nothing ran within ten minutes (or a tenth of its interval, if that is longer) |
+| Not delivered | It ran, but its result did not reach anyone |
+| Paused | It is switched off on the machine |
+| No runs yet | It has not run since it was first reported |
+
+## What is sent
+
+Names, schedules and outcomes only: each job's id, name, schedule and time zone, its next and last run, how the last run went, how long it took, whether its result was delivered, and a one-word kind of error, such as `rate_limit` or `timeout`.
+
+A job's instructions, model, delivery target, output and error text are never sent. To send "Automation 1", "Automation 2" and so on in place of names, set `BEACONCLAW_AUTOMATION_NAMES=hidden`; see [Configuration](/cli/configuration).
+
+## Alerts and maintenance
+
+An [alert rule](/concepts/alerts) of the kind "An automation fails or does not run" tells a channel when a job fails, does not run when due, or is not delivered, and when it works again. A job that did not run while its agent was in maintenance is reported once the maintenance ends.
+
+Starting maintenance lists the runs it will cut across. When recording a window, **Suggest a time** offers the next times when no automation of those agents is due. A supervising agent can do the same with `find_maintenance_window`.
+
+## Who sees them
+
+Anyone who can open an agent in full sees its automations. If another organization runs your agents, it can mark a job as its own, which hides that job from your people.
+
+## For a supervising agent
+
+The [MCP server](/guides/mcp) has `list_automations` and `get_automation_runs`, and `get_fleet_summary` includes the roll-up. Runs are kept for 90 days.

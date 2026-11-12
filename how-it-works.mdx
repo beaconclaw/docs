@@ -1,0 +1,50 @@
+---
+title: "How it works"
+description: "What runs where, and exactly what the CLI sends."
+---
+
+There are three parts.
+
+| Part | Where it runs | What it does |
+| --- | --- | --- |
+| The CLI | On each agent's machine, beside the runtime | Checks the runtime and the machine every 30 seconds and reports upstream |
+| The server | Hosted | Receives the reports, keeps the history, raises alerts |
+| The app | Your browser | Shows the fleet, each agent's health and history, and who looks after it |
+
+## Outbound only
+
+The CLI opens one outbound WebSocket connection to the server over TLS. It opens no listening ports and needs no inbound firewall rule. Out of the box it cannot receive or run anything from the server; the owner of a machine can switch on a short list of [remote actions](/cli/remote-actions) there, such as restarting the gateway.
+
+"Outbound only" means nothing connects in to your machine. It does not mean no data leaves it. The next section lists everything that does.
+
+## What the CLI sends
+
+Everything except the inventory and usage goes with each heartbeat, every 30 seconds.
+
+| Group | What is sent |
+| --- | --- |
+| Identity | Agent ID, timestamp, sequence number |
+| Host | Hostname, operating system, architecture |
+| System metrics | CPU percent; memory total, used and percent; root disk total, used and percent |
+| Runtime | Which runtime it is; whether it is present, healthy and ready; names of failing channels; uptime; gateway port; runtime version |
+| Inventory, every 15 minutes | Names of the skills the runtime has loaded and where each comes from; names of the chat channels, tool servers and model providers it is set up to use; the names of the systems it holds a credential for (for example "Jira"), and how many declared credentials were not recognised; the commit of the runtime's working folder and whether it has uncommitted changes |
+| Usage, every hour | For today and yesterday, as numbers only: conversations with activity, user messages, assistant messages, tool calls, tokens and what the runtime says they cost, in total and by where the conversations came from |
+| CLI | Its own version, the protocol version, and what it is able to report |
+
+## What it does not send
+
+- No conversations, sessions, messages, prompts, logs, files or credentials.
+- From the runtime's configuration it reads the gateway port and the **names** of channels, tool servers and model providers, with whether each is switched on. It reads nothing inside those entries: no tokens, keys, addresses or account names.
+- For skills it keeps each skill's name and source. A skill's description and contents are not sent.
+- **It never opens your environment file.** To learn which systems the runtime can reach, it asks the runtime which skills are ready and which credentials they declare. It sees a credential's name, never its value, and a variable that no skill declares is never seen at all.
+- A credential's name is turned into a system's name by a list that ships with the CLI: `JIRA_API_TOKEN` is sent as "Jira". A name the list does not recognise is not sent; only the number of such names is. Run `beaconclaw inventory` on the machine to see which systems are sent and which names stayed behind.
+- For usage it keeps counts. Conversation names, contents, participants, tool names and file names are not read or sent.
+- For the workspace folder it sends the commit and a yes or no for uncommitted changes. Not the repository's address, branch names, file names or contents.
+
+You can switch the inventory and usage off separately. See [Configuration](/cli/configuration).
+
+## When the connection drops
+
+The CLI reconnects with increasing waits. Heartbeats the server has not yet confirmed are kept in a file in the CLI's config folder, readable only by your user, and sent when the connection returns. By default up to two hours' worth are kept; the oldest are dropped first.
+
+An agent with no heartbeat for 90 seconds is marked offline.
