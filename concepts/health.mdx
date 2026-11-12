@@ -26,6 +26,25 @@ An agent is **up** when all three hold: its machine is reporting, its runtime is
 
 Time in a [maintenance window](/cli/maintenance) is left out of the figure, except for **repair**: a window that began while the agent already had an incident open. Its alerts are held all the same, but its time counts, so starting maintenance during an outage does not erase the outage.
 
+## Sign-ins, approvals and upkeep
+
+An agent can be up and still useless: its model sign-in has stopped working, an action waits for a person to approve it, people cannot pair with it, or it has no recent backup. About once an hour the CLI asks the runtime and reports:
+
+| Line | What it shows |
+| :-- | :-- |
+| Sign-ins | Each model provider's sign-in: working, not working, or missing; and for a key with a fixed expiry, when it expires |
+| Approvals waiting | How many actions wait for a person, and how long the oldest has waited |
+| Pairing requests | How many requests to talk to the agent are waiting, per kind of channel |
+| Backups | Whether backups are set up, and when the last one ran |
+| Runtime and CLI version | The version running, and whether a newer release is out, marked when it is a security release |
+| Security review | Counts from the runtime's own security and secrets checks, by finding. Shown only to the organization that runs the agent |
+
+Only counts, dates, provider names, kinds of channel and finding codes leave the machine: never messages, people, keys or file paths. Lines the runtime cannot report are left out. OpenClaw reports all of them; Hermes Agent reports pairing requests and backups, and its version is compared with the newest release.
+
+An [alert rule](/concepts/alerts) of the kind "A sign-in, approval or backup needs attention" tells a channel when a sign-in expires within 7 days (and again within 1 day) or stops working, approvals have waited 4 hours, pairing requests jump, there has been no backup for 7 days, or a security update is out; and again when each is fine.
+
+The organization's overview also shows **coverage**: agents with no steward, operator or supervising agent, no alert that reaches a person, no channel to tell their users, remote actions off, or an older CLI or runtime.
+
 ## History
 
 Individual heartbeats are kept for a limited time. Hourly summaries, which uptime and the health charts are built from, are kept for longer.

@@ -34,16 +34,20 @@ Environment variables override the config file, which overrides the defaults.
 | `BEACONCLAW_PROFILE` | Profile to act on | the default profile |
 | `BEACONCLAW_INVENTORY` | `false` stops reporting skill and connection names | `true` |
 | `BEACONCLAW_USAGE` | `false` stops reporting daily usage counts | `true` |
+| `BEACONCLAW_AUTOMATIONS` | `false` stops reporting scheduled jobs | `true` |
+| `BEACONCLAW_SIGNALS` | `false` stops reporting sign-ins, approvals, pairing, backups and versions | `true` |
 | `BEACONCLAW_AUTOMATION_NAMES` | `hidden` sends "Automation 1", "Automation 2" and so on in place of scheduled jobs' names | `shown` |
 
 The server address must start with `wss://`. An unencrypted `ws://` address is accepted only for a server on the same machine.
 
 ## Send less
 
-The inventory and usage are on by default and switch off separately.
+The inventory, usage, automations and signals are on by default and switch off separately.
 
 - **Inventory:** set `"inventory": false` in the config file, or `BEACONCLAW_INVENTORY=false` in the service's environment.
 - **Usage:** set `"usage": false`, or `BEACONCLAW_USAGE=false`.
+- **Automations:** set `"automations": false`, or `BEACONCLAW_AUTOMATIONS=false`. To keep them but hide their names, see `BEACONCLAW_AUTOMATION_NAMES` above.
+- **Signals** (sign-ins, approvals, pairing, backups, versions): set `"signals": false`, or `BEACONCLAW_SIGNALS=false`.
 
 Restart the CLI afterwards. Nothing is then collected or sent for that part, and the CLI tells the server it does not report it.
 
