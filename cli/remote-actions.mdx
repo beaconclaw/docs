@@ -8,7 +8,7 @@ Out of the box the CLI cannot receive or run anything from the server. Remote ac
 | Action | What it does on the machine |
 | :-- | :-- |
 | `diagnostics` | Runs the CLI's own checks again (gateway answering and ready, versions, memory, disk) and sends back each check's name and state. Changes nothing. |
-| `restart_gateway` | Runs the runtime's own restart command, the one you would run by hand, then reports whether the gateway answered again. Conversations in progress are cut off and the gateway is away for a few minutes. |
+| `restart_gateway` | Runs the runtime's own restart command, the one you would run by hand, then reports whether the gateway answered again. On OpenClaw, conversations in progress are cut off and the gateway is away for a few minutes. On Hermes, the restart waits for work in progress and is refused rather than interrupt it; the gateway is back in seconds. A gateway that is completely frozen is not brought back by either. |
 
 ## Switch one on, or off
 

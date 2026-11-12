@@ -14,7 +14,7 @@ It will be made public when the documentation site starts. Everything written he
 ## Principles
 
 1. **Honest claims.** Document only what is built. "Outbound only" means nothing connects in to the machine; it does not mean no data leaves it. Say exactly what is sent.
-2. **Runtime-neutral words.** OpenClaw is the first supported agent runtime, not the only one. Say "agent" and "runtime" unless a step really is OpenClaw-specific.
+2. **Runtime-neutral words.** OpenClaw and Hermes Agent are both supported; neither is the default in the words. Say "agent" and "runtime" unless a step really is OpenClaw-specific.
 3. **Match the software.** Commands, flags, file paths and defaults are copied from the released CLI and checked against it, not written from memory.
 4. **Stable by default.** Instructions install the stable release track. Pre-release steps are marked as such.
 

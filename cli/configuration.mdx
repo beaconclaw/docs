@@ -28,7 +28,9 @@ Environment variables override the config file, which overrides the defaults.
 | --- | --- | --- |
 | `BEACONCLAW_TOKEN` | Agent token (required) | none |
 | `BEACONCLAW_ENDPOINT` | Server WebSocket address | `wss://api.beaconclaw.ai/ws` |
+| `BEACONCLAW_RUNTIME` | `openclaw` or `hermes` | found automatically |
 | `BEACONCLAW_OPENCLAW_PORT` | The OpenClaw gateway port | found automatically |
+| `BEACONCLAW_HERMES_HOME` | Hermes's home folder | `$HERMES_HOME`, then `~/.hermes` |
 | `BEACONCLAW_PROFILE` | Profile to act on | the default profile |
 | `BEACONCLAW_INVENTORY` | `false` stops reporting skill and connection names | `true` |
 | `BEACONCLAW_USAGE` | `false` stops reporting daily usage counts | `true` |

@@ -1,0 +1,28 @@
+---
+title: "Runtimes"
+description: "OpenClaw and Hermes Agent, and what the CLI reads on each."
+---
+
+The CLI watches one agent runtime per machine. It supports [OpenClaw](https://github.com/openclaw/openclaw) and [Hermes Agent](https://github.com/NousResearch/hermes-agent), and finds which one is installed by itself. To choose, set `"runtime": "openclaw"` or `"runtime": "hermes"` in the [config file](/cli/configuration), or `BEACONCLAW_RUNTIME`.
+
+Everything in the app works the same for both: health, incidents, uptime, alerts, the inventory, usage and [remote actions](/cli/remote-actions).
+
+## What the CLI reads
+
+| | OpenClaw | Hermes Agent |
+| --- | --- | --- |
+| Health | The gateway's `/health` and `/ready` | `gateway_state.json`, which the gateway rewrites at least once a minute |
+| A gateway that says it is fine but has stopped working | Failing channels the gateway reports | The state file has not been rewritten for two minutes while the process is alive |
+| Skills | `openclaw skills list` | Folders under `skills/` with a `SKILL.md` |
+| Connections | Names under `channels`, `mcp.servers` and `models.providers` | Names of platforms, `mcp_servers`, `providers` and `model.provider` |
+| Usage | `openclaw gateway call sessions.usage` | `state.db`, opened read-only: counts by role and source |
+| Version | The running gateway's package | `code_version` in the state file |
+| Restart | `openclaw gateway restart` | `hermes gateway restart`, without `--yes` |
+
+On both, the CLI reads names and counts only. It never opens the runtime's environment file, never sees a credential's value, and never reads the text of a conversation.
+
+## Hermes Agent
+
+The CLI reads Hermes's home folder: `$HERMES_HOME`, or `~/.hermes`. Set another with `"hermes_home"` in the config file or `BEACONCLAW_HERMES_HOME`. In the official Docker image the home folder is `/opt/data`; run the CLI in the same container so it can see the gateway's process.
+
+A restart counts as done only when a new gateway process appears. If Hermes refuses because a conversation or job is in progress, the result says the gateway was not restarted.
